@@ -8,6 +8,13 @@ import { defineConfig } from "vite"
 export default defineConfig({
   server: {
     port: 5279,
+    // Same-origin /api in dev → no CORS; production builds still use VITE_API_URL.
+    proxy: {
+      "/api": {
+        target: "http://127.0.0.1:8000",
+        changeOrigin: true,
+      },
+    },
   },
   resolve: {
     alias: {
