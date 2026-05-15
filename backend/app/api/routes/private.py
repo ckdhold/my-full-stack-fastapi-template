@@ -9,6 +9,7 @@ from app.models import (
     User,
     UserPublic,
 )
+from app.services.rbac import user_to_public
 
 router = APIRouter(tags=["private"], prefix="/private")
 
@@ -34,5 +35,6 @@ def create_user(user_in: PrivateUserCreate, session: SessionDep) -> Any:
 
     session.add(user)
     session.commit()
+    session.refresh(user)
 
-    return user
+    return user_to_public(session, user)

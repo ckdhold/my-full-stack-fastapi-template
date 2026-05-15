@@ -14,6 +14,11 @@ def create_user(*, session: Session, user_create: UserCreate) -> User:
     session.add(db_obj)
     session.commit()
     session.refresh(db_obj)
+    if not db_obj.is_superuser:
+        from app.core.permission_codes import ROLE_USER
+        from app.services.rbac import assign_role_to_user_by_name
+
+        assign_role_to_user_by_name(session, db_obj.id, ROLE_USER)
     return db_obj
 
 

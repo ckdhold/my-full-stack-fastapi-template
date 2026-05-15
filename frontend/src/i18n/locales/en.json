@@ -17,7 +17,11 @@
   "nav": {
     "dashboard": "Dashboard",
     "items": "Items",
-    "admin": "Admin"
+    "admin": "Admin",
+    "permissions": "Permissions",
+    "settings": "Settings",
+    "menus": "Menus",
+    "management": "Administration"
   },
   "theme": {
     "appearance": "Appearance",
@@ -97,6 +101,48 @@
     "title": "Users",
     "subtitle": "Manage user accounts and permissions"
   },
+  "rbacPage": {
+    "title": "Permissions & roles",
+    "subtitle": "Define permissions, roles, and which roles each user has",
+    "backToUsers": "Back to users",
+    "permissionsTitle": "Permissions",
+    "permissionsHint": "Fixed set of capability codes used by the API (extend in backend as needed).",
+    "rolesTitle": "Roles",
+    "rolesHint": "System roles cannot be deleted. You can attach permissions to any role.",
+    "newRolePlaceholder": "New role name",
+    "createRole": "Create role",
+    "editPermissions": "Edit permissions",
+    "noPermissions": "No permissions",
+    "assignTitle": "Assign roles to user",
+    "assignHint": "Pick a user, then select one or more roles and save.",
+    "selectUser": "User",
+    "selectUserPlaceholder": "Choose a user",
+    "selectRoles": "Roles",
+    "columnCode": "Code",
+    "columnName": "Name",
+    "dialogTitle": "Permissions for role: {{name}}",
+    "confirmDeleteRole": "Delete this role? Users will lose this role assignment.",
+    "toastRolePermissionsUpdated": "Role permissions updated",
+    "toastRoleCreated": "Role created",
+    "toastRoleDeleted": "Role deleted",
+    "toastUserRolesUpdated": "User roles updated"
+  },
+  "menusPage": {
+    "createTitle": "Add menu entry",
+    "createHint": "Path must match an existing frontend route (e.g. /items). Icon is a Lucide export name.",
+    "listTitle": "Menus",
+    "listHint": "Visibility in the sidebar is controlled by role assignments below.",
+    "path": "Path",
+    "titleKey": "Title i18n key",
+    "icon": "Icon (Lucide)",
+    "sort": "Sort",
+    "roles": "Roles",
+    "rolesDialogTitle": "Roles for this menu",
+    "confirmDelete": "Delete this menu?",
+    "toastCreated": "Menu created",
+    "toastDeleted": "Menu deleted",
+    "toastRolesUpdated": "Menu roles updated"
+  },
   "settingsPage": {
     "title": "User Settings",
     "subtitle": "Manage your account settings and preferences",
@@ -155,7 +201,8 @@
     "statusInactive": "Inactive",
     "columnFullName": "Full Name",
     "columnEmail": "Email",
-    "columnRole": "Role",
+    "columnRoles": "RBAC roles",
+    "columnRole": "Superuser",
     "columnStatus": "Status"
   },
   "userInformation": {
@@ -233,6 +280,8 @@
     "dashboard": "Dashboard - FastAPI Template",
     "items": "Items - FastAPI Template",
     "admin": "Admin - FastAPI Template",
+    "rbac": "Permissions - FastAPI Template",
+    "menus": "Menus - FastAPI Template",
     "settings": "Settings - FastAPI Template"
   }
 }

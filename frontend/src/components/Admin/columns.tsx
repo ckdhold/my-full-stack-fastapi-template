@@ -44,6 +44,18 @@ export function getUserColumns(t: TFunction): ColumnDef<UserTableData>[] {
       ),
     },
     {
+      accessorKey: "roles",
+      header: t("admin.columnRoles"),
+      cell: ({ row }) => {
+        const names = row.original.roles?.filter(Boolean) ?? []
+        return (
+          <span className="text-muted-foreground text-sm">
+            {names.length ? names.join(", ") : t("common.na")}
+          </span>
+        )
+      },
+    },
+    {
       accessorKey: "is_superuser",
       header: t("admin.columnRole"),
       cell: ({ row }) => (

@@ -60,6 +60,7 @@ class User(UserBase, table=True):
 class UserPublic(UserBase):
     id: uuid.UUID
     created_at: datetime | None = None
+    roles: list[str] = Field(default_factory=list)
 
 
 class UsersPublic(SQLModel):
@@ -127,3 +128,168 @@ class TokenPayload(SQLModel):
 class NewPassword(SQLModel):
     token: str
     new_password: str = Field(min_length=8, max_length=128)
+
+
+# --- RBAC ----------------------------------------------------------------
+
+
+class Permission(SQLModel, table=True):
+    __tablename__ = "permission"
+
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    code: str = Field(unique=True, index=True, max_length=100)
+    name: str = Field(max_length=255)
+
+
+class Role(SQLModel, table=True):
+    __tablename__ = "role"
+
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    name: str = Field(unique=True, index=True, max_length=100)
+    description: str | None = Field(default=None, max_length=255)
+    is_system: bool = Field(default=False)
+
+
+class RolePermissionLink(SQLModel, table=True):
+    __tablename__ = "role_permission_link"
+
+    role_id: uuid.UUID = Field(foreign_key="role.id", primary_key=True, ondelete="CASCADE")
+    permission_id: uuid.UUID = Field(
+        foreign_key="permission.id", primary_key=True, ondelete="CASCADE"
+    )
+
+
+class UserRoleLink(SQLModel, table=True):
+    __tablename__ = "user_role_link"
+
+    user_id: uuid.UUID = Field(foreign_key="user.id", primary_key=True, ondelete="CASCADE")
+    role_id: uuid.UUID = Field(foreign_key="role.id", primary_key=True, ondelete="CASCADE")
+
+
+class PermissionPublic(SQLModel):
+    id: uuid.UUID
+    code: str
+    name: str
+
+
+class PermissionsPublic(SQLModel):
+    data: list[PermissionPublic]
+    count: int
+
+
+class RoleCreate(SQLModel):
+    name: str = Field(min_length=1, max_length=100)
+    description: str | None = Field(default=None, max_length=255)
+
+
+class RoleUpdate(SQLModel):
+    name: str | None = Field(default=None, min_length=1, max_length=100)
+    description: str | None = Field(default=None, max_length=255)
+
+
+class RolePublic(SQLModel):
+    id: uuid.UUID
+    name: str
+    description: str | None = None
+    is_system: bool = False
+
+
+class RoleWithPermissions(RolePublic):
+    permissions: list[PermissionPublic] = Field(default_factory=list)
+
+
+class RolesWithPermissionsPublic(SQLModel):
+    data: list[RoleWithPermissions]
+    count: int
+
+
+class RolePermissionIds(SQLModel):
+    permission_ids: list[uuid.UUID] = Field(default_factory=list)
+
+
+class UserRoleIds(SQLModel):
+    role_ids: list[uuid.UUID] = Field(default_factory=list)
+
+
+class UserRolesPublic(SQLModel):
+    data: list[RolePublic]
+    count: int
+
+
+class RoleMenuLink(SQLModel, table=True):
+    __tablename__ = "role_menu_link"
+
+    role_id: uuid.UUID = Field(foreign_key="role.id", primary_key=True, ondelete="CASCADE")
+    menu_id: uuid.UUID = Field(foreign_key="menu.id", primary_key=True, ondelete="CASCADE")
+
+
+class Menu(SQLModel, table=True):
+    __tablename__ = "menu"
+
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    parent_id: uuid.UUID | None = Field(
+        default=None, foreign_key="menu.id", ondelete="CASCADE"
+    )
+    path: str = Field(unique=True, index=True, max_length=255)
+    title_key: str = Field(max_length=150)
+    icon: str | None = Field(default=None, max_length=80)
+    sort_order: int = Field(default=0)
+    is_active: bool = Field(default=True)
+    required_permission_code: str | None = Field(default=None, max_length=100)
+
+
+class MenuPublic(SQLModel):
+    id: uuid.UUID
+    parent_id: uuid.UUID | None = None
+    path: str
+    title_key: str
+    icon: str | None = None
+    sort_order: int = 0
+    is_active: bool = True
+    required_permission_code: str | None = None
+
+
+class MenuTreePublic(MenuPublic):
+    children: list["MenuTreePublic"] = Field(default_factory=list)
+
+
+class MenusTreePublic(SQLModel):
+    data: list[MenuTreePublic]
+    count: int
+
+
+class MenuCreate(SQLModel):
+    parent_id: uuid.UUID | None = None
+    path: str = Field(min_length=1, max_length=255)
+    title_key: str = Field(min_length=1, max_length=150)
+    icon: str | None = Field(default=None, max_length=80)
+    sort_order: int = 0
+    is_active: bool = True
+    required_permission_code: str | None = Field(default=None, max_length=100)
+
+
+class MenuUpdate(SQLModel):
+    parent_id: uuid.UUID | None = None
+    path: str | None = Field(default=None, min_length=1, max_length=255)
+    title_key: str | None = Field(default=None, min_length=1, max_length=150)
+    icon: str | None = Field(default=None, max_length=80)
+    sort_order: int | None = None
+    is_active: bool | None = None
+    required_permission_code: str | None = Field(default=None, max_length=100)
+
+
+class MenuRoleIds(SQLModel):
+    role_ids: list[uuid.UUID] = Field(default_factory=list)
+
+
+class MenuRolesPublic(SQLModel):
+    data: list[RolePublic]
+    count: int
+
+
+class MenusPublic(SQLModel):
+    data: list[MenuPublic]
+    count: int
+
+
+MenuTreePublic.model_rebuild()

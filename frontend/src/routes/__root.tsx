@@ -1,6 +1,5 @@
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { createRootRoute, HeadContent, Outlet } from "@tanstack/react-router"
-import { TanStackRouterDevtools } from "@tanstack/react-router-devtools"
 import { useEffect } from "react"
 import { useTranslation } from "react-i18next"
 import ErrorComponent from "@/components/Common/ErrorComponent"
@@ -22,7 +21,6 @@ export const Route = createRootRoute({
       <DocumentLang />
       <HeadContent />
       <Outlet />
-      <TanStackRouterDevtools position="bottom-right" />
       <ReactQueryDevtools initialIsOpen={false} />
     </>
   ),

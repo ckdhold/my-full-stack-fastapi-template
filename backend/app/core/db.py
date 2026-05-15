@@ -3,6 +3,7 @@ from sqlmodel import Session, create_engine, select
 from app import crud
 from app.core.config import settings
 from app.models import User, UserCreate
+from app.services.rbac import ensure_superuser_has_admin_role, seed_rbac
 
 engine = create_engine(str(settings.SQLALCHEMY_DATABASE_URI))
 
@@ -21,6 +22,11 @@ def init_db(session: Session) -> None:
     # This works because the models are already imported and registered from app.models
     # SQLModel.metadata.create_all(engine)
 
+    seed_rbac(session)
+    from app.services.menu import seed_menus
+
+    seed_menus(session)
+
     user = session.exec(
         select(User).where(User.email == settings.FIRST_SUPERUSER)
     ).first()
@@ -31,3 +37,4 @@ def init_db(session: Session) -> None:
             is_superuser=True,
         )
         user = crud.create_user(session=session, user_create=user_in)
+    ensure_superuser_has_admin_role(session, settings.FIRST_SUPERUSER)

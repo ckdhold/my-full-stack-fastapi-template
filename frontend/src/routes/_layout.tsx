@@ -1,5 +1,11 @@
-import { createFileRoute, Outlet, redirect } from "@tanstack/react-router"
+import {
+  createFileRoute,
+  isRedirect,
+  Outlet,
+  redirect,
+} from "@tanstack/react-router"
 
+import { MenusService } from "@/client"
 import { Appearance } from "@/components/Common/Appearance"
 import { Footer } from "@/components/Common/Footer"
 import { CompactLanguageSwitcher } from "@/components/Common/LanguageSwitcher"
@@ -10,14 +16,28 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar"
 import { isLoggedIn } from "@/hooks/useAuth"
+import { queryClient } from "@/queryClient"
+import { flattenMenuPaths, isPathAllowedByMenus } from "@/utils/menuRoutes"
 
 export const Route = createFileRoute("/_layout")({
   component: Layout,
-  beforeLoad: async () => {
+  beforeLoad: async ({ location }) => {
     if (!isLoggedIn()) {
       throw redirect({
         to: "/login",
       })
+    }
+    try {
+      const res = await queryClient.ensureQueryData({
+        queryKey: ["menus", "me"],
+        queryFn: () => MenusService.readMenusMe(),
+      })
+      const paths = new Set(flattenMenuPaths(res.data))
+      if (!isPathAllowedByMenus(location.pathname, paths)) {
+        throw redirect({ to: "/" })
+      }
+    } catch (e) {
+      if (isRedirect(e)) throw e
     }
   },
 })

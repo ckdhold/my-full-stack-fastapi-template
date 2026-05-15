@@ -77,6 +77,7 @@ export type UserPublic = {
     full_name?: (string | null);
     id: string;
     created_at?: (string | null);
+    roles?: Array<string>;
 };
 
 export type UserRegister = {
@@ -238,3 +239,54 @@ export type UtilsTestEmailData = {
 export type UtilsTestEmailResponse = (Message);
 
 export type UtilsHealthCheckResponse = (boolean);
+
+/** RBAC (manually kept in sync with backend; regenerate with openapi-ts after backend export) */
+export type PermissionPublic = {
+    id: string;
+    code: string;
+    name: string;
+};
+
+export type PermissionsPublic = {
+    data: Array<PermissionPublic>;
+    count: number;
+};
+
+export type RolePublic = {
+    id: string;
+    name: string;
+    description?: (string | null);
+    is_system?: boolean;
+};
+
+export type RoleWithPermissions = RolePublic & {
+    permissions: Array<PermissionPublic>;
+};
+
+export type RolesWithPermissionsPublic = {
+    data: Array<RoleWithPermissions>;
+    count: number;
+};
+
+export type RoleCreate = {
+    name: string;
+    description?: (string | null);
+};
+
+export type RoleUpdate = {
+    name?: (string | null);
+    description?: (string | null);
+};
+
+export type RolePermissionIds = {
+    permission_ids: Array<string>;
+};
+
+export type UserRoleIds = {
+    role_ids: Array<string>;
+};
+
+export type UserRolesPublic = {
+    data: Array<RolePublic>;
+    count: number;
+};

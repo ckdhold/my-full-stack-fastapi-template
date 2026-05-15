@@ -55,3 +55,19 @@ def get_current_active_superuser(current_user: CurrentUser) -> User:
             status_code=403, detail="The user doesn't have enough privileges"
         )
     return current_user
+
+
+def require_permission(code: str):
+    """Allow access if user is superuser or has the given permission code."""
+
+    def permission_checker(session: SessionDep, current_user: CurrentUser) -> User:
+        from app.services.rbac import user_has_permission
+
+        if not user_has_permission(session, current_user, code):
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="The user doesn't have enough privileges",
+            )
+        return current_user
+
+    return permission_checker

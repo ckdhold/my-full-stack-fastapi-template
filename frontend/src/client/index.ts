@@ -4,3 +4,13 @@ export { CancelablePromise, CancelError } from './core/CancelablePromise';
 export { OpenAPI, type OpenAPIConfig } from './core/OpenAPI';
 export * from './sdk.gen';
 export * from './types.gen';
+export { RbacService } from './rbac.client';
+export { MenusService } from './menus.client';
+export type {
+  MenuCreate,
+  MenuPublic,
+  MenuTreePublic,
+  MenuUpdate,
+  MenusPublic,
+  MenusTreePublic,
+} from './menus.client';
