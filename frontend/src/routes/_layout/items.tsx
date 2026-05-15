@@ -1,13 +1,17 @@
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
+import type { ColumnDef } from "@tanstack/react-table"
 import { Search } from "lucide-react"
-import { Suspense } from "react"
+import { Suspense, useMemo } from "react"
+import { useTranslation } from "react-i18next"
 
+import type { ItemPublic } from "@/client"
 import { ItemsService } from "@/client"
 import { DataTable } from "@/components/Common/DataTable"
 import AddItem from "@/components/Items/AddItem"
-import { columns } from "@/components/Items/columns"
+import { getItemColumns } from "@/components/Items/columns"
 import PendingItems from "@/components/Pending/PendingItems"
+import i18n from "@/i18n"
 
 function getItemsQueryOptions() {
   return {
@@ -21,13 +25,14 @@ export const Route = createFileRoute("/_layout/items")({
   head: () => ({
     meta: [
       {
-        title: "Items - FastAPI Template",
+        title: i18n.t("meta.items"),
       },
     ],
   }),
 })
 
-function ItemsTableContent() {
+function ItemsTableContent({ columns }: { columns: ColumnDef<ItemPublic>[] }) {
+  const { t } = useTranslation()
   const { data: items } = useSuspenseQuery(getItemsQueryOptions())
 
   if (items.data.length === 0) {
@@ -36,8 +41,8 @@ function ItemsTableContent() {
         <div className="rounded-full bg-muted p-4 mb-4">
           <Search className="h-8 w-8 text-muted-foreground" />
         </div>
-        <h3 className="text-lg font-semibold">You don't have any items yet</h3>
-        <p className="text-muted-foreground">Add a new item to get started</p>
+        <h3 className="text-lg font-semibold">{t("itemsPage.emptyTitle")}</h3>
+        <p className="text-muted-foreground">{t("itemsPage.emptySubtitle")}</p>
       </div>
     )
   }
@@ -45,25 +50,30 @@ function ItemsTableContent() {
   return <DataTable columns={columns} data={items.data} />
 }
 
-function ItemsTable() {
+function ItemsTable({ columns }: { columns: ColumnDef<ItemPublic>[] }) {
   return (
     <Suspense fallback={<PendingItems />}>
-      <ItemsTableContent />
+      <ItemsTableContent columns={columns} />
     </Suspense>
   )
 }
 
 function Items() {
+  const { t } = useTranslation()
+  const columns = useMemo(() => getItemColumns(t), [t])
+
   return (
     <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Items</h1>
-          <p className="text-muted-foreground">Create and manage your items</p>
+          <h1 className="text-2xl font-bold tracking-tight">
+            {t("itemsPage.title")}
+          </h1>
+          <p className="text-muted-foreground">{t("itemsPage.subtitle")}</p>
         </div>
         <AddItem />
       </div>
-      <ItemsTable />
+      <ItemsTable columns={columns} />
     </div>
   )
 }

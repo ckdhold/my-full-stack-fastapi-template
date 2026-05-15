@@ -1,0 +1,238 @@
+{
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "email": "Email",
+    "password": "Password",
+    "description": "Description",
+    "title": "Title",
+    "actions": "Actions",
+    "continue": "Continue",
+    "user": "User",
+    "na": "N/A",
+    "required": "Required"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "items": "Items",
+    "admin": "Admin"
+  },
+  "theme": {
+    "appearance": "Appearance",
+    "toggleTheme": "Toggle theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "language": {
+    "label": "Language",
+    "en": "English",
+    "zh": "中文",
+    "loginHint": "Interface language",
+    "settingsHint": "Interface language"
+  },
+  "footer": {
+    "tagline": "Full Stack FastAPI Template - {{year}}"
+  },
+  "social": {
+    "github": "GitHub",
+    "x": "X",
+    "linkedin": "LinkedIn"
+  },
+  "userMenu": {
+    "settings": "User Settings",
+    "logOut": "Log Out"
+  },
+  "login": {
+    "title": "Login to your account",
+    "emailPlaceholder": "user@example.com",
+    "passwordPlaceholder": "Password",
+    "forgotPassword": "Forgot your password?",
+    "submit": "Log In",
+    "noAccount": "Don't have an account yet?",
+    "signUp": "Sign up"
+  },
+  "signup": {
+    "title": "Create an account",
+    "fullName": "Full Name",
+    "fullNamePlaceholder": "User",
+    "emailPlaceholder": "user@example.com",
+    "passwordPlaceholder": "Password",
+    "confirmPassword": "Confirm Password",
+    "confirmPasswordPlaceholder": "Confirm Password",
+    "submit": "Sign Up",
+    "hasAccount": "Already have an account?",
+    "logIn": "Log in"
+  },
+  "recoverPassword": {
+    "title": "Password Recovery",
+    "remember": "Remember your password?",
+    "logIn": "Log in",
+    "toastSuccess": "Password recovery email sent successfully"
+  },
+  "resetPassword": {
+    "title": "Reset Password",
+    "newPassword": "New Password",
+    "newPasswordPlaceholder": "New Password",
+    "confirmPassword": "Confirm Password",
+    "confirmPasswordPlaceholder": "Confirm Password",
+    "submit": "Reset Password",
+    "remember": "Remember your password?",
+    "logIn": "Log in",
+    "toastSuccess": "Password updated successfully"
+  },
+  "dashboard": {
+    "greeting": "Hi, {{name}} 👋",
+    "welcome": "Welcome back, nice to see you again!!!"
+  },
+  "itemsPage": {
+    "title": "Items",
+    "subtitle": "Create and manage your items",
+    "emptyTitle": "You don't have any items yet",
+    "emptySubtitle": "Add a new item to get started"
+  },
+  "adminPage": {
+    "title": "Users",
+    "subtitle": "Manage user accounts and permissions"
+  },
+  "settingsPage": {
+    "title": "User Settings",
+    "subtitle": "Manage your account settings and preferences",
+    "tabProfile": "My profile",
+    "tabPassword": "Password",
+    "tabDanger": "Danger zone"
+  },
+  "items": {
+    "addItem": "Add Item",
+    "addTitle": "Add Item",
+    "addDescription": "Fill in the details to add a new item.",
+    "editTitle": "Edit Item",
+    "editDescription": "Update the item details below.",
+    "editMenu": "Edit Item",
+    "deleteMenu": "Delete Item",
+    "deleteTitle": "Delete Item",
+    "deleteDescription": "This item will be permanently deleted. Are you sure? You will not be able to undo this action.",
+    "toastCreated": "Item created successfully",
+    "toastUpdated": "Item updated successfully",
+    "toastDeleted": "The item was deleted successfully",
+    "titleLabel": "Title",
+    "noDescription": "No description"
+  },
+  "itemsTable": {
+    "id": "ID",
+    "title": "Title",
+    "description": "Description",
+    "copyId": "Copy ID"
+  },
+  "admin": {
+    "addUser": "Add User",
+    "addTitle": "Add User",
+    "addDescription": "Fill in the form below to add a new user to the system.",
+    "editUser": "Edit User",
+    "editTitle": "Edit User",
+    "editDescription": "Update the user details below.",
+    "deleteUser": "Delete User",
+    "deleteTitle": "Delete User",
+    "deleteDescription": "All items associated with this user will also be permanently deleted. Are you sure? You will not be able to undo this action.",
+    "emailLabel": "Email",
+    "emailPlaceholder": "Email",
+    "fullName": "Full Name",
+    "fullNamePlaceholder": "Full name",
+    "setPassword": "Set Password",
+    "confirmPassword": "Confirm Password",
+    "passwordPlaceholder": "Password",
+    "isSuperuser": "Is superuser?",
+    "isActive": "Is active?",
+    "toastCreated": "User created successfully",
+    "toastUpdated": "User updated successfully",
+    "toastDeleted": "The user was deleted successfully",
+    "badgeYou": "You",
+    "roleSuperuser": "Superuser",
+    "roleUser": "User",
+    "statusActive": "Active",
+    "statusInactive": "Inactive",
+    "columnFullName": "Full Name",
+    "columnEmail": "Email",
+    "columnRole": "Role",
+    "columnStatus": "Status"
+  },
+  "userInformation": {
+    "sectionTitle": "User Information",
+    "fullName": "Full name",
+    "email": "Email",
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "toastUpdated": "User updated successfully"
+  },
+  "changePassword": {
+    "sectionTitle": "Change Password",
+    "currentPassword": "Current Password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm Password",
+    "dotsPlaceholder": "••••••••",
+    "submit": "Update Password",
+    "toastSuccess": "Password updated successfully"
+  },
+  "deleteAccount": {
+    "title": "Delete Account",
+    "description": "Permanently delete your account and all associated data.",
+    "button": "Delete Account",
+    "dialogTitle": "Confirmation Required",
+    "dialogDescription": "All your account data will be permanently deleted. If you are sure, please click \"Confirm\" to proceed. This action cannot be undone.",
+    "toastSuccess": "Your account has been successfully deleted"
+  },
+  "dataTable": {
+    "noResults": "No results found.",
+    "showing": "Showing {{from}} to {{to}} of {{total}} entries",
+    "rowsPerPage": "Rows per page",
+    "pageIndicator": "Page {{current}} of {{total}}",
+    "page": "Page",
+    "of": "of",
+    "firstPage": "Go to first page",
+    "prevPage": "Go to previous page",
+    "nextPage": "Go to next page",
+    "lastPage": "Go to last page"
+  },
+  "errorPage": {
+    "title": "Error",
+    "heading": "Oops!",
+    "message": "Something went wrong. Please try again.",
+    "goHome": "Go Home"
+  },
+  "notFound": {
+    "code": "404",
+    "heading": "Oops!",
+    "message": "The page you are looking for was not found.",
+    "goBack": "Go Back"
+  },
+  "toast": {
+    "successTitle": "Success!",
+    "errorTitle": "Something went wrong!"
+  },
+  "validation": {
+    "passwordRequired": "Password is required",
+    "passwordMin": "Password must be at least 8 characters",
+    "passwordConfirmRequired": "Password confirmation is required",
+    "passwordsMismatch": "The passwords don't match",
+    "fullNameRequired": "Full Name is required",
+    "invalidEmail": "Invalid email address",
+    "confirmPasswordRequired": "Please confirm your password",
+    "titleRequired": "Title is required"
+  },
+  "errors": {
+    "generic": "Something went wrong."
+  },
+  "meta": {
+    "login": "Log In - FastAPI Template",
+    "signup": "Sign Up - FastAPI Template",
+    "recover": "Recover Password - FastAPI Template",
+    "reset": "Reset Password - FastAPI Template",
+    "dashboard": "Dashboard - FastAPI Template",
+    "items": "Items - FastAPI Template",
+    "admin": "Admin - FastAPI Template",
+    "settings": "Settings - FastAPI Template"
+  }
+}

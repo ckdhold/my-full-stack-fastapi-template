@@ -1,6 +1,8 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router"
 
+import { Appearance } from "@/components/Common/Appearance"
 import { Footer } from "@/components/Common/Footer"
+import { CompactLanguageSwitcher } from "@/components/Common/LanguageSwitcher"
 import AppSidebar from "@/components/Sidebar/AppSidebar"
 import {
   SidebarInset,
@@ -25,8 +27,12 @@ function Layout() {
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <header className="sticky top-0 z-10 flex h-16 shrink-0 items-center gap-2 border-b px-4">
-          <SidebarTrigger className="-ml-1 text-muted-foreground" />
+        <header className="sticky top-0 z-20 flex h-14 shrink-0 items-center justify-between gap-2 border-b bg-background/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/80 md:px-6">
+          <SidebarTrigger className="-ml-1 shrink-0 text-muted-foreground" />
+          <div className="flex shrink-0 items-center gap-2">
+            <Appearance />
+            <CompactLanguageSwitcher />
+          </div>
         </header>
         <main className="flex-1 p-6 md:p-8">
           <div className="mx-auto max-w-7xl">

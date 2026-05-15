@@ -1,4 +1,5 @@
 import type { ColumnDef } from "@tanstack/react-table"
+import type { TFunction } from "i18next"
 
 import type { UserPublic } from "@/client"
 import { Badge } from "@/components/ui/badge"
@@ -9,68 +10,79 @@ export type UserTableData = UserPublic & {
   isCurrentUser: boolean
 }
 
-export const columns: ColumnDef<UserTableData>[] = [
-  {
-    accessorKey: "full_name",
-    header: "Full Name",
-    cell: ({ row }) => {
-      const fullName = row.original.full_name
-      return (
+export function getUserColumns(t: TFunction): ColumnDef<UserTableData>[] {
+  return [
+    {
+      accessorKey: "full_name",
+      header: t("admin.columnFullName"),
+      cell: ({ row }) => {
+        const fullName = row.original.full_name
+        return (
+          <div className="flex items-center gap-2">
+            <span
+              className={cn(
+                "font-medium",
+                !fullName && "text-muted-foreground",
+              )}
+            >
+              {fullName || t("common.na")}
+            </span>
+            {row.original.isCurrentUser && (
+              <Badge variant="outline" className="text-xs">
+                {t("admin.badgeYou")}
+              </Badge>
+            )}
+          </div>
+        )
+      },
+    },
+    {
+      accessorKey: "email",
+      header: t("admin.columnEmail"),
+      cell: ({ row }) => (
+        <span className="text-muted-foreground">{row.original.email}</span>
+      ),
+    },
+    {
+      accessorKey: "is_superuser",
+      header: t("admin.columnRole"),
+      cell: ({ row }) => (
+        <Badge variant={row.original.is_superuser ? "default" : "secondary"}>
+          {row.original.is_superuser
+            ? t("admin.roleSuperuser")
+            : t("admin.roleUser")}
+        </Badge>
+      ),
+    },
+    {
+      accessorKey: "is_active",
+      header: t("admin.columnStatus"),
+      cell: ({ row }) => (
         <div className="flex items-center gap-2">
           <span
-            className={cn("font-medium", !fullName && "text-muted-foreground")}
+            className={cn(
+              "size-2 rounded-full",
+              row.original.is_active ? "bg-green-500" : "bg-gray-400",
+            )}
+          />
+          <span
+            className={row.original.is_active ? "" : "text-muted-foreground"}
           >
-            {fullName || "N/A"}
+            {row.original.is_active
+              ? t("admin.statusActive")
+              : t("admin.statusInactive")}
           </span>
-          {row.original.isCurrentUser && (
-            <Badge variant="outline" className="text-xs">
-              You
-            </Badge>
-          )}
         </div>
-      )
+      ),
     },
-  },
-  {
-    accessorKey: "email",
-    header: "Email",
-    cell: ({ row }) => (
-      <span className="text-muted-foreground">{row.original.email}</span>
-    ),
-  },
-  {
-    accessorKey: "is_superuser",
-    header: "Role",
-    cell: ({ row }) => (
-      <Badge variant={row.original.is_superuser ? "default" : "secondary"}>
-        {row.original.is_superuser ? "Superuser" : "User"}
-      </Badge>
-    ),
-  },
-  {
-    accessorKey: "is_active",
-    header: "Status",
-    cell: ({ row }) => (
-      <div className="flex items-center gap-2">
-        <span
-          className={cn(
-            "size-2 rounded-full",
-            row.original.is_active ? "bg-green-500" : "bg-gray-400",
-          )}
-        />
-        <span className={row.original.is_active ? "" : "text-muted-foreground"}>
-          {row.original.is_active ? "Active" : "Inactive"}
-        </span>
-      </div>
-    ),
-  },
-  {
-    id: "actions",
-    header: () => <span className="sr-only">Actions</span>,
-    cell: ({ row }) => (
-      <div className="flex justify-end">
-        <UserActionsMenu user={row.original} />
-      </div>
-    ),
-  },
-]
+    {
+      id: "actions",
+      header: () => <span className="sr-only">{t("common.actions")}</span>,
+      cell: ({ row }) => (
+        <div className="flex justify-end">
+          <UserActionsMenu user={row.original} />
+        </div>
+      ),
+    },
+  ]
+}

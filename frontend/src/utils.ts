@@ -1,4 +1,5 @@
 import { AxiosError } from "axios"
+import i18n from "@/i18n"
 import type { ApiError } from "./client"
 
 function extractErrorMessage(err: ApiError): string {
@@ -10,7 +11,7 @@ function extractErrorMessage(err: ApiError): string {
   if (Array.isArray(errDetail) && errDetail.length > 0) {
     return errDetail[0].msg
   }
-  return errDetail || "Something went wrong."
+  return errDetail || i18n.t("errors.generic")
 }
 
 export const handleError = function (

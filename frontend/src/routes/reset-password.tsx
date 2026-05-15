@@ -6,7 +6,9 @@ import {
   redirect,
   useNavigate,
 } from "@tanstack/react-router"
+import { useMemo } from "react"
 import { useForm } from "react-hook-form"
+import { useTranslation } from "react-i18next"
 import { z } from "zod"
 
 import { LoginService } from "@/client"
@@ -23,28 +25,12 @@ import { LoadingButton } from "@/components/ui/loading-button"
 import { PasswordInput } from "@/components/ui/password-input"
 import { isLoggedIn } from "@/hooks/useAuth"
 import useCustomToast from "@/hooks/useCustomToast"
+import i18n from "@/i18n"
 import { handleError } from "@/utils"
 
 const searchSchema = z.object({
   token: z.string().catch(""),
 })
-
-const formSchema = z
-  .object({
-    new_password: z
-      .string()
-      .min(1, { message: "Password is required" })
-      .min(8, { message: "Password must be at least 8 characters" }),
-    confirm_password: z
-      .string()
-      .min(1, { message: "Password confirmation is required" }),
-  })
-  .refine((data) => data.new_password === data.confirm_password, {
-    message: "The passwords don't match",
-    path: ["confirm_password"],
-  })
-
-type FormData = z.infer<typeof formSchema>
 
 export const Route = createFileRoute("/reset-password")({
   component: ResetPassword,
@@ -60,18 +46,38 @@ export const Route = createFileRoute("/reset-password")({
   head: () => ({
     meta: [
       {
-        title: "Reset Password - FastAPI Template",
+        title: i18n.t("meta.reset"),
       },
     ],
   }),
 })
 
 function ResetPassword() {
+  const { t } = useTranslation()
   const { token } = Route.useSearch()
   const { showSuccessToast, showErrorToast } = useCustomToast()
   const navigate = useNavigate()
 
-  const form = useForm<FormData>({
+  const formSchema = useMemo(
+    () =>
+      z
+        .object({
+          new_password: z
+            .string()
+            .min(1, { message: t("validation.passwordRequired") })
+            .min(8, { message: t("validation.passwordMin") }),
+          confirm_password: z
+            .string()
+            .min(1, { message: t("validation.passwordConfirmRequired") }),
+        })
+        .refine((data) => data.new_password === data.confirm_password, {
+          message: t("validation.passwordsMismatch"),
+          path: ["confirm_password"],
+        }),
+    [t],
+  )
+
+  const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     mode: "onBlur",
     criteriaMode: "all",
@@ -85,14 +91,14 @@ function ResetPassword() {
     mutationFn: (data: { new_password: string; token: string }) =>
       LoginService.resetPassword({ requestBody: data }),
     onSuccess: () => {
-      showSuccessToast("Password updated successfully")
+      showSuccessToast(t("resetPassword.toastSuccess"))
       form.reset()
       navigate({ to: "/login" })
     },
     onError: handleError.bind(showErrorToast),
   })
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = (data: z.infer<typeof formSchema>) => {
     mutation.mutate({ new_password: data.new_password, token })
   }
 
@@ -104,7 +110,7 @@ function ResetPassword() {
           className="flex flex-col gap-6"
         >
           <div className="flex flex-col items-center gap-2 text-center">
-            <h1 className="text-2xl font-bold">Reset Password</h1>
+            <h1 className="text-2xl font-bold">{t("resetPassword.title")}</h1>
           </div>
 
           <div className="grid gap-4">
@@ -113,11 +119,11 @@ function ResetPassword() {
               name="new_password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>New Password</FormLabel>
+                  <FormLabel>{t("resetPassword.newPassword")}</FormLabel>
                   <FormControl>
                     <PasswordInput
                       data-testid="new-password-input"
-                      placeholder="New Password"
+                      placeholder={t("resetPassword.newPasswordPlaceholder")}
                       {...field}
                     />
                   </FormControl>
@@ -131,11 +137,13 @@ function ResetPassword() {
               name="confirm_password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Confirm Password</FormLabel>
+                  <FormLabel>{t("resetPassword.confirmPassword")}</FormLabel>
                   <FormControl>
                     <PasswordInput
                       data-testid="confirm-password-input"
-                      placeholder="Confirm Password"
+                      placeholder={t(
+                        "resetPassword.confirmPasswordPlaceholder",
+                      )}
                       {...field}
                     />
                   </FormControl>
@@ -149,14 +157,14 @@ function ResetPassword() {
               className="w-full"
               loading={mutation.isPending}
             >
-              Reset Password
+              {t("resetPassword.submit")}
             </LoadingButton>
           </div>
 
           <div className="text-center text-sm">
-            Remember your password?{" "}
+            {t("resetPassword.remember")}{" "}
             <RouterLink to="/login" className="underline underline-offset-4">
-              Log in
+              {t("resetPassword.logIn")}
             </RouterLink>
           </div>
         </form>
