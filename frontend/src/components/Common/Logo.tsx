@@ -2,10 +2,19 @@ import { Link } from "@tanstack/react-router"
 
 import { useTheme } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
-import icon from "/assets/images/fastapi-icon.svg"
-import iconLight from "/assets/images/fastapi-icon-light.svg"
-import logo from "/assets/images/fastapi-logo.svg"
-import logoLight from "/assets/images/fastapi-logo-light.svg"
+
+const LOGO_DARK = {
+  full: "http://cfmoto-evow.oss-cn-hangzhou.aliyuncs.com/AdminFiles/logo2.png",
+  icon: "http://cfmoto-evow.oss-cn-hangzhou.aliyuncs.com/AdminFiles/logo2W.png",
+}
+
+const LOGO_LIGHT = {
+  full: "http://cfmoto-evow.oss-cn-hangzhou.aliyuncs.com/AdminFiles/cfomtoBB.png",
+  icon: "http://cfmoto-evow.oss-cn-hangzhou.aliyuncs.com/AdminFiles/cfmotoLogo.png",
+}
+
+const FULL_LOGO_BOX = "h-7 w-[120px] shrink-0"
+const ICON_LOGO_BOX = "size-7 shrink-0"
 
 interface LogoProps {
   variant?: "full" | "icon" | "responsive"
@@ -19,42 +28,62 @@ export function Logo({
   asLink = true,
 }: LogoProps) {
   const { resolvedTheme } = useTheme()
-  const isDark = resolvedTheme === "dark"
-
-  const fullLogo = isDark ? logoLight : logo
-  const iconLogo = isDark ? iconLight : icon
+  const logos = resolvedTheme === "dark" ? LOGO_DARK : LOGO_LIGHT
 
   const content =
     variant === "responsive" ? (
       <>
-        <img
-          src={fullLogo}
-          alt="FastAPI"
+        <div
           className={cn(
-            "h-6 w-auto group-data-[collapsible=icon]:hidden",
+            "flex items-center group-data-[collapsible=icon]:hidden",
+            FULL_LOGO_BOX,
             className,
           )}
-        />
-        <img
-          src={iconLogo}
-          alt="FastAPI"
+        >
+          <img
+            src={logos.full}
+            alt="CFMOTO"
+            className="size-full object-contain object-left"
+          />
+        </div>
+        <div
           className={cn(
-            "size-5 hidden group-data-[collapsible=icon]:block",
-            className,
+            "hidden items-center justify-center group-data-[collapsible=icon]:flex",
+            ICON_LOGO_BOX,
           )}
-        />
+        >
+          <img
+            src={logos.icon}
+            alt="CFMOTO"
+            className="size-full object-contain"
+          />
+        </div>
       </>
+    ) : variant === "full" ? (
+      <div className={cn("flex items-center", FULL_LOGO_BOX, className)}>
+        <img
+          src={logos.full}
+          alt="CFMOTO"
+          className="size-full object-contain object-left"
+        />
+      </div>
     ) : (
-      <img
-        src={variant === "full" ? fullLogo : iconLogo}
-        alt="FastAPI"
-        className={cn(variant === "full" ? "h-6 w-auto" : "size-5", className)}
-      />
+      <div className={cn("flex items-center justify-center", ICON_LOGO_BOX, className)}>
+        <img
+          src={logos.icon}
+          alt="CFMOTO"
+          className="size-full object-contain"
+        />
+      </div>
     )
 
   if (!asLink) {
     return content
   }
 
-  return <Link to="/">{content}</Link>
+  return (
+    <Link to="/" className="inline-flex items-center">
+      {content}
+    </Link>
+  )
 }

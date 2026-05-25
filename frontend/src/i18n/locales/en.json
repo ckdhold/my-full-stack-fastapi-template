@@ -38,7 +38,7 @@
     "settingsHint": "Interface language"
   },
   "footer": {
-    "tagline": "Full Stack FastAPI Template - {{year}}"
+    "tagline": "Monitoring Platform - {{year}}"
   },
   "social": {
     "github": "GitHub",

@@ -38,7 +38,7 @@
     "settingsHint": "界面语言"
   },
   "footer": {
-    "tagline": "全栈 FastAPI 模板 - {{year}}"
+    "tagline": "监控平台 - {{year}}"
   },
   "social": {
     "github": "GitHub",
