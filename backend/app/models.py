@@ -231,7 +231,8 @@ class Menu(SQLModel, table=True):
         default=None, foreign_key="menu.id", ondelete="CASCADE"
     )
     path: str = Field(unique=True, index=True, max_length=255)
-    title_key: str = Field(max_length=150)
+    title_zh: str = Field(max_length=150)
+    title_en: str = Field(max_length=150)
     icon: str | None = Field(default=None, max_length=80)
     sort_order: int = Field(default=0)
     is_active: bool = Field(default=True)
@@ -242,7 +243,8 @@ class MenuPublic(SQLModel):
     id: uuid.UUID
     parent_id: uuid.UUID | None = None
     path: str
-    title_key: str
+    title_zh: str
+    title_en: str
     icon: str | None = None
     sort_order: int = 0
     is_active: bool = True
@@ -261,7 +263,8 @@ class MenusTreePublic(SQLModel):
 class MenuCreate(SQLModel):
     parent_id: uuid.UUID | None = None
     path: str = Field(min_length=1, max_length=255)
-    title_key: str = Field(min_length=1, max_length=150)
+    title_zh: str = Field(min_length=1, max_length=150)
+    title_en: str = Field(min_length=1, max_length=150)
     icon: str | None = Field(default=None, max_length=80)
     sort_order: int = 0
     is_active: bool = True
@@ -271,7 +274,8 @@ class MenuCreate(SQLModel):
 class MenuUpdate(SQLModel):
     parent_id: uuid.UUID | None = None
     path: str | None = Field(default=None, min_length=1, max_length=255)
-    title_key: str | None = Field(default=None, min_length=1, max_length=150)
+    title_zh: str | None = Field(default=None, min_length=1, max_length=150)
+    title_en: str | None = Field(default=None, min_length=1, max_length=150)
     icon: str | None = Field(default=None, max_length=80)
     sort_order: int | None = None
     is_active: bool | None = None

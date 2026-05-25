@@ -6,7 +6,8 @@ export type MenuTreePublic = {
   id: string
   parent_id: string | null
   path: string
-  title_key: string
+  title_zh: string
+  title_en: string
   icon: string | null
   sort_order: number
   is_active: boolean
@@ -23,7 +24,8 @@ export type MenuPublic = {
   id: string
   parent_id: string | null
   path: string
-  title_key: string
+  title_zh: string
+  title_en: string
   icon: string | null
   sort_order: number
   is_active: boolean
@@ -38,7 +40,8 @@ export type MenusPublic = {
 export type MenuCreate = {
   parent_id?: string | null
   path: string
-  title_key: string
+  title_zh: string
+  title_en: string
   icon?: string | null
   sort_order?: number
   is_active?: boolean
@@ -48,7 +51,8 @@ export type MenuCreate = {
 export type MenuUpdate = {
   parent_id?: string | null
   path?: string
-  title_key?: string
+  title_zh?: string
+  title_en?: string
   icon?: string | null
   sort_order?: number
   is_active?: boolean

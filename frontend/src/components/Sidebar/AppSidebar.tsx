@@ -12,22 +12,20 @@ import {
 } from "@/components/ui/sidebar"
 import useAuth, { isLoggedIn } from "@/hooks/useAuth"
 import { resolveMenuIcon } from "@/utils/menuIcon"
+import { resolveMenuTitle } from "@/utils/menuTitle"
 import { Main, type NavItem } from "./Main"
 import { User } from "./User"
 
-function menuNodeToNavItem(
-  n: MenuTreePublic,
-  t: (key: string) => string,
-): NavItem {
+function menuNodeToNavItem(n: MenuTreePublic, language: string): NavItem {
   const item: NavItem = {
     icon: resolveMenuIcon(n.icon),
-    title: t(n.title_key),
+    title: resolveMenuTitle(n, language),
     path: n.path,
   }
   if (n.children?.length) {
     return {
       ...item,
-      children: n.children.map((c) => menuNodeToNavItem(c, t)),
+      children: n.children.map((c) => menuNodeToNavItem(c, language)),
     }
   }
   return item
@@ -35,14 +33,14 @@ function menuNodeToNavItem(
 
 function menuTreeToNavItems(
   nodes: MenuTreePublic[],
-  t: (key: string) => string,
+  language: string,
 ): NavItem[] {
-  return nodes.map((n) => menuNodeToNavItem(n, t))
+  return nodes.map((n) => menuNodeToNavItem(n, language))
 }
 
 export function AppSidebar() {
   const { user: currentUser } = useAuth()
-  const { t } = useTranslation()
+  const { i18n } = useTranslation()
 
   const menusQuery = useQuery({
     queryKey: ["menus", "me"],
@@ -53,47 +51,10 @@ export function AppSidebar() {
   const items = useMemo(() => {
     const tree = menusQuery.data?.data
     if (tree?.length) {
-      return menuTreeToNavItems(tree, t)
+      return menuTreeToNavItems(tree, i18n.language)
     }
-    const base: NavItem[] = [
-      { icon: resolveMenuIcon("Home"), title: t("nav.dashboard"), path: "/" },
-      {
-        icon: resolveMenuIcon("Briefcase"),
-        title: t("nav.items"),
-        path: "/items",
-      },
-    ]
-    if (currentUser?.is_superuser) {
-      base.push({
-        icon: resolveMenuIcon("PanelsTopLeft"),
-        title: t("nav.management"),
-        path: "__group.management",
-        children: [
-          {
-            icon: resolveMenuIcon("Users"),
-            title: t("adminPage.title"),
-            path: "/admin",
-          },
-          {
-            icon: resolveMenuIcon("Shield"),
-            title: t("rbacPage.title"),
-            path: "/admin/permissions",
-          },
-          {
-            icon: resolveMenuIcon("Menu"),
-            title: t("nav.menus"),
-            path: "/admin/menus",
-          },
-        ],
-      })
-    }
-    base.push({
-      icon: resolveMenuIcon("Settings"),
-      title: t("nav.settings"),
-      path: "/settings",
-    })
-    return base
-  }, [menusQuery.data?.data, t, currentUser?.is_superuser])
+    return []
+  }, [menusQuery.data?.data, i18n.language])
 
   return (
     <Sidebar collapsible="icon">

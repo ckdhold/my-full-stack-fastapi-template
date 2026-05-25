@@ -35,9 +35,18 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import useCustomToast from "@/hooks/useCustomToast"
+import { resolveMenuTitle } from "@/utils/menuTitle"
+
+const emptyForm = {
+  path: "",
+  title_zh: "",
+  title_en: "",
+  icon: "",
+  sort_order: "100",
+}
 
 export function MenuManagement() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { showSuccessToast, showErrorToast } = useCustomToast()
   const qc = useQueryClient()
 
@@ -52,6 +61,9 @@ export function MenuManagement() {
 
   const [roleDialogMenu, setRoleDialogMenu] = useState<MenuPublic | null>(null)
   const [selectedRoleIds, setSelectedRoleIds] = useState<Set<string>>(new Set())
+  const [editMenu, setEditMenu] = useState<MenuPublic | null>(null)
+  const [createForm, setCreateForm] = useState(emptyForm)
+  const [editForm, setEditForm] = useState(emptyForm)
 
   const menuRolesQuery = useQuery({
     queryKey: ["menus", "roles", roleDialogMenu?.id],
@@ -67,6 +79,20 @@ export function MenuManagement() {
     const data = menuRolesQuery.data?.data
     if (data) setSelectedRoleIds(new Set(data.map((r) => r.id)))
   }, [roleDialogMenu, menuRolesQuery.data])
+
+  useEffect(() => {
+    if (!editMenu) {
+      setEditForm(emptyForm)
+      return
+    }
+    setEditForm({
+      path: editMenu.path,
+      title_zh: editMenu.title_zh,
+      title_en: editMenu.title_en,
+      icon: editMenu.icon ?? "",
+      sort_order: String(editMenu.sort_order),
+    })
+  }, [editMenu])
 
   const updateMenuRoles = useMutation({
     mutationFn: async () => {
@@ -84,26 +110,44 @@ export function MenuManagement() {
     onError: () => showErrorToast(t("errors.generic")),
   })
 
-  const [newPath, setNewPath] = useState("")
-  const [newTitleKey, setNewTitleKey] = useState("")
-  const [newIcon, setNewIcon] = useState("")
   const createMenu = useMutation({
     mutationFn: async () => {
       await MenusService.createMenu({
         requestBody: {
-          path: newPath.trim(),
-          title_key: newTitleKey.trim(),
-          icon: newIcon.trim() || null,
-          sort_order: 100,
+          path: createForm.path.trim(),
+          title_zh: createForm.title_zh.trim(),
+          title_en: createForm.title_en.trim(),
+          icon: createForm.icon.trim() || null,
+          sort_order: Number(createForm.sort_order) || 100,
           is_active: true,
         },
       })
     },
     onSuccess: async () => {
       showSuccessToast(t("menusPage.toastCreated"))
-      setNewPath("")
-      setNewTitleKey("")
-      setNewIcon("")
+      setCreateForm(emptyForm)
+      await qc.invalidateQueries({ queryKey: ["menus"] })
+    },
+    onError: () => showErrorToast(t("errors.generic")),
+  })
+
+  const saveMenu = useMutation({
+    mutationFn: async () => {
+      if (!editMenu) return
+      await MenusService.updateMenu({
+        menuId: editMenu.id,
+        requestBody: {
+          path: editForm.path.trim(),
+          title_zh: editForm.title_zh.trim(),
+          title_en: editForm.title_en.trim(),
+          icon: editForm.icon.trim() || null,
+          sort_order: Number(editForm.sort_order) || editMenu.sort_order,
+        },
+      })
+    },
+    onSuccess: async () => {
+      showSuccessToast(t("menusPage.toastUpdated"))
+      setEditMenu(null)
       await qc.invalidateQueries({ queryKey: ["menus"] })
     },
     onError: () => showErrorToast(t("errors.generic")),
@@ -121,6 +165,10 @@ export function MenuManagement() {
   })
 
   const roles: RoleWithPermissions[] = rolesQuery.data?.data ?? []
+  const canSubmitCreate =
+    createForm.path.trim() &&
+    createForm.title_zh.trim() &&
+    createForm.title_en.trim()
 
   return (
     <div className="flex flex-col gap-6">
@@ -129,43 +177,71 @@ export function MenuManagement() {
           <CardTitle>{t("menusPage.createTitle")}</CardTitle>
           <CardDescription>{t("menusPage.createHint")}</CardDescription>
         </CardHeader>
-        <CardContent className="flex flex-col gap-4 md:flex-row md:items-end">
-          <div className="grid flex-1 gap-2">
+        <CardContent className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          <div className="grid gap-2">
             <Label htmlFor="menu-path">{t("menusPage.path")}</Label>
             <Input
               id="menu-path"
-              value={newPath}
-              onChange={(e) => setNewPath(e.target.value)}
+              value={createForm.path}
+              onChange={(e) =>
+                setCreateForm((f) => ({ ...f, path: e.target.value }))
+              }
               placeholder="/example"
             />
           </div>
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="menu-title-key">{t("menusPage.titleKey")}</Label>
+          <div className="grid gap-2">
+            <Label htmlFor="menu-title-zh">{t("menusPage.titleZh")}</Label>
             <Input
-              id="menu-title-key"
-              value={newTitleKey}
-              onChange={(e) => setNewTitleKey(e.target.value)}
-              placeholder="nav.example"
+              id="menu-title-zh"
+              value={createForm.title_zh}
+              onChange={(e) =>
+                setCreateForm((f) => ({ ...f, title_zh: e.target.value }))
+              }
+              placeholder={t("menusPage.titleZhPlaceholder")}
             />
           </div>
-          <div className="grid flex-1 gap-2">
+          <div className="grid gap-2">
+            <Label htmlFor="menu-title-en">{t("menusPage.titleEn")}</Label>
+            <Input
+              id="menu-title-en"
+              value={createForm.title_en}
+              onChange={(e) =>
+                setCreateForm((f) => ({ ...f, title_en: e.target.value }))
+              }
+              placeholder={t("menusPage.titleEnPlaceholder")}
+            />
+          </div>
+          <div className="grid gap-2">
             <Label htmlFor="menu-icon">{t("menusPage.icon")}</Label>
             <Input
               id="menu-icon"
-              value={newIcon}
-              onChange={(e) => setNewIcon(e.target.value)}
+              value={createForm.icon}
+              onChange={(e) =>
+                setCreateForm((f) => ({ ...f, icon: e.target.value }))
+              }
               placeholder="LayoutDashboard"
             />
           </div>
-          <Button
-            type="button"
-            onClick={() => createMenu.mutate()}
-            disabled={
-              createMenu.isPending || !newPath.trim() || !newTitleKey.trim()
-            }
-          >
-            {t("common.save")}
-          </Button>
+          <div className="grid gap-2">
+            <Label htmlFor="menu-sort">{t("menusPage.sort")}</Label>
+            <Input
+              id="menu-sort"
+              type="number"
+              value={createForm.sort_order}
+              onChange={(e) =>
+                setCreateForm((f) => ({ ...f, sort_order: e.target.value }))
+              }
+            />
+          </div>
+          <div className="flex items-end">
+            <Button
+              type="button"
+              onClick={() => createMenu.mutate()}
+              disabled={createMenu.isPending || !canSubmitCreate}
+            >
+              {t("common.save")}
+            </Button>
+          </div>
         </CardContent>
       </Card>
 
@@ -179,7 +255,8 @@ export function MenuManagement() {
             <TableHeader>
               <TableRow>
                 <TableHead>{t("menusPage.path")}</TableHead>
-                <TableHead>{t("menusPage.titleKey")}</TableHead>
+                <TableHead>{t("menusPage.titleZh")}</TableHead>
+                <TableHead>{t("menusPage.titleEn")}</TableHead>
                 <TableHead>{t("menusPage.icon")}</TableHead>
                 <TableHead>{t("menusPage.sort")}</TableHead>
                 <TableHead className="text-end">
@@ -191,10 +268,19 @@ export function MenuManagement() {
               {(menusQuery.data?.data ?? []).map((m) => (
                 <TableRow key={m.id}>
                   <TableCell className="font-mono text-sm">{m.path}</TableCell>
-                  <TableCell>{m.title_key}</TableCell>
+                  <TableCell>{m.title_zh}</TableCell>
+                  <TableCell>{m.title_en}</TableCell>
                   <TableCell>{m.icon ?? "—"}</TableCell>
                   <TableCell>{m.sort_order}</TableCell>
-                  <TableCell className="text-end space-x-2">
+                  <TableCell className="space-x-2 text-end">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setEditMenu(m)}
+                    >
+                      {t("common.edit")}
+                    </Button>
                     <Button
                       type="button"
                       variant="outline"
@@ -223,13 +309,97 @@ export function MenuManagement() {
         </CardContent>
       </Card>
 
+      <Dialog open={!!editMenu} onOpenChange={(o) => !o && setEditMenu(null)}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle>{t("menusPage.editTitle")}</DialogTitle>
+          </DialogHeader>
+          <div className="grid gap-4 py-2">
+            <div className="grid gap-2">
+              <Label htmlFor="edit-menu-path">{t("menusPage.path")}</Label>
+              <Input
+                id="edit-menu-path"
+                value={editForm.path}
+                onChange={(e) =>
+                  setEditForm((f) => ({ ...f, path: e.target.value }))
+                }
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="edit-menu-title-zh">{t("menusPage.titleZh")}</Label>
+              <Input
+                id="edit-menu-title-zh"
+                value={editForm.title_zh}
+                onChange={(e) =>
+                  setEditForm((f) => ({ ...f, title_zh: e.target.value }))
+                }
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="edit-menu-title-en">{t("menusPage.titleEn")}</Label>
+              <Input
+                id="edit-menu-title-en"
+                value={editForm.title_en}
+                onChange={(e) =>
+                  setEditForm((f) => ({ ...f, title_en: e.target.value }))
+                }
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="edit-menu-icon">{t("menusPage.icon")}</Label>
+              <Input
+                id="edit-menu-icon"
+                value={editForm.icon}
+                onChange={(e) =>
+                  setEditForm((f) => ({ ...f, icon: e.target.value }))
+                }
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="edit-menu-sort">{t("menusPage.sort")}</Label>
+              <Input
+                id="edit-menu-sort"
+                type="number"
+                value={editForm.sort_order}
+                onChange={(e) =>
+                  setEditForm((f) => ({ ...f, sort_order: e.target.value }))
+                }
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button type="button" variant="outline" onClick={() => setEditMenu(null)}>
+              {t("common.cancel")}
+            </Button>
+            <Button
+              type="button"
+              onClick={() => saveMenu.mutate()}
+              disabled={
+                saveMenu.isPending ||
+                !editForm.path.trim() ||
+                !editForm.title_zh.trim() ||
+                !editForm.title_en.trim()
+              }
+            >
+              {t("common.save")}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       <Dialog
         open={!!roleDialogMenu}
         onOpenChange={(o) => !o && setRoleDialogMenu(null)}
       >
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle>{t("menusPage.rolesDialogTitle")}</DialogTitle>
+            <DialogTitle>
+              {roleDialogMenu
+                ? t("menusPage.rolesDialogTitleWithName", {
+                    name: resolveMenuTitle(roleDialogMenu, i18n.language),
+                  })
+                : t("menusPage.rolesDialogTitle")}
+            </DialogTitle>
           </DialogHeader>
           <div className="max-h-72 space-y-3 overflow-y-auto py-2">
             {roles.map((r) => (

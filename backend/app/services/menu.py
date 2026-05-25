@@ -16,7 +16,8 @@ def _menu_to_tree_public(m: Menu, children_map: dict[uuid.UUID, list[Menu]]) -> 
         id=m.id,
         parent_id=m.parent_id,
         path=m.path,
-        title_key=m.title_key,
+        title_zh=m.title_zh,
+        title_en=m.title_en,
         icon=m.icon,
         sort_order=m.sort_order,
         is_active=m.is_active,
@@ -105,7 +106,8 @@ def seed_menus(session: Session) -> None:
 
     def ensure_menu(
         path: str,
-        title_key: str,
+        title_zh: str,
+        title_en: str,
         icon: str | None,
         sort_order: int,
         req_perm: str | None = None,
@@ -120,8 +122,11 @@ def seed_menus(session: Session) -> None:
             if existing.required_permission_code != req_perm:
                 existing.required_permission_code = req_perm
                 changed = True
-            if existing.title_key != title_key:
-                existing.title_key = title_key
+            if existing.title_zh != title_zh:
+                existing.title_zh = title_zh
+                changed = True
+            if existing.title_en != title_en:
+                existing.title_en = title_en
                 changed = True
             if existing.icon != icon:
                 existing.icon = icon
@@ -137,7 +142,8 @@ def seed_menus(session: Session) -> None:
         m = Menu(
             parent_id=parent_id,
             path=path,
-            title_key=title_key,
+            title_zh=title_zh,
+            title_en=title_en,
             icon=icon,
             sort_order=sort_order,
             is_active=True,
@@ -161,23 +167,26 @@ def seed_menus(session: Session) -> None:
                 session.add(RoleMenuLink(role_id=role.id, menu_id=menu.id))
         session.commit()
 
-    top_level: list[tuple[str, str, str | None, int, str | None, tuple[str, ...]]] = [
-        ("/", "nav.dashboard", "Home", 0, P.DASHBOARD_READ, ("admin", "user")),
-        ("/targets", "nav.targets", "Target", 10, P.TARGETS_READ, ("admin", "user")),
-        ("/metrics", "nav.metrics", "LineChart", 12, P.METRICS_READ, ("admin", "user")),
-        ("/alerts/active", "nav.alertsActive", "Bell", 14, P.ALERTS_READ, ("admin", "user")),
-        ("/alerts/rules", "nav.alertRules", "ShieldAlert", 16, P.ALERTS_MANAGE, ("admin", "user")),
-        ("/alerts/history", "nav.alertHistory", "History", 18, P.ALERTS_READ, ("admin", "user")),
-        ("/items", "nav.items", "Briefcase", 20, None, ("admin", "user")),
+    top_level: list[
+        tuple[str, str, str, str | None, int, str | None, tuple[str, ...]]
+    ] = [
+        ("/", "工作台", "Dashboard", "Home", 0, P.DASHBOARD_READ, ("admin", "user")),
+        ("/targets", "监控目标", "Targets", "Target", 10, P.TARGETS_READ, ("admin", "user")),
+        ("/metrics", "指标查询", "Metrics", "LineChart", 12, P.METRICS_READ, ("admin", "user")),
+        ("/alerts/active", "活跃告警", "Active alerts", "Bell", 14, P.ALERTS_READ, ("admin", "user")),
+        ("/alerts/rules", "告警规则", "Alert rules", "ShieldAlert", 16, P.ALERTS_MANAGE, ("admin", "user")),
+        ("/alerts/history", "告警历史", "Alert history", "History", 18, P.ALERTS_READ, ("admin", "user")),
+        ("/items", "条目", "Items", "Briefcase", 20, None, ("admin", "user")),
     ]
 
-    for path, title_key, icon, sort_order, req, roles in top_level:
-        m = ensure_menu(path, title_key, icon, sort_order, req, None)
+    for path, title_zh, title_en, icon, sort_order, req, roles in top_level:
+        m = ensure_menu(path, title_zh, title_en, icon, sort_order, req, None)
         link_roles(m, roles)
 
     notifications_group = ensure_menu(
         f"{GROUP_PATH_PREFIX}notifications",
-        "nav.notifications",
+        "通知中心",
+        "Notifications",
         "BellRing",
         19,
         P.NOTIFICATIONS_READ,
@@ -185,23 +194,26 @@ def seed_menus(session: Session) -> None:
     )
     link_roles(notifications_group, ("admin", "user"))
 
-    notification_children: list[tuple[str, str, str | None, int, str | None]] = [
-        ("/notifications/channels", "nav.notificationChannels", "Radio", 10, P.NOTIFICATIONS_MANAGE),
-        ("/notifications/policies", "nav.notificationPolicies", "GitBranch", 20, P.NOTIFICATIONS_MANAGE),
-        ("/notifications/logs", "nav.notificationLogs", "ScrollText", 30, P.NOTIFICATIONS_READ),
+    notification_children: list[tuple[str, str, str, str | None, int, str | None]] = [
+        ("/notifications/channels", "通知渠道", "Channels", "Radio", 10, P.NOTIFICATIONS_MANAGE),
+        ("/notifications/policies", "通知策略", "Policies", "GitBranch", 20, P.NOTIFICATIONS_MANAGE),
+        ("/notifications/logs", "通知记录", "Logs", "ScrollText", 30, P.NOTIFICATIONS_READ),
     ]
-    for path, title_key, icon, sort_order, req in notification_children:
-        child = ensure_menu(path, title_key, icon, sort_order, req, notifications_group.id)
+    for path, title_zh, title_en, icon, sort_order, req in notification_children:
+        child = ensure_menu(
+            path, title_zh, title_en, icon, sort_order, req, notifications_group.id
+        )
         link_roles(child, ("admin", "user"))
 
-    ensure_menu("/settings", "nav.settings", "Settings", 50, None, None)
+    ensure_menu("/settings", "设置", "Settings", "Settings", 50, None, None)
     settings_menu = session.exec(select(Menu).where(Menu.path == "/settings")).first()
     if settings_menu:
         link_roles(settings_menu, ("admin", "user"))
 
     mgmt = ensure_menu(
         f"{GROUP_PATH_PREFIX}management",
-        "nav.management",
+        "管理",
+        "Administration",
         "PanelsTopLeft",
         20,
         None,
@@ -209,18 +221,17 @@ def seed_menus(session: Session) -> None:
     )
     link_roles(mgmt, ("admin",))
 
-    admin_children: list[tuple[str, str, str | None, int, str | None]] = [
-        ("/admin", "adminPage.title", "Users", 10, P.USERS_READ),
-        ("/admin/agents", "agentsPage.title", "Bot", 15, P.AGENTS_READ),
-        ("/admin/permissions", "rbacPage.title", "Shield", 20, P.ROLES_MANAGE),
-        ("/admin/menus", "nav.menus", "Menu", 30, P.ROLES_MANAGE),
+    admin_children: list[tuple[str, str, str, str | None, int, str | None]] = [
+        ("/admin", "用户", "Users", "Users", 10, P.USERS_READ),
+        ("/admin/agents", "Agent 管理", "Agent management", "Bot", 15, P.AGENTS_READ),
+        ("/admin/permissions", "权限与角色", "Permissions & roles", "Shield", 20, P.ROLES_MANAGE),
+        ("/admin/menus", "菜单", "Menus", "Menu", 30, P.ROLES_MANAGE),
     ]
 
-    for path, title_key, icon, sort_order, req in admin_children:
-        child = ensure_menu(path, title_key, icon, sort_order, req, mgmt.id)
+    for path, title_zh, title_en, icon, sort_order, req in admin_children:
+        child = ensure_menu(path, title_zh, title_en, icon, sort_order, req, mgmt.id)
         link_roles(child, ("admin",))
 
-    # Normalize root order (avoid stale sort_order from older seeds)
     for path, so in (
         ("/", 0),
         ("/targets", 10),

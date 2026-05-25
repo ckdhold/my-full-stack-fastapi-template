@@ -1,7 +1,5 @@
 export type MenuTreeNode = {
   path: string
-  title_key: string
-  icon: string | null
   children: MenuTreeNode[]
 }
 
