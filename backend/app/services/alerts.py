@@ -11,11 +11,14 @@ from app.models import (
     AlertRule,
     AlertSeverity,
     AlertStatus,
+    EventType,
     MetricSample,
     Target,
     TargetStatus,
 )
+from app.services.events import emit_event
 from app.services.notifications import dispatch_alert
+from app.services.silences import is_silenced
 
 logger = logging.getLogger(__name__)
 
@@ -94,6 +97,50 @@ def _notify_alert(session: Session, alert: Alert, rule: AlertRule, target: Targe
     dispatch_alert(session, alert, rule, target)
 
 
+def _samples_since(
+    session: Session,
+    target_id: uuid.UUID,
+    metric: str,
+    since: datetime,
+) -> list[MetricSample]:
+    return list(
+        session.exec(
+            select(MetricSample)
+            .where(
+                MetricSample.target_id == target_id,
+                MetricSample.metric == metric,
+                col(MetricSample.ts) >= since,
+            )
+            .order_by(col(MetricSample.ts).asc())
+        ).all()
+    )
+
+
+def _sustained_breach(
+    session: Session,
+    rule: AlertRule,
+    op_fn: Callable[[float, float], bool],
+) -> tuple[bool, float | None]:
+    sample = _latest_sample(session, rule.target_id, rule.metric)
+    if sample is None:
+        return False, None
+
+    duration = rule.duration_sec or 0
+    if duration <= 0:
+        return op_fn(sample.value, rule.threshold), sample.value
+
+    since = datetime.now(timezone.utc).timestamp() - duration
+    since_dt = datetime.fromtimestamp(since, tz=timezone.utc)
+    samples = _samples_since(session, rule.target_id, rule.metric, since_dt)
+    if not samples:
+        return False, sample.value
+
+    for item in samples:
+        if not op_fn(item.value, rule.threshold):
+            return False, sample.value
+    return True, sample.value
+
+
 def _fire_alert(
     session: Session,
     rule: AlertRule,
@@ -101,7 +148,11 @@ def _fire_alert(
     *,
     message: str,
     current_value: float | None,
-) -> Alert:
+) -> Alert | None:
+    if is_silenced(session, target.id):
+        logger.info("Skipping alert for silenced target %s", target.id)
+        return None
+
     alert = Alert(
         rule_id=rule.id,
         target_id=target.id,
@@ -116,6 +167,14 @@ def _fire_alert(
     _set_target_alert_status(session, target.id)
     session.commit()
     _notify_alert(session, alert, rule, target)
+    emit_event(
+        session,
+        type=EventType.ALERT_FIRED,
+        message=message,
+        target_id=target.id,
+        alert_id=alert.id,
+        meta_json={"severity": rule.severity, "rule_id": str(rule.id)},
+    )
     return alert
 
 
@@ -126,6 +185,13 @@ def _resolve_alert(session: Session, alert: Alert) -> None:
     session.add(alert)
     session.commit()
     _set_target_alert_status(session, alert.target_id)
+    emit_event(
+        session,
+        type=EventType.ALERT_RESOLVED,
+        message=f"Alert resolved: {alert.message}",
+        target_id=alert.target_id,
+        alert_id=alert.id,
+    )
 
 
 def evaluate_rule(session: Session, rule: AlertRule) -> None:
@@ -161,22 +227,29 @@ def evaluate_rule(session: Session, rule: AlertRule) -> None:
     if not op_fn:
         return
 
-    breached = op_fn(sample.value, rule.threshold)
+    breached, current_value = _sustained_breach(session, rule, op_fn)
     if breached:
         if active:
-            active.current_value = sample.value
+            if current_value is not None:
+                active.current_value = current_value
             active.message = (
                 f"{rule.metric} {rule.operator} {rule.threshold} "
-                f"(current: {sample.value})"
+                f"(current: {current_value})"
             )
             session.add(active)
             session.commit()
             return
         message = (
             f"{rule.metric} {rule.operator} {rule.threshold} "
-            f"(current: {sample.value})"
+            f"(current: {current_value})"
         )
-        _fire_alert(session, rule, target, message=message, current_value=sample.value)
+        _fire_alert(
+            session,
+            rule,
+            target,
+            message=message,
+            current_value=current_value,
+        )
         return
 
     if active:
@@ -242,4 +315,12 @@ def acknowledge_alert(
     session.add(alert)
     session.commit()
     session.refresh(alert)
+    emit_event(
+        session,
+        type=EventType.ALERT_ACK,
+        message=f"Alert acknowledged: {alert.message}",
+        target_id=alert.target_id,
+        alert_id=alert.id,
+        meta_json={"note": note} if note else {},
+    )
     return alert

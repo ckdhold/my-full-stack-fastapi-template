@@ -96,8 +96,74 @@
     "recentAlertsHint": "需要处理的 firing / 已确认告警",
     "viewAllAlerts": "查看全部",
     "noActiveAlerts": "当前没有活跃告警",
+    "recentEvents": "最近事件",
+    "recentEventsHint": "告警、Agent、目标变更等运维事件",
+    "viewAllEvents": "事件中心",
+    "noEvents": "暂无事件",
+    "probeTrend": "HTTP 可用性趋势",
+    "probeTrendHint": "最近 6 小时 probe.http.up 指标",
     "manageAlertRules": "管理告警规则",
     "manageNotifications": "配置钉钉通知"
+  },
+  "eventsPage": {
+    "title": "事件中心",
+    "subtitle": "运维事件时间线（告警、Agent、目标变更）",
+    "timeline": "事件流",
+    "timelineHint": "按时间倒序展示最近事件",
+    "empty": "暂无事件记录"
+  },
+  "dashboardsPage": {
+    "title": "仪表盘",
+    "subtitle": "预置监控大盘，按场景查看关键指标",
+    "empty": "暂无仪表盘"
+  },
+  "targetDetail": {
+    "back": "返回列表",
+    "metrics": "指标趋势",
+    "alerts": "相关告警",
+    "events": "相关事件"
+  },
+  "silencesPage": {
+    "title": "告警静默",
+    "subtitle": "维护窗口内暂停告警通知",
+    "add": "新建静默",
+    "target": "目标",
+    "allTargets": "全部目标",
+    "reason": "原因",
+    "durationHours": "静默时长（小时）",
+    "created": "静默已创建",
+    "deleted": "静默已删除",
+    "empty": "暂无静默规则"
+  },
+  "tokensPage": {
+    "title": "API Token",
+    "subtitle": "业务 Push Gateway 鉴权 Token",
+    "add": "创建 Token",
+    "addHint": "Token 仅显示一次，请妥善保存",
+    "copyOnce": "请立即复制 Token，关闭后将无法再次查看",
+    "name": "名称",
+    "target": "关联目标",
+    "selectTarget": "选择目标",
+    "prefix": "前缀",
+    "created": "Token 已创建",
+    "deleted": "Token 已删除"
+  },
+  "auditPage": {
+    "title": "审计日志",
+    "subtitle": "关键管理操作记录"
+  },
+  "auditTable": {
+    "time": "时间",
+    "user": "用户",
+    "action": "操作",
+    "resourceType": "资源类型",
+    "resourceId": "资源 ID",
+    "detail": "详情"
+  },
+  "oncallPage": {
+    "title": "值班表",
+    "subtitle": "当前值班联系人",
+    "empty": "暂无值班联系人"
   },
   "itemsPage": {
     "title": "条目",
@@ -181,7 +247,13 @@
     "subtitle": "查看 Probe 与 Agent 上报的时序指标",
     "selectTarget": "选择目标",
     "allTargets": "全部目标",
-    "metricFilter": "指标名过滤，如 host.cpu.usage_percent"
+    "metricFilter": "指标名过滤，如 host.cpu.usage_pct",
+    "range1h": "最近 1 小时",
+    "range6h": "最近 6 小时",
+    "range24h": "最近 24 小时",
+    "range7d": "最近 7 天",
+    "chartTab": "折线图",
+    "tableTab": "数据表"
   },
   "metricsTable": {
     "time": "时间",
@@ -517,6 +589,13 @@
     "dashboard": "工作台 - 监控平台",
     "targets": "监控目标 - 监控平台",
     "metrics": "指标查询 - 监控平台",
+    "events": "事件中心 - 监控平台",
+    "dashboards": "仪表盘 - 监控平台",
+    "targetDetail": "目标详情 - 监控平台",
+    "alertSilences": "告警静默 - 监控平台",
+    "tokens": "API Token - 监控平台",
+    "audit": "审计日志 - 监控平台",
+    "oncall": "值班表 - 监控平台",
     "alertsActive": "活跃告警 - 监控平台",
     "alertRules": "告警规则 - 监控平台",
     "alertHistory": "告警历史 - 监控平台",

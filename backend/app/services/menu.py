@@ -173,10 +173,12 @@ def seed_menus(session: Session) -> None:
         ("/", "工作台", "Dashboard", "Home", 0, P.DASHBOARD_READ, ("admin", "user")),
         ("/targets", "监控目标", "Targets", "Target", 10, P.TARGETS_READ, ("admin", "user")),
         ("/metrics", "指标查询", "Metrics", "LineChart", 12, P.METRICS_READ, ("admin", "user")),
-        ("/alerts/active", "活跃告警", "Active alerts", "Bell", 14, P.ALERTS_READ, ("admin", "user")),
-        ("/alerts/rules", "告警规则", "Alert rules", "ShieldAlert", 16, P.ALERTS_MANAGE, ("admin", "user")),
-        ("/alerts/history", "告警历史", "Alert history", "History", 18, P.ALERTS_READ, ("admin", "user")),
-        ("/items", "条目", "Items", "Briefcase", 20, None, ("admin", "user")),
+        ("/dashboards", "仪表盘", "Dashboards", "LayoutDashboard", 13, P.DASHBOARD_READ, ("admin", "user")),
+        ("/events", "事件中心", "Events", "History", 14, P.DASHBOARD_READ, ("admin", "user")),
+        ("/alerts/active", "活跃告警", "Active alerts", "Bell", 16, P.ALERTS_READ, ("admin", "user")),
+        ("/alerts/rules", "告警规则", "Alert rules", "ShieldAlert", 18, P.ALERTS_MANAGE, ("admin", "user")),
+        ("/alerts/history", "告警历史", "Alert history", "History", 20, P.ALERTS_READ, ("admin", "user")),
+        ("/alerts/silences", "告警静默", "Alert silences", "VolumeX", 22, P.ALERTS_MANAGE, ("admin", "user")),
     ]
 
     for path, title_zh, title_en, icon, sort_order, req, roles in top_level:
@@ -197,6 +199,7 @@ def seed_menus(session: Session) -> None:
     notification_children: list[tuple[str, str, str, str | None, int, str | None]] = [
         ("/notifications/channels", "通知渠道", "Channels", "Radio", 10, P.NOTIFICATIONS_MANAGE),
         ("/notifications/policies", "通知策略", "Policies", "GitBranch", 20, P.NOTIFICATIONS_MANAGE),
+        ("/notifications/oncall", "值班表", "On-call", "Phone", 25, P.NOTIFICATIONS_READ),
         ("/notifications/logs", "通知记录", "Logs", "ScrollText", 30, P.NOTIFICATIONS_READ),
     ]
     for path, title_zh, title_en, icon, sort_order, req in notification_children:
@@ -224,8 +227,10 @@ def seed_menus(session: Session) -> None:
     admin_children: list[tuple[str, str, str, str | None, int, str | None]] = [
         ("/admin", "用户", "Users", "Users", 10, P.USERS_READ),
         ("/admin/agents", "Agent 管理", "Agent management", "Bot", 15, P.AGENTS_READ),
+        ("/admin/tokens", "API Token", "API tokens", "Key", 18, P.TOKENS_MANAGE),
         ("/admin/permissions", "权限与角色", "Permissions & roles", "Shield", 20, P.ROLES_MANAGE),
         ("/admin/menus", "菜单", "Menus", "Menu", 30, P.ROLES_MANAGE),
+        ("/admin/audit", "审计日志", "Audit log", "FileText", 40, P.AUDIT_READ),
     ]
 
     for path, title_zh, title_en, icon, sort_order, req in admin_children:
@@ -236,11 +241,13 @@ def seed_menus(session: Session) -> None:
         ("/", 0),
         ("/targets", 10),
         ("/metrics", 12),
-        ("/alerts/active", 14),
-        ("/alerts/rules", 16),
-        ("/alerts/history", 18),
+        ("/dashboards", 13),
+        ("/events", 14),
+        ("/alerts/active", 16),
+        ("/alerts/rules", 18),
+        ("/alerts/history", 20),
+        ("/alerts/silences", 22),
         (f"{GROUP_PATH_PREFIX}notifications", 19),
-        ("/items", 20),
         (f"{GROUP_PATH_PREFIX}management", 20),
         ("/settings", 90),
     ):
@@ -248,6 +255,11 @@ def seed_menus(session: Session) -> None:
         if row and row.sort_order != so:
             row.sort_order = so
             session.add(row)
+
+    items_menu = session.exec(select(Menu).where(Menu.path == "/items")).first()
+    if items_menu and items_menu.is_active:
+        items_menu.is_active = False
+        session.add(items_menu)
     session.commit()
 
 

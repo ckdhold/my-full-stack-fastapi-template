@@ -66,11 +66,40 @@ def _probe_tcp(target: Target) -> tuple[list[MetricPoint], str]:
     return points, status
 
 
+def _probe_database(target: Target) -> tuple[list[MetricPoint], str]:
+    config = target.config_json or {}
+    host = config.get("host")
+    port = config.get("port", 5432)
+    if not host:
+        return [], TargetStatus.UNKNOWN
+
+    timeout_sec = float(config.get("timeout_sec", 5))
+    started = time.perf_counter()
+    up = 0.0
+    status = TargetStatus.OFFLINE
+    try:
+        with socket.create_connection((str(host), int(port)), timeout=timeout_sec):
+            up = 1.0
+            status = TargetStatus.ONLINE
+    except OSError:
+        up = 0.0
+        status = TargetStatus.OFFLINE
+    elapsed_ms = (time.perf_counter() - started) * 1000
+    now = datetime.now(timezone.utc)
+    points = [
+        MetricPoint(metric="probe.db.up", value=up, ts=now),
+        MetricPoint(metric="probe.db.response_time_ms", value=elapsed_ms, ts=now),
+    ]
+    return points, status
+
+
 def run_probe_for_target(session: Session, target: Target) -> None:
     if target.type == TargetType.HTTP:
         points, status = _probe_http(target)
     elif target.type == TargetType.TCP:
         points, status = _probe_tcp(target)
+    elif target.type == TargetType.DATABASE:
+        points, status = _probe_database(target)
     else:
         return
 
@@ -86,7 +115,9 @@ def run_probe_for_target(session: Session, target: Target) -> None:
 
 def run_all_probes(session: Session) -> int:
     targets = session.exec(
-        select(Target).where(Target.type.in_([TargetType.HTTP, TargetType.TCP]))  # type: ignore[attr-defined]
+        select(Target).where(
+            Target.type.in_([TargetType.HTTP, TargetType.TCP, TargetType.DATABASE])  # type: ignore[attr-defined]
+        )
     ).all()
     for target in targets:
         run_probe_for_target(session, target)

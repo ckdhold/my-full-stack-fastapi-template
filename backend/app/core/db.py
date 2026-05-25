@@ -30,6 +30,13 @@ def init_db(session: Session) -> None:
 
     seed_notifications(session)
 
+    from app.services.dashboards import seed_dashboards
+
+    seed_dashboards(session)
+    from app.services.oncall import seed_oncall
+
+    seed_oncall(session)
+
     user = session.exec(
         select(User).where(User.email == settings.FIRST_SUPERUSER)
     ).first()

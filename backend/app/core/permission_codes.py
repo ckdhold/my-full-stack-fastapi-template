@@ -17,6 +17,8 @@ ALERTS_ACK = "alerts:ack"
 ALERTS_MANAGE = "alerts:manage"
 NOTIFICATIONS_READ = "notifications:read"
 NOTIFICATIONS_MANAGE = "notifications:manage"
+AUDIT_READ = "audit:read"
+TOKENS_MANAGE = "tokens:manage"
 
 DEFAULT_PERMISSIONS: list[tuple[str, str]] = [
     (USERS_READ, "View users"),
@@ -35,6 +37,8 @@ DEFAULT_PERMISSIONS: list[tuple[str, str]] = [
     (ALERTS_MANAGE, "Manage alert rules"),
     (NOTIFICATIONS_READ, "View notification logs"),
     (NOTIFICATIONS_MANAGE, "Manage notification channels and policies"),
+    (AUDIT_READ, "View audit logs"),
+    (TOKENS_MANAGE, "Manage API tokens for push gateway"),
 ]
 
 ROLE_ADMIN = "admin"

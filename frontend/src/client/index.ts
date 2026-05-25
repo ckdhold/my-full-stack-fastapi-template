@@ -11,6 +11,18 @@ export { AgentsService } from './agents.client';
 export { MetricsService } from './metrics.client';
 export { AlertsService } from './alerts.client';
 export { NotificationsService, NOTIFICATION_SEVERITIES } from './notifications.client';
+export { EventsService } from './events.client';
+export { DashboardsService } from './dashboards.client';
+export { TokensService } from './tokens.client';
+export { SilencesService } from './silences.client';
+export { AuditService } from './audit.client';
+export { OncallService } from './oncall.client';
+export type { EventPublic, EventsPublic } from './events.client';
+export type { DashboardPublic, DashboardPanel, DashboardsPublic } from './dashboards.client';
+export type { ApiTokenCreate, ApiTokenCreatedPublic, ApiTokenPublic, ApiTokensPublic } from './tokens.client';
+export type { SilenceCreate, SilencePublic, SilencesPublic } from './silences.client';
+export type { AuditLogPublic, AuditLogsPublic } from './audit.client';
+export type { OncallContactCreate, OncallContactPublic, OncallContactsPublic } from './oncall.client';
 export type {
   AlertAck,
   AlertPublic,

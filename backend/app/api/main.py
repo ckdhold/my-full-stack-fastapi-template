@@ -1,6 +1,26 @@
 from fastapi import APIRouter
 
-from app.api.routes import agents, alerts, ingest, items, login, menus, metrics, notifications, private, rbac, targets, users, utils
+from app.api.routes import (
+    agents,
+    alerts,
+    audit,
+    dashboards,
+    events,
+    ingest,
+    items,
+    login,
+    menus,
+    metrics,
+    notifications,
+    oncall,
+    private,
+    rbac,
+    silences,
+    targets,
+    tokens,
+    users,
+    utils,
+)
 from app.core.config import settings
 
 api_router = APIRouter()
@@ -14,6 +34,12 @@ api_router.include_router(ingest.router)
 api_router.include_router(metrics.router)
 api_router.include_router(alerts.router)
 api_router.include_router(notifications.router)
+api_router.include_router(events.router)
+api_router.include_router(dashboards.router)
+api_router.include_router(silences.router)
+api_router.include_router(tokens.router)
+api_router.include_router(audit.router)
+api_router.include_router(oncall.router)
 api_router.include_router(rbac.router)
 api_router.include_router(menus.router)
 

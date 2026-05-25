@@ -4,7 +4,8 @@ import { Activity, AlertTriangle, Bell, Server, WifiOff } from "lucide-react"
 import { Suspense, useMemo } from "react"
 import { useTranslation } from "react-i18next"
 
-import { AlertsService, TargetsService } from "@/client"
+import { AlertsService, EventsService, TargetsService } from "@/client"
+import { getSinceIso, MetricChart } from "@/components/Metrics/MetricChart"
 import { getAlertColumns } from "@/components/Alerts/columns"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -104,6 +105,38 @@ function RecentAlerts() {
   return <DataTable columns={columns} data={active} />
 }
 
+function RecentEvents() {
+  const { t } = useTranslation()
+  const { data } = useSuspenseQuery({
+    queryKey: ["events", "dashboard"],
+    queryFn: () => EventsService.readEvents({ limit: 8 }),
+  })
+
+  if (data.data.length === 0) {
+    return (
+      <p className="text-sm text-muted-foreground">{t("dashboard.noEvents")}</p>
+    )
+  }
+
+  return (
+    <ul className="space-y-3">
+      {data.data.map((event) => (
+        <li key={event.id} className="flex justify-between gap-4 text-sm border-b pb-2 last:border-0">
+          <div>
+            <p>{event.message}</p>
+            {event.target_name ? (
+              <p className="text-xs text-muted-foreground">{event.target_name}</p>
+            ) : null}
+          </div>
+          <span className="text-xs text-muted-foreground whitespace-nowrap">
+            {event.created_at ? new Date(event.created_at).toLocaleString() : "-"}
+          </span>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
 function DashboardContent() {
   const { t } = useTranslation()
   const { user: currentUser } = useAuth()
@@ -138,6 +171,33 @@ function DashboardContent() {
         </CardHeader>
         <CardContent>
           <RecentAlerts />
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between">
+          <div>
+            <CardTitle>{t("dashboard.recentEvents")}</CardTitle>
+            <CardDescription>{t("dashboard.recentEventsHint")}</CardDescription>
+          </div>
+          <Button variant="outline" size="sm" asChild>
+            <Link to="/events">{t("dashboard.viewAllEvents")}</Link>
+          </Button>
+        </CardHeader>
+        <CardContent>
+          <RecentEvents />
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>{t("dashboard.probeTrend")}</CardTitle>
+          <CardDescription>{t("dashboard.probeTrendHint")}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Suspense fallback={<div className="text-muted-foreground">Loading...</div>}>
+            <MetricChart metric="probe.http.up" since={getSinceIso(6)} height={220} />
+          </Suspense>
         </CardContent>
       </Card>
 

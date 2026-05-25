@@ -729,3 +729,226 @@ class NotificationLogsPublic(SQLModel):
     data: list[NotificationLogPublic]
     count: int
 
+
+class EventType(str):
+    ALERT_FIRED = "alert.fired"
+    ALERT_RESOLVED = "alert.resolved"
+    ALERT_ACK = "alert.acknowledged"
+    AGENT_OFFLINE = "agent.offline"
+    AGENT_ONLINE = "agent.online"
+    TARGET_CREATED = "target.created"
+    TARGET_UPDATED = "target.updated"
+
+
+class EventBase(SQLModel):
+    type: str = Field(max_length=64)
+    message: str = Field(max_length=500)
+    target_id: uuid.UUID | None = Field(
+        default=None, foreign_key="target.id", ondelete="SET NULL"
+    )
+    alert_id: uuid.UUID | None = Field(
+        default=None, foreign_key="alert.id", ondelete="SET NULL"
+    )
+    meta_json: dict = Field(default_factory=dict, sa_type=JSON)  # type: ignore
+
+
+class Event(EventBase, table=True):
+    __tablename__ = "event"
+
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    created_at: datetime | None = Field(
+        default_factory=get_datetime_utc,
+        sa_type=DateTime(timezone=True),  # type: ignore
+    )
+
+
+class EventPublic(EventBase):
+    id: uuid.UUID
+    created_at: datetime | None = None
+    target_name: str | None = None
+
+
+class EventsPublic(SQLModel):
+    data: list[EventPublic]
+    count: int
+
+
+class ApiTokenBase(SQLModel):
+    name: str = Field(min_length=1, max_length=255)
+    target_id: uuid.UUID = Field(foreign_key="target.id", ondelete="CASCADE")
+    enabled: bool = Field(default=True)
+
+
+class ApiTokenCreate(SQLModel):
+    name: str = Field(min_length=1, max_length=255)
+    target_id: uuid.UUID
+
+
+class ApiToken(ApiTokenBase, table=True):
+    __tablename__ = "api_token"
+
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    token_prefix: str = Field(max_length=16, index=True)
+    token_hash: str = Field(max_length=255)
+    created_at: datetime | None = Field(
+        default_factory=get_datetime_utc,
+        sa_type=DateTime(timezone=True),  # type: ignore
+    )
+
+
+class ApiTokenPublic(ApiTokenBase):
+    id: uuid.UUID
+    token_prefix: str
+    created_at: datetime | None = None
+    target_name: str | None = None
+
+
+class ApiTokenCreatedPublic(ApiTokenPublic):
+    token: str
+
+
+class ApiTokensPublic(SQLModel):
+    data: list[ApiTokenPublic]
+    count: int
+
+
+class SilenceBase(SQLModel):
+    target_id: uuid.UUID | None = Field(
+        default=None, foreign_key="target.id", ondelete="CASCADE"
+    )
+    reason: str = Field(max_length=500)
+    starts_at: datetime = Field(sa_type=DateTime(timezone=True))  # type: ignore
+    ends_at: datetime = Field(sa_type=DateTime(timezone=True))  # type: ignore
+
+
+class SilenceCreate(SilenceBase):
+    pass
+
+
+class Silence(SilenceBase, table=True):
+    __tablename__ = "silence"
+
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    created_by: uuid.UUID | None = Field(
+        default=None, foreign_key="user.id", ondelete="SET NULL"
+    )
+    created_at: datetime | None = Field(
+        default_factory=get_datetime_utc,
+        sa_type=DateTime(timezone=True),  # type: ignore
+    )
+
+
+class SilencePublic(SilenceBase):
+    id: uuid.UUID
+    created_by: uuid.UUID | None = None
+    created_at: datetime | None = None
+    target_name: str | None = None
+
+
+class SilencesPublic(SQLModel):
+    data: list[SilencePublic]
+    count: int
+
+
+class DashboardBase(SQLModel):
+    slug: str = Field(max_length=64, unique=True, index=True)
+    title_zh: str = Field(max_length=150)
+    title_en: str = Field(max_length=150)
+    description_zh: str | None = Field(default=None, max_length=500)
+    description_en: str | None = Field(default=None, max_length=500)
+    panels_json: list = Field(default_factory=list, sa_type=JSON)  # type: ignore
+    sort_order: int = Field(default=0)
+
+
+class Dashboard(DashboardBase, table=True):
+    __tablename__ = "dashboard"
+
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    created_at: datetime | None = Field(
+        default_factory=get_datetime_utc,
+        sa_type=DateTime(timezone=True),  # type: ignore
+    )
+
+
+class DashboardPublic(DashboardBase):
+    id: uuid.UUID
+    created_at: datetime | None = None
+
+
+class DashboardsPublic(SQLModel):
+    data: list[DashboardPublic]
+    count: int
+
+
+class AuditLog(SQLModel, table=True):
+    __tablename__ = "audit_log"
+
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    user_id: uuid.UUID | None = Field(
+        default=None, foreign_key="user.id", ondelete="SET NULL"
+    )
+    action: str = Field(max_length=64)
+    resource_type: str = Field(max_length=64)
+    resource_id: str | None = Field(default=None, max_length=64)
+    detail: str | None = Field(default=None, max_length=500)
+    created_at: datetime | None = Field(
+        default_factory=get_datetime_utc,
+        sa_type=DateTime(timezone=True),  # type: ignore
+    )
+
+
+class AuditLogPublic(SQLModel):
+    id: uuid.UUID
+    user_id: uuid.UUID | None = None
+    user_email: str | None = None
+    action: str
+    resource_type: str
+    resource_id: str | None = None
+    detail: str | None = None
+    created_at: datetime | None = None
+
+
+class AuditLogsPublic(SQLModel):
+    data: list[AuditLogPublic]
+    count: int
+
+
+class OncallContactBase(SQLModel):
+    name: str = Field(max_length=150)
+    email: str = Field(max_length=255)
+    phone: str | None = Field(default=None, max_length=32)
+    role: str | None = Field(default=None, max_length=64)
+    sort_order: int = Field(default=0)
+
+
+class OncallContactCreate(OncallContactBase):
+    pass
+
+
+class OncallContactUpdate(SQLModel):
+    name: str | None = None
+    email: str | None = None
+    phone: str | None = None
+    role: str | None = None
+    sort_order: int | None = None
+
+
+class OncallContact(OncallContactBase, table=True):
+    __tablename__ = "oncall_contact"
+
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    created_at: datetime | None = Field(
+        default_factory=get_datetime_utc,
+        sa_type=DateTime(timezone=True),  # type: ignore
+    )
+
+
+class OncallContactPublic(OncallContactBase):
+    id: uuid.UUID
+    created_at: datetime | None = None
+
+
+class OncallContactsPublic(SQLModel):
+    data: list[OncallContactPublic]
+    count: int
+

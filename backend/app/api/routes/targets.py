@@ -11,6 +11,7 @@ from app.models import (
     Message,
     Target,
     TargetCreate,
+    EventType,
     TargetPublic,
     TargetsPublic,
     TargetStatus,
@@ -18,6 +19,7 @@ from app.models import (
     TargetType,
     TargetUpdate,
 )
+from app.services.events import emit_event
 
 router = APIRouter(prefix="/targets", tags=["targets"])
 
@@ -121,10 +123,14 @@ def create_target(*, session: SessionDep, target_in: TargetCreate) -> Any:
     session.add(target)
     session.commit()
     session.refresh(target)
+    emit_event(
+        session,
+        type=EventType.TARGET_CREATED,
+        message=f"Target created: {target.name}",
+        target_id=target.id,
+        meta_json={"type": target.type},
+    )
     return target
-
-
-@router.put("/{id}", response_model=TargetPublic, dependencies=_write)
 def update_target(
     *, session: SessionDep, id: uuid.UUID, target_in: TargetUpdate
 ) -> Any:
@@ -141,6 +147,12 @@ def update_target(
     session.add(target)
     session.commit()
     session.refresh(target)
+    emit_event(
+        session,
+        type=EventType.TARGET_UPDATED,
+        message=f"Target updated: {target.name}",
+        target_id=target.id,
+    )
     return target
 
 

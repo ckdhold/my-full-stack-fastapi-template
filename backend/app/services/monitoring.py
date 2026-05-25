@@ -10,6 +10,7 @@ from app.models import (
     AgentCreate,
     AgentPublic,
     AgentStatus,
+    EventType,
     MetricPoint,
     MetricSample,
     MetricSamplePublic,
@@ -17,6 +18,7 @@ from app.models import (
     TargetStatus,
     TargetType,
 )
+from app.services.events import emit_event
 
 
 def generate_agent_token() -> tuple[str, str, str]:
@@ -91,6 +93,7 @@ def ensure_host_target(session: Session, agent: Agent) -> Target:
 def record_heartbeat(session: Session, agent: Agent, version: str | None = None) -> Agent:
     now = datetime.now(timezone.utc)
     agent.last_heartbeat_at = now
+    was_offline = agent.status == AgentStatus.OFFLINE
     agent.status = AgentStatus.ONLINE
     if version:
         agent.version = version
@@ -104,6 +107,14 @@ def record_heartbeat(session: Session, agent: Agent, version: str | None = None)
     session.add(agent)
     session.commit()
     session.refresh(agent)
+    if was_offline:
+        emit_event(
+            session,
+            type=EventType.AGENT_ONLINE,
+            message=f"Agent {agent.name} is online",
+            target_id=agent.target_id,
+            meta_json={"host_id": agent.host_id},
+        )
     return agent
 
 
@@ -181,6 +192,13 @@ def mark_stale_agents_offline(session: Session, timeout_sec: int) -> int:
                     target.status = TargetStatus.OFFLINE
                     target.updated_at = now
                     session.add(target)
+                emit_event(
+                    session,
+                    type=EventType.AGENT_OFFLINE,
+                    message=f"Agent {agent.name} went offline",
+                    target_id=agent.target_id,
+                    meta_json={"host_id": agent.host_id},
+                )
             updated += 1
     if updated:
         session.commit()

@@ -1,5 +1,6 @@
 import type { ColumnDef } from "@tanstack/react-table"
 import type { TFunction } from "i18next"
+import { Link } from "@tanstack/react-router"
 import { Check, Copy } from "lucide-react"
 import { useTranslation } from "react-i18next"
 
@@ -57,7 +58,13 @@ export function getTargetColumns(t: TFunction): ColumnDef<TargetPublic>[] {
       accessorKey: "name",
       header: t("targetsTable.name"),
       cell: ({ row }) => (
-        <span className="font-medium">{row.original.name}</span>
+        <Link
+          to="/targets/$targetId"
+          params={{ targetId: row.original.id }}
+          className="font-medium hover:underline"
+        >
+          {row.original.name}
+        </Link>
       ),
     },
     {
