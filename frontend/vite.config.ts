@@ -11,7 +11,7 @@ export default defineConfig({
     // Same-origin /api in dev → no CORS; production builds still use VITE_API_URL.
     proxy: {
       "/api": {
-        target: "http://127.0.0.1:8000",
+        target: "http://127.0.0.1:6279",
         changeOrigin: true,
       },
     },

@@ -13,5 +13,9 @@
   },
   "devDependencies": {
     "patch-package": "^8.0.1"
+  },
+  "overrides": {
+    "@tanstack/router-generator": "1.166.42",
+    "@tanstack/router-plugin": "1.167.35"
   }
 }
