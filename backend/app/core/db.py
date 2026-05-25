@@ -26,6 +26,9 @@ def init_db(session: Session) -> None:
     from app.services.menu import seed_menus
 
     seed_menus(session)
+    from app.services.notifications import seed_notifications
+
+    seed_notifications(session)
 
     user = session.exec(
         select(User).where(User.email == settings.FIRST_SUPERUSER)

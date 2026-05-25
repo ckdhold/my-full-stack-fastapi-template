@@ -3,21 +3,21 @@ import { FaGithub, FaLinkedinIn } from "react-icons/fa"
 import { FaXTwitter } from "react-icons/fa6"
 
 const socialLinks = [
-  {
-    icon: FaGithub,
-    href: "https://github.com/fastapi/fastapi",
-    labelKey: "social.github" as const,
-  },
-  {
-    icon: FaXTwitter,
-    href: "https://x.com/fastapi",
-    labelKey: "social.x" as const,
-  },
-  {
-    icon: FaLinkedinIn,
-    href: "https://linkedin.com/company/fastapi",
-    labelKey: "social.linkedin" as const,
-  },
+  // {
+  //   icon: FaGithub,
+  //   href: "https://github.com/fastapi/fastapi",
+  //   labelKey: "social.github" as const,
+  // },
+  // {
+  //   icon: FaXTwitter,
+  //   href: "https://x.com/fastapi",
+  //   labelKey: "social.x" as const,
+  // },
+  // {
+  //   icon: FaLinkedinIn,
+  //   href: "https://linkedin.com/company/fastapi",
+  //   labelKey: "social.linkedin" as const,
+  // },
 ]
 
 export function Footer() {

@@ -16,6 +16,15 @@
   },
   "nav": {
     "dashboard": "Dashboard",
+    "targets": "Targets",
+    "metrics": "Metrics",
+    "alertsActive": "Active alerts",
+    "alertRules": "Alert rules",
+    "alertHistory": "Alert history",
+    "notifications": "Notifications",
+    "notificationChannels": "Channels",
+    "notificationPolicies": "Policies",
+    "notificationLogs": "Logs",
     "items": "Items",
     "admin": "Admin",
     "permissions": "Permissions",
@@ -38,7 +47,7 @@
     "settingsHint": "Interface language"
   },
   "footer": {
-    "tagline": "Full Stack FastAPI Template - {{year}}"
+    "tagline": "Monitoring Platform - {{year}}"
   },
   "social": {
     "github": "GitHub",
@@ -89,13 +98,250 @@
   },
   "dashboard": {
     "greeting": "Hi, {{name}} 👋",
-    "welcome": "Welcome back, nice to see you again!!!"
+    "welcome": "Welcome back to the unified monitoring platform.",
+    "mvpBadge": "MVP",
+    "quickActions": "Quick actions",
+    "quickActionsHint": "Manage monitoring targets and review platform status.",
+    "manageTargets": "Manage targets",
+    "cards": {
+      "total": "Total targets",
+      "online": "Online",
+      "alert": "In alert",
+      "firing": "Active alerts",
+      "offline": "Offline"
+    },
+    "recentAlerts": "Active alerts",
+    "recentAlertsHint": "Firing and acknowledged alerts needing attention",
+    "viewAllAlerts": "View all",
+    "noActiveAlerts": "No active alerts",
+    "manageAlertRules": "Manage alert rules",
+    "manageNotifications": "Configure DingTalk notifications"
   },
   "itemsPage": {
     "title": "Items",
     "subtitle": "Create and manage your items",
     "emptyTitle": "You don't have any items yet",
     "emptySubtitle": "Add a new item to get started"
+  },
+  "targetsPage": {
+    "title": "Monitoring targets",
+    "subtitle": "Manage hosts, services, databases, and business metrics",
+    "emptyTitle": "No monitoring targets yet",
+    "emptySubtitle": "Add your first target to get started"
+  },
+  "targets": {
+    "addTarget": "Add target",
+    "addTitle": "Add monitoring target",
+    "addDescription": "Fill in the target details and collection config.",
+    "editTitle": "Edit monitoring target",
+    "editDescription": "Update the target configuration.",
+    "editMenu": "Edit",
+    "deleteMenu": "Delete",
+    "deleteTitle": "Delete monitoring target",
+    "deleteDescription": "This action cannot be undone. Are you sure?",
+    "toastCreated": "Target created successfully",
+    "toastUpdated": "Target updated successfully",
+    "toastDeleted": "Target deleted successfully",
+    "nameLabel": "Name",
+    "namePlaceholder": "e.g. prod-api-01",
+    "typeLabel": "Type",
+    "statusLabel": "Status",
+    "envLabel": "Environment label",
+    "configLabel": "Collection config (JSON)",
+    "noDescription": "No description",
+    "type": {
+      "host": "Host",
+      "http": "HTTP service",
+      "tcp": "TCP port",
+      "database": "Database",
+      "business": "Business metric",
+      "custom": "Custom"
+    },
+    "status": {
+      "online": "Online",
+      "offline": "Offline",
+      "unknown": "Unknown",
+      "alert": "Alert"
+    }
+  },
+  "agentsPage": {
+    "title": "Agent management",
+    "subtitle": "Register collection agents and issue API tokens"
+  },
+  "agents": {
+    "addAgent": "Register agent",
+    "addTitle": "Register agent",
+    "addDescription": "After creation, a one-time token is shown. Store it securely.",
+    "tokenTitle": "Agent token",
+    "tokenDescription": "This token is shown only once. Configure it in the UMP Agent.",
+    "copyToken": "Copy token",
+    "deleteMenu": "Delete agent",
+    "deleteTitle": "Delete agent",
+    "deleteDescription": "The agent will no longer be able to push metrics.",
+    "toastCreated": "Agent created successfully",
+    "toastDeleted": "Agent deleted successfully",
+    "nameLabel": "Name",
+    "hostIdLabel": "Host ID",
+    "status": {
+      "online": "Online",
+      "offline": "Offline"
+    }
+  },
+  "agentsTable": {
+    "name": "Name",
+    "hostId": "Host ID",
+    "status": "Status",
+    "version": "Version",
+    "lastHeartbeat": "Last heartbeat"
+  },
+  "metricsPage": {
+    "title": "Metrics explorer",
+    "subtitle": "Inspect time-series metrics from probes and agents",
+    "selectTarget": "Select target",
+    "allTargets": "All targets",
+    "metricFilter": "Filter metric, e.g. host.cpu.usage_percent"
+  },
+  "metricsTable": {
+    "time": "Time",
+    "metric": "Metric",
+    "value": "Value",
+    "target": "Target ID"
+  },
+  "alertsPage": {
+    "activeTitle": "Active alerts",
+    "activeSubtitle": "Firing and acknowledged alerts",
+    "historyTitle": "Alert history",
+    "historySubtitle": "Resolved alert records"
+  },
+  "alerts": {
+    "ack": "Ack",
+    "ackTitle": "Acknowledge alert",
+    "ackNotePlaceholder": "Note (optional)",
+    "ackConfirm": "Acknowledge",
+    "toastAcked": "Alert acknowledged",
+    "status": {
+      "firing": "Firing",
+      "acknowledged": "Acknowledged",
+      "resolved": "Resolved"
+    }
+  },
+  "alertsTable": {
+    "severity": "Severity",
+    "target": "Target",
+    "rule": "Rule",
+    "message": "Message",
+    "value": "Value",
+    "firedAt": "Fired at",
+    "status": "Status"
+  },
+  "alertRulesPage": {
+    "title": "Alert rules",
+    "subtitle": "Configure threshold and no-data alert conditions"
+  },
+  "alertRules": {
+    "addRule": "Add rule",
+    "addTitle": "Add alert rule",
+    "addDescription": "Alerts fire when the metric matches the condition; email is sent to superusers.",
+    "nameLabel": "Rule name",
+    "targetLabel": "Target",
+    "selectTarget": "Select target",
+    "metricLabel": "Metric",
+    "operatorLabel": "Operator",
+    "thresholdLabel": "Threshold",
+    "severityLabel": "Severity",
+    "enabledYes": "Enabled",
+    "enabledNo": "Disabled",
+    "deleteTitle": "Delete rule",
+    "deleteDescription": "Related alert records will also be removed.",
+    "toastCreated": "Alert rule created",
+    "toastDeleted": "Alert rule deleted"
+  },
+  "alertRulesTable": {
+    "name": "Name",
+    "metric": "Metric",
+    "condition": "Condition",
+    "severity": "Severity",
+    "enabled": "Enabled"
+  },
+  "notificationChannelsPage": {
+    "title": "Notification channels",
+    "subtitle": "Configure email and DingTalk robot webhooks"
+  },
+  "notificationChannels": {
+    "addDingTalk": "Add DingTalk channel",
+    "addDingTalkTitle": "Add DingTalk notification",
+    "addDingTalkDescription": "Enter the DingTalk group robot webhook URL; signing secret is optional.",
+    "nameLabel": "Channel name",
+    "namePlaceholder": "Ops alerts",
+    "webhookLabel": "Webhook URL",
+    "secretLabel": "Signing secret (optional)",
+    "secretPlaceholder": "SEC...",
+    "test": "Test",
+    "enabledYes": "Enabled",
+    "enabledNo": "Disabled",
+    "deleteTitle": "Delete channel",
+    "deleteDescription": "Delete channel \"{{name}}\"? Related policies will also be removed.",
+    "toastCreated": "DingTalk channel created",
+    "toastDeleted": "Channel deleted",
+    "toastTested": "Test message sent",
+    "types": {
+      "email": "Email",
+      "dingtalk": "DingTalk"
+    }
+  },
+  "notificationChannelsTable": {
+    "name": "Name",
+    "type": "Type",
+    "enabled": "Enabled",
+    "webhook": "Webhook"
+  },
+  "notificationPoliciesPage": {
+    "title": "Notification policies",
+    "subtitle": "Route severities to channels (P0→DingTalk+email, P1→DingTalk, P2→email)"
+  },
+  "notificationPolicies": {
+    "addPolicy": "Add policy",
+    "addTitle": "Add notification policy",
+    "addDescription": "Choose a channel for a given alert severity.",
+    "severityLabel": "Severity",
+    "channelLabel": "Channel",
+    "selectChannel": "Select channel",
+    "deleteTitle": "Delete policy",
+    "deleteDescription": "This severity will no longer use this channel.",
+    "toastCreated": "Policy created",
+    "toastDeleted": "Policy deleted"
+  },
+  "notificationPoliciesTable": {
+    "severity": "Severity",
+    "channel": "Channel",
+    "channelType": "Channel type",
+    "enabled": "Enabled"
+  },
+  "notificationLogsPage": {
+    "title": "Notification logs",
+    "subtitle": "Success and failure records for alert notifications"
+  },
+  "notificationLogs": {
+    "status": {
+      "success": "Success",
+      "failed": "Failed"
+    }
+  },
+  "notificationLogsTable": {
+    "time": "Time",
+    "channel": "Channel",
+    "type": "Type",
+    "status": "Status",
+    "message": "Message",
+    "error": "Error"
+  },
+  "targetsTable": {
+    "id": "ID",
+    "name": "Name",
+    "type": "Type",
+    "status": "Status",
+    "description": "Description",
+    "copyId": "Copy ID"
   },
   "adminPage": {
     "title": "Users",
@@ -267,7 +513,10 @@
     "fullNameRequired": "Full Name is required",
     "invalidEmail": "Invalid email address",
     "confirmPasswordRequired": "Please confirm your password",
-    "titleRequired": "Title is required"
+    "titleRequired": "Title is required",
+    "nameRequired": "Name is required",
+    "hostIdRequired": "Host ID is required",
+    "invalidJson": "Invalid JSON format"
   },
   "errors": {
     "generic": "Something went wrong."
@@ -277,7 +526,16 @@
     "signup": "Sign Up - FastAPI Template",
     "recover": "Recover Password - FastAPI Template",
     "reset": "Reset Password - FastAPI Template",
-    "dashboard": "Dashboard - FastAPI Template",
+    "dashboard": "Dashboard - Monitoring Platform",
+    "targets": "Targets - Monitoring Platform",
+    "metrics": "Metrics - Monitoring Platform",
+    "alertsActive": "Active alerts - Monitoring Platform",
+    "alertRules": "Alert rules - Monitoring Platform",
+    "alertHistory": "Alert history - Monitoring Platform",
+    "notificationChannels": "Notification channels - Monitoring Platform",
+    "notificationPolicies": "Notification policies - Monitoring Platform",
+    "notificationLogs": "Notification logs - Monitoring Platform",
+    "agents": "Agents - Monitoring Platform",
     "items": "Items - FastAPI Template",
     "admin": "Admin - FastAPI Template",
     "rbac": "Permissions - FastAPI Template",

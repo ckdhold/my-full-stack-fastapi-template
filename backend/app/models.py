@@ -2,7 +2,7 @@ import uuid
 from datetime import datetime, timezone
 
 from pydantic import EmailStr
-from sqlalchemy import DateTime
+from sqlalchemy import DateTime, JSON
 from sqlmodel import Field, Relationship, SQLModel
 
 
@@ -293,3 +293,435 @@ class MenusPublic(SQLModel):
 
 
 MenuTreePublic.model_rebuild()
+
+
+# --- Monitoring ----------------------------------------------------------
+
+
+class TargetType(str):
+    HOST = "host"
+    HTTP = "http"
+    TCP = "tcp"
+    DATABASE = "database"
+    BUSINESS = "business"
+    CUSTOM = "custom"
+
+
+class TargetStatus(str):
+    ONLINE = "online"
+    OFFLINE = "offline"
+    UNKNOWN = "unknown"
+    ALERT = "alert"
+
+
+class TargetBase(SQLModel):
+    name: str = Field(min_length=1, max_length=255)
+    type: str = Field(max_length=32)
+    status: str = Field(default=TargetStatus.UNKNOWN, max_length=32)
+    labels: dict[str, str] = Field(default_factory=dict, sa_type=JSON)
+    config_json: dict[str, object] = Field(default_factory=dict, sa_type=JSON)
+    description: str | None = Field(default=None, max_length=500)
+
+
+class TargetCreate(SQLModel):
+    name: str = Field(min_length=1, max_length=255)
+    type: str = Field(max_length=32)
+    labels: dict[str, str] = Field(default_factory=dict)
+    config_json: dict[str, object] = Field(default_factory=dict)
+    description: str | None = Field(default=None, max_length=500)
+    status: str | None = Field(default=None, max_length=32)
+
+
+class TargetUpdate(SQLModel):
+    name: str | None = Field(default=None, min_length=1, max_length=255)
+    type: str | None = Field(default=None, max_length=32)
+    status: str | None = Field(default=None, max_length=32)
+    labels: dict[str, str] | None = None
+    config_json: dict[str, object] | None = None
+    description: str | None = Field(default=None, max_length=500)
+
+
+class Target(TargetBase, table=True):
+    __tablename__ = "target"
+
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    created_at: datetime | None = Field(
+        default_factory=get_datetime_utc,
+        sa_type=DateTime(timezone=True),  # type: ignore
+    )
+    updated_at: datetime | None = Field(
+        default_factory=get_datetime_utc,
+        sa_type=DateTime(timezone=True),  # type: ignore
+    )
+
+
+class TargetPublic(TargetBase):
+    id: uuid.UUID
+    created_at: datetime | None = None
+    updated_at: datetime | None = None
+
+
+class TargetsPublic(SQLModel):
+    data: list[TargetPublic]
+    count: int
+
+
+class TargetSummary(SQLModel):
+    total: int
+    online: int
+    offline: int
+    alert: int
+    unknown: int
+
+
+class AgentStatus(str):
+    ONLINE = "online"
+    OFFLINE = "offline"
+
+
+class AgentBase(SQLModel):
+    name: str = Field(min_length=1, max_length=255)
+    host_id: str = Field(min_length=1, max_length=128)
+    version: str | None = Field(default=None, max_length=32)
+
+
+class AgentCreate(AgentBase):
+    pass
+
+
+class Agent(AgentBase, table=True):
+    __tablename__ = "agent"
+
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    target_id: uuid.UUID | None = Field(
+        default=None, foreign_key="target.id", ondelete="SET NULL"
+    )
+    token_prefix: str = Field(max_length=16, index=True)
+    token_hash: str = Field(max_length=255)
+    status: str = Field(default=AgentStatus.OFFLINE, max_length=32)
+    last_heartbeat_at: datetime | None = Field(
+        default=None,
+        sa_type=DateTime(timezone=True),  # type: ignore
+    )
+    created_at: datetime | None = Field(
+        default_factory=get_datetime_utc,
+        sa_type=DateTime(timezone=True),  # type: ignore
+    )
+
+
+class AgentPublic(AgentBase):
+    id: uuid.UUID
+    target_id: uuid.UUID | None = None
+    status: str
+    last_heartbeat_at: datetime | None = None
+    created_at: datetime | None = None
+
+
+class AgentCreatedPublic(SQLModel):
+    agent: AgentPublic
+    token: str
+
+
+class AgentsPublic(SQLModel):
+    data: list[AgentPublic]
+    count: int
+
+
+class MetricPoint(SQLModel):
+    metric: str = Field(min_length=1, max_length=128)
+    value: float
+    ts: datetime | None = None
+    labels: dict[str, str] = Field(default_factory=dict)
+
+
+class MetricsPush(SQLModel):
+    metrics: list[MetricPoint] = Field(min_length=1)
+
+
+class MetricSample(SQLModel, table=True):
+    __tablename__ = "metric_sample"
+
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    target_id: uuid.UUID = Field(
+        foreign_key="target.id", nullable=False, ondelete="CASCADE", index=True
+    )
+    metric: str = Field(max_length=128, index=True)
+    value: float
+    labels: dict[str, str] = Field(default_factory=dict, sa_type=JSON)
+    ts: datetime = Field(
+        sa_type=DateTime(timezone=True),  # type: ignore
+        index=True,
+    )
+
+
+class MetricSamplePublic(SQLModel):
+    id: uuid.UUID
+    target_id: uuid.UUID
+    metric: str
+    value: float
+    labels: dict[str, str] = Field(default_factory=dict)
+    ts: datetime
+
+
+class MetricSamplesPublic(SQLModel):
+    data: list[MetricSamplePublic]
+    count: int
+
+
+class AlertSeverity(str):
+    P0 = "p0"
+    P1 = "p1"
+    P2 = "p2"
+    P3 = "p3"
+
+
+class AlertStatus(str):
+    FIRING = "firing"
+    ACKNOWLEDGED = "acknowledged"
+    RESOLVED = "resolved"
+
+
+class AlertOperator(str):
+    GT = "gt"
+    GTE = "gte"
+    LT = "lt"
+    LTE = "lte"
+    EQ = "eq"
+
+
+class AlertRuleBase(SQLModel):
+    name: str = Field(min_length=1, max_length=255)
+    target_id: uuid.UUID = Field(foreign_key="target.id", ondelete="CASCADE")
+    metric: str = Field(min_length=1, max_length=128)
+    operator: str = Field(max_length=8)
+    threshold: float
+    duration_sec: int = Field(default=0, ge=0)
+    severity: str = Field(default=AlertSeverity.P2, max_length=8)
+    enabled: bool = Field(default=True)
+    no_data_sec: int | None = Field(default=None, ge=0)
+
+
+class AlertRuleCreate(AlertRuleBase):
+    pass
+
+
+class AlertRuleUpdate(SQLModel):
+    name: str | None = Field(default=None, min_length=1, max_length=255)
+    target_id: uuid.UUID | None = None
+    metric: str | None = Field(default=None, min_length=1, max_length=128)
+    operator: str | None = Field(default=None, max_length=8)
+    threshold: float | None = None
+    duration_sec: int | None = Field(default=None, ge=0)
+    severity: str | None = Field(default=None, max_length=8)
+    enabled: bool | None = None
+    no_data_sec: int | None = Field(default=None, ge=0)
+
+
+class AlertRule(AlertRuleBase, table=True):
+    __tablename__ = "alert_rule"
+
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    created_at: datetime | None = Field(
+        default_factory=get_datetime_utc,
+        sa_type=DateTime(timezone=True),  # type: ignore
+    )
+    updated_at: datetime | None = Field(
+        default_factory=get_datetime_utc,
+        sa_type=DateTime(timezone=True),  # type: ignore
+    )
+
+
+class AlertRulePublic(AlertRuleBase):
+    id: uuid.UUID
+    created_at: datetime | None = None
+    updated_at: datetime | None = None
+
+
+class AlertRulesPublic(SQLModel):
+    data: list[AlertRulePublic]
+    count: int
+
+
+class AlertBase(SQLModel):
+    rule_id: uuid.UUID = Field(foreign_key="alert_rule.id", ondelete="CASCADE")
+    target_id: uuid.UUID = Field(foreign_key="target.id", ondelete="CASCADE")
+    status: str = Field(max_length=32)
+    severity: str = Field(max_length=8)
+    message: str = Field(max_length=500)
+    current_value: float | None = None
+
+
+class Alert(AlertBase, table=True):
+    __tablename__ = "alert"
+
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    fired_at: datetime = Field(
+        default_factory=get_datetime_utc,
+        sa_type=DateTime(timezone=True),  # type: ignore
+    )
+    acknowledged_at: datetime | None = Field(
+        default=None,
+        sa_type=DateTime(timezone=True),  # type: ignore
+    )
+    acknowledged_by: uuid.UUID | None = Field(
+        default=None, foreign_key="user.id", ondelete="SET NULL"
+    )
+    ack_note: str | None = Field(default=None, max_length=500)
+    resolved_at: datetime | None = Field(
+        default=None,
+        sa_type=DateTime(timezone=True),  # type: ignore
+    )
+
+
+class AlertPublic(AlertBase):
+    id: uuid.UUID
+    fired_at: datetime
+    acknowledged_at: datetime | None = None
+    acknowledged_by: uuid.UUID | None = None
+    ack_note: str | None = None
+    resolved_at: datetime | None = None
+    rule_name: str | None = None
+    target_name: str | None = None
+
+
+class AlertsPublic(SQLModel):
+    data: list[AlertPublic]
+    count: int
+
+
+class AlertSummary(SQLModel):
+    firing: int
+    acknowledged: int
+    resolved: int
+
+
+class AlertAck(SQLModel):
+    note: str | None = Field(default=None, max_length=500)
+
+
+class NotificationChannelType(str):
+    EMAIL = "email"
+    DINGTALK = "dingtalk"
+
+
+class NotificationChannelBase(SQLModel):
+    name: str = Field(min_length=1, max_length=255)
+    type: str = Field(max_length=32)
+    enabled: bool = Field(default=True)
+    config_json: dict = Field(default_factory=dict, sa_type=JSON)  # type: ignore
+
+
+class NotificationChannelCreate(NotificationChannelBase):
+    pass
+
+
+class NotificationChannelUpdate(SQLModel):
+    name: str | None = Field(default=None, min_length=1, max_length=255)
+    type: str | None = Field(default=None, max_length=32)
+    enabled: bool | None = None
+    config_json: dict | None = None
+
+
+class NotificationChannel(NotificationChannelBase, table=True):
+    __tablename__ = "notification_channel"
+
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    created_at: datetime | None = Field(
+        default_factory=get_datetime_utc,
+        sa_type=DateTime(timezone=True),  # type: ignore
+    )
+    updated_at: datetime | None = Field(
+        default_factory=get_datetime_utc,
+        sa_type=DateTime(timezone=True),  # type: ignore
+    )
+
+
+class NotificationChannelPublic(NotificationChannelBase):
+    id: uuid.UUID
+    created_at: datetime | None = None
+    updated_at: datetime | None = None
+
+
+class NotificationChannelsPublic(SQLModel):
+    data: list[NotificationChannelPublic]
+    count: int
+
+
+class NotificationPolicyBase(SQLModel):
+    severity: str = Field(max_length=8)
+    channel_id: uuid.UUID = Field(
+        foreign_key="notification_channel.id", ondelete="CASCADE"
+    )
+    enabled: bool = Field(default=True)
+
+
+class NotificationPolicyCreate(NotificationPolicyBase):
+    pass
+
+
+class NotificationPolicyUpdate(SQLModel):
+    severity: str | None = Field(default=None, max_length=8)
+    channel_id: uuid.UUID | None = None
+    enabled: bool | None = None
+
+
+class NotificationPolicy(NotificationPolicyBase, table=True):
+    __tablename__ = "notification_policy"
+
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    created_at: datetime | None = Field(
+        default_factory=get_datetime_utc,
+        sa_type=DateTime(timezone=True),  # type: ignore
+    )
+
+
+class NotificationPolicyPublic(NotificationPolicyBase):
+    id: uuid.UUID
+    created_at: datetime | None = None
+    channel_name: str | None = None
+    channel_type: str | None = None
+
+
+class NotificationPoliciesPublic(SQLModel):
+    data: list[NotificationPolicyPublic]
+    count: int
+
+
+class NotificationLogStatus(str):
+    SUCCESS = "success"
+    FAILED = "failed"
+
+
+class NotificationLogBase(SQLModel):
+    alert_id: uuid.UUID | None = Field(
+        default=None, foreign_key="alert.id", ondelete="SET NULL"
+    )
+    channel_id: uuid.UUID | None = Field(
+        default=None, foreign_key="notification_channel.id", ondelete="SET NULL"
+    )
+    channel_type: str = Field(max_length=32)
+    channel_name: str = Field(max_length=255)
+    status: str = Field(max_length=16)
+    message: str = Field(max_length=500)
+    error: str | None = Field(default=None, max_length=500)
+
+
+class NotificationLog(NotificationLogBase, table=True):
+    __tablename__ = "notification_log"
+
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    created_at: datetime | None = Field(
+        default_factory=get_datetime_utc,
+        sa_type=DateTime(timezone=True),  # type: ignore
+    )
+
+
+class NotificationLogPublic(NotificationLogBase):
+    id: uuid.UUID
+    created_at: datetime | None = None
+
+
+class NotificationLogsPublic(SQLModel):
+    data: list[NotificationLogPublic]
+    count: int
+

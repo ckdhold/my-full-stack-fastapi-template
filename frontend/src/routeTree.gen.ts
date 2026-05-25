@@ -15,12 +15,21 @@ import { Route as RecoverPasswordRouteImport } from './routes/recover-password'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as LayoutRouteImport } from './routes/_layout'
 import { Route as LayoutIndexRouteImport } from './routes/_layout/index'
+import { Route as LayoutTargetsRouteImport } from './routes/_layout/targets'
 import { Route as LayoutSettingsRouteImport } from './routes/_layout/settings'
+import { Route as LayoutMetricsRouteImport } from './routes/_layout/metrics'
 import { Route as LayoutItemsRouteImport } from './routes/_layout/items'
 import { Route as LayoutAdminRouteImport } from './routes/_layout/admin'
 import { Route as LayoutAdminIndexRouteImport } from './routes/_layout/admin.index'
+import { Route as LayoutNotificationsPoliciesRouteImport } from './routes/_layout/notifications.policies'
+import { Route as LayoutNotificationsLogsRouteImport } from './routes/_layout/notifications.logs'
+import { Route as LayoutNotificationsChannelsRouteImport } from './routes/_layout/notifications.channels'
+import { Route as LayoutAlertsRulesRouteImport } from './routes/_layout/alerts.rules'
+import { Route as LayoutAlertsHistoryRouteImport } from './routes/_layout/alerts.history'
+import { Route as LayoutAlertsActiveRouteImport } from './routes/_layout/alerts.active'
 import { Route as LayoutAdminPermissionsRouteImport } from './routes/_layout/admin.permissions'
 import { Route as LayoutAdminMenusRouteImport } from './routes/_layout/admin.menus'
+import { Route as LayoutAdminAgentsRouteImport } from './routes/_layout/admin.agents'
 
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
@@ -51,9 +60,19 @@ const LayoutIndexRoute = LayoutIndexRouteImport.update({
   path: '/',
   getParentRoute: () => LayoutRoute,
 } as any)
+const LayoutTargetsRoute = LayoutTargetsRouteImport.update({
+  id: '/targets',
+  path: '/targets',
+  getParentRoute: () => LayoutRoute,
+} as any)
 const LayoutSettingsRoute = LayoutSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => LayoutRoute,
+} as any)
+const LayoutMetricsRoute = LayoutMetricsRouteImport.update({
+  id: '/metrics',
+  path: '/metrics',
   getParentRoute: () => LayoutRoute,
 } as any)
 const LayoutItemsRoute = LayoutItemsRouteImport.update({
@@ -71,6 +90,38 @@ const LayoutAdminIndexRoute = LayoutAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => LayoutAdminRoute,
 } as any)
+const LayoutNotificationsPoliciesRoute =
+  LayoutNotificationsPoliciesRouteImport.update({
+    id: '/notifications/policies',
+    path: '/notifications/policies',
+    getParentRoute: () => LayoutRoute,
+  } as any)
+const LayoutNotificationsLogsRoute = LayoutNotificationsLogsRouteImport.update({
+  id: '/notifications/logs',
+  path: '/notifications/logs',
+  getParentRoute: () => LayoutRoute,
+} as any)
+const LayoutNotificationsChannelsRoute =
+  LayoutNotificationsChannelsRouteImport.update({
+    id: '/notifications/channels',
+    path: '/notifications/channels',
+    getParentRoute: () => LayoutRoute,
+  } as any)
+const LayoutAlertsRulesRoute = LayoutAlertsRulesRouteImport.update({
+  id: '/alerts/rules',
+  path: '/alerts/rules',
+  getParentRoute: () => LayoutRoute,
+} as any)
+const LayoutAlertsHistoryRoute = LayoutAlertsHistoryRouteImport.update({
+  id: '/alerts/history',
+  path: '/alerts/history',
+  getParentRoute: () => LayoutRoute,
+} as any)
+const LayoutAlertsActiveRoute = LayoutAlertsActiveRouteImport.update({
+  id: '/alerts/active',
+  path: '/alerts/active',
+  getParentRoute: () => LayoutRoute,
+} as any)
 const LayoutAdminPermissionsRoute = LayoutAdminPermissionsRouteImport.update({
   id: '/permissions',
   path: '/permissions',
@@ -79,6 +130,11 @@ const LayoutAdminPermissionsRoute = LayoutAdminPermissionsRouteImport.update({
 const LayoutAdminMenusRoute = LayoutAdminMenusRouteImport.update({
   id: '/menus',
   path: '/menus',
+  getParentRoute: () => LayoutAdminRoute,
+} as any)
+const LayoutAdminAgentsRoute = LayoutAdminAgentsRouteImport.update({
+  id: '/agents',
+  path: '/agents',
   getParentRoute: () => LayoutAdminRoute,
 } as any)
 
@@ -90,9 +146,18 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/admin': typeof LayoutAdminRouteWithChildren
   '/items': typeof LayoutItemsRoute
+  '/metrics': typeof LayoutMetricsRoute
   '/settings': typeof LayoutSettingsRoute
+  '/targets': typeof LayoutTargetsRoute
+  '/admin/agents': typeof LayoutAdminAgentsRoute
   '/admin/menus': typeof LayoutAdminMenusRoute
   '/admin/permissions': typeof LayoutAdminPermissionsRoute
+  '/alerts/active': typeof LayoutAlertsActiveRoute
+  '/alerts/history': typeof LayoutAlertsHistoryRoute
+  '/alerts/rules': typeof LayoutAlertsRulesRoute
+  '/notifications/channels': typeof LayoutNotificationsChannelsRoute
+  '/notifications/logs': typeof LayoutNotificationsLogsRoute
+  '/notifications/policies': typeof LayoutNotificationsPoliciesRoute
   '/admin/': typeof LayoutAdminIndexRoute
 }
 export interface FileRoutesByTo {
@@ -101,10 +166,19 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/items': typeof LayoutItemsRoute
+  '/metrics': typeof LayoutMetricsRoute
   '/settings': typeof LayoutSettingsRoute
+  '/targets': typeof LayoutTargetsRoute
   '/': typeof LayoutIndexRoute
+  '/admin/agents': typeof LayoutAdminAgentsRoute
   '/admin/menus': typeof LayoutAdminMenusRoute
   '/admin/permissions': typeof LayoutAdminPermissionsRoute
+  '/alerts/active': typeof LayoutAlertsActiveRoute
+  '/alerts/history': typeof LayoutAlertsHistoryRoute
+  '/alerts/rules': typeof LayoutAlertsRulesRoute
+  '/notifications/channels': typeof LayoutNotificationsChannelsRoute
+  '/notifications/logs': typeof LayoutNotificationsLogsRoute
+  '/notifications/policies': typeof LayoutNotificationsPoliciesRoute
   '/admin': typeof LayoutAdminIndexRoute
 }
 export interface FileRoutesById {
@@ -116,10 +190,19 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/_layout/admin': typeof LayoutAdminRouteWithChildren
   '/_layout/items': typeof LayoutItemsRoute
+  '/_layout/metrics': typeof LayoutMetricsRoute
   '/_layout/settings': typeof LayoutSettingsRoute
+  '/_layout/targets': typeof LayoutTargetsRoute
   '/_layout/': typeof LayoutIndexRoute
+  '/_layout/admin/agents': typeof LayoutAdminAgentsRoute
   '/_layout/admin/menus': typeof LayoutAdminMenusRoute
   '/_layout/admin/permissions': typeof LayoutAdminPermissionsRoute
+  '/_layout/alerts/active': typeof LayoutAlertsActiveRoute
+  '/_layout/alerts/history': typeof LayoutAlertsHistoryRoute
+  '/_layout/alerts/rules': typeof LayoutAlertsRulesRoute
+  '/_layout/notifications/channels': typeof LayoutNotificationsChannelsRoute
+  '/_layout/notifications/logs': typeof LayoutNotificationsLogsRoute
+  '/_layout/notifications/policies': typeof LayoutNotificationsPoliciesRoute
   '/_layout/admin/': typeof LayoutAdminIndexRoute
 }
 export interface FileRouteTypes {
@@ -132,9 +215,18 @@ export interface FileRouteTypes {
     | '/signup'
     | '/admin'
     | '/items'
+    | '/metrics'
     | '/settings'
+    | '/targets'
+    | '/admin/agents'
     | '/admin/menus'
     | '/admin/permissions'
+    | '/alerts/active'
+    | '/alerts/history'
+    | '/alerts/rules'
+    | '/notifications/channels'
+    | '/notifications/logs'
+    | '/notifications/policies'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -143,10 +235,19 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/signup'
     | '/items'
+    | '/metrics'
     | '/settings'
+    | '/targets'
     | '/'
+    | '/admin/agents'
     | '/admin/menus'
     | '/admin/permissions'
+    | '/alerts/active'
+    | '/alerts/history'
+    | '/alerts/rules'
+    | '/notifications/channels'
+    | '/notifications/logs'
+    | '/notifications/policies'
     | '/admin'
   id:
     | '__root__'
@@ -157,10 +258,19 @@ export interface FileRouteTypes {
     | '/signup'
     | '/_layout/admin'
     | '/_layout/items'
+    | '/_layout/metrics'
     | '/_layout/settings'
+    | '/_layout/targets'
     | '/_layout/'
+    | '/_layout/admin/agents'
     | '/_layout/admin/menus'
     | '/_layout/admin/permissions'
+    | '/_layout/alerts/active'
+    | '/_layout/alerts/history'
+    | '/_layout/alerts/rules'
+    | '/_layout/notifications/channels'
+    | '/_layout/notifications/logs'
+    | '/_layout/notifications/policies'
     | '/_layout/admin/'
   fileRoutesById: FileRoutesById
 }
@@ -216,11 +326,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutIndexRouteImport
       parentRoute: typeof LayoutRoute
     }
+    '/_layout/targets': {
+      id: '/_layout/targets'
+      path: '/targets'
+      fullPath: '/targets'
+      preLoaderRoute: typeof LayoutTargetsRouteImport
+      parentRoute: typeof LayoutRoute
+    }
     '/_layout/settings': {
       id: '/_layout/settings'
       path: '/settings'
       fullPath: '/settings'
       preLoaderRoute: typeof LayoutSettingsRouteImport
+      parentRoute: typeof LayoutRoute
+    }
+    '/_layout/metrics': {
+      id: '/_layout/metrics'
+      path: '/metrics'
+      fullPath: '/metrics'
+      preLoaderRoute: typeof LayoutMetricsRouteImport
       parentRoute: typeof LayoutRoute
     }
     '/_layout/items': {
@@ -244,6 +368,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutAdminIndexRouteImport
       parentRoute: typeof LayoutAdminRoute
     }
+    '/_layout/notifications/policies': {
+      id: '/_layout/notifications/policies'
+      path: '/notifications/policies'
+      fullPath: '/notifications/policies'
+      preLoaderRoute: typeof LayoutNotificationsPoliciesRouteImport
+      parentRoute: typeof LayoutRoute
+    }
+    '/_layout/notifications/logs': {
+      id: '/_layout/notifications/logs'
+      path: '/notifications/logs'
+      fullPath: '/notifications/logs'
+      preLoaderRoute: typeof LayoutNotificationsLogsRouteImport
+      parentRoute: typeof LayoutRoute
+    }
+    '/_layout/notifications/channels': {
+      id: '/_layout/notifications/channels'
+      path: '/notifications/channels'
+      fullPath: '/notifications/channels'
+      preLoaderRoute: typeof LayoutNotificationsChannelsRouteImport
+      parentRoute: typeof LayoutRoute
+    }
+    '/_layout/alerts/rules': {
+      id: '/_layout/alerts/rules'
+      path: '/alerts/rules'
+      fullPath: '/alerts/rules'
+      preLoaderRoute: typeof LayoutAlertsRulesRouteImport
+      parentRoute: typeof LayoutRoute
+    }
+    '/_layout/alerts/history': {
+      id: '/_layout/alerts/history'
+      path: '/alerts/history'
+      fullPath: '/alerts/history'
+      preLoaderRoute: typeof LayoutAlertsHistoryRouteImport
+      parentRoute: typeof LayoutRoute
+    }
+    '/_layout/alerts/active': {
+      id: '/_layout/alerts/active'
+      path: '/alerts/active'
+      fullPath: '/alerts/active'
+      preLoaderRoute: typeof LayoutAlertsActiveRouteImport
+      parentRoute: typeof LayoutRoute
+    }
     '/_layout/admin/permissions': {
       id: '/_layout/admin/permissions'
       path: '/permissions'
@@ -258,16 +424,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutAdminMenusRouteImport
       parentRoute: typeof LayoutAdminRoute
     }
+    '/_layout/admin/agents': {
+      id: '/_layout/admin/agents'
+      path: '/agents'
+      fullPath: '/admin/agents'
+      preLoaderRoute: typeof LayoutAdminAgentsRouteImport
+      parentRoute: typeof LayoutAdminRoute
+    }
   }
 }
 
 interface LayoutAdminRouteChildren {
+  LayoutAdminAgentsRoute: typeof LayoutAdminAgentsRoute
   LayoutAdminMenusRoute: typeof LayoutAdminMenusRoute
   LayoutAdminPermissionsRoute: typeof LayoutAdminPermissionsRoute
   LayoutAdminIndexRoute: typeof LayoutAdminIndexRoute
 }
 
 const LayoutAdminRouteChildren: LayoutAdminRouteChildren = {
+  LayoutAdminAgentsRoute: LayoutAdminAgentsRoute,
   LayoutAdminMenusRoute: LayoutAdminMenusRoute,
   LayoutAdminPermissionsRoute: LayoutAdminPermissionsRoute,
   LayoutAdminIndexRoute: LayoutAdminIndexRoute,
@@ -280,15 +455,31 @@ const LayoutAdminRouteWithChildren = LayoutAdminRoute._addFileChildren(
 interface LayoutRouteChildren {
   LayoutAdminRoute: typeof LayoutAdminRouteWithChildren
   LayoutItemsRoute: typeof LayoutItemsRoute
+  LayoutMetricsRoute: typeof LayoutMetricsRoute
   LayoutSettingsRoute: typeof LayoutSettingsRoute
+  LayoutTargetsRoute: typeof LayoutTargetsRoute
   LayoutIndexRoute: typeof LayoutIndexRoute
+  LayoutAlertsActiveRoute: typeof LayoutAlertsActiveRoute
+  LayoutAlertsHistoryRoute: typeof LayoutAlertsHistoryRoute
+  LayoutAlertsRulesRoute: typeof LayoutAlertsRulesRoute
+  LayoutNotificationsChannelsRoute: typeof LayoutNotificationsChannelsRoute
+  LayoutNotificationsLogsRoute: typeof LayoutNotificationsLogsRoute
+  LayoutNotificationsPoliciesRoute: typeof LayoutNotificationsPoliciesRoute
 }
 
 const LayoutRouteChildren: LayoutRouteChildren = {
   LayoutAdminRoute: LayoutAdminRouteWithChildren,
   LayoutItemsRoute: LayoutItemsRoute,
+  LayoutMetricsRoute: LayoutMetricsRoute,
   LayoutSettingsRoute: LayoutSettingsRoute,
+  LayoutTargetsRoute: LayoutTargetsRoute,
   LayoutIndexRoute: LayoutIndexRoute,
+  LayoutAlertsActiveRoute: LayoutAlertsActiveRoute,
+  LayoutAlertsHistoryRoute: LayoutAlertsHistoryRoute,
+  LayoutAlertsRulesRoute: LayoutAlertsRulesRoute,
+  LayoutNotificationsChannelsRoute: LayoutNotificationsChannelsRoute,
+  LayoutNotificationsLogsRoute: LayoutNotificationsLogsRoute,
+  LayoutNotificationsPoliciesRoute: LayoutNotificationsPoliciesRoute,
 }
 
 const LayoutRouteWithChildren =

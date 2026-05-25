@@ -113,8 +113,23 @@ def seed_menus(session: Session) -> None:
     ) -> Menu:
         existing = session.exec(select(Menu).where(Menu.path == path)).first()
         if existing:
+            changed = False
             if parent_id is not None and existing.parent_id != parent_id:
                 existing.parent_id = parent_id
+                changed = True
+            if existing.required_permission_code != req_perm:
+                existing.required_permission_code = req_perm
+                changed = True
+            if existing.title_key != title_key:
+                existing.title_key = title_key
+                changed = True
+            if existing.icon != icon:
+                existing.icon = icon
+                changed = True
+            if existing.sort_order != sort_order:
+                existing.sort_order = sort_order
+                changed = True
+            if changed:
                 session.add(existing)
                 session.commit()
                 session.refresh(existing)
@@ -147,14 +162,42 @@ def seed_menus(session: Session) -> None:
         session.commit()
 
     top_level: list[tuple[str, str, str | None, int, str | None, tuple[str, ...]]] = [
-        ("/", "nav.dashboard", "Home", 0, None, ("admin", "user")),
-        ("/items", "nav.items", "Briefcase", 10, None, ("admin", "user")),
-        ("/settings", "nav.settings", "Settings", 50, None, ("admin", "user")),
+        ("/", "nav.dashboard", "Home", 0, P.DASHBOARD_READ, ("admin", "user")),
+        ("/targets", "nav.targets", "Target", 10, P.TARGETS_READ, ("admin", "user")),
+        ("/metrics", "nav.metrics", "LineChart", 12, P.METRICS_READ, ("admin", "user")),
+        ("/alerts/active", "nav.alertsActive", "Bell", 14, P.ALERTS_READ, ("admin", "user")),
+        ("/alerts/rules", "nav.alertRules", "ShieldAlert", 16, P.ALERTS_MANAGE, ("admin", "user")),
+        ("/alerts/history", "nav.alertHistory", "History", 18, P.ALERTS_READ, ("admin", "user")),
+        ("/items", "nav.items", "Briefcase", 20, None, ("admin", "user")),
     ]
 
     for path, title_key, icon, sort_order, req, roles in top_level:
         m = ensure_menu(path, title_key, icon, sort_order, req, None)
         link_roles(m, roles)
+
+    notifications_group = ensure_menu(
+        f"{GROUP_PATH_PREFIX}notifications",
+        "nav.notifications",
+        "BellRing",
+        19,
+        P.NOTIFICATIONS_READ,
+        None,
+    )
+    link_roles(notifications_group, ("admin", "user"))
+
+    notification_children: list[tuple[str, str, str | None, int, str | None]] = [
+        ("/notifications/channels", "nav.notificationChannels", "Radio", 10, P.NOTIFICATIONS_MANAGE),
+        ("/notifications/policies", "nav.notificationPolicies", "GitBranch", 20, P.NOTIFICATIONS_MANAGE),
+        ("/notifications/logs", "nav.notificationLogs", "ScrollText", 30, P.NOTIFICATIONS_READ),
+    ]
+    for path, title_key, icon, sort_order, req in notification_children:
+        child = ensure_menu(path, title_key, icon, sort_order, req, notifications_group.id)
+        link_roles(child, ("admin", "user"))
+
+    ensure_menu("/settings", "nav.settings", "Settings", 50, None, None)
+    settings_menu = session.exec(select(Menu).where(Menu.path == "/settings")).first()
+    if settings_menu:
+        link_roles(settings_menu, ("admin", "user"))
 
     mgmt = ensure_menu(
         f"{GROUP_PATH_PREFIX}management",
@@ -168,6 +211,7 @@ def seed_menus(session: Session) -> None:
 
     admin_children: list[tuple[str, str, str | None, int, str | None]] = [
         ("/admin", "adminPage.title", "Users", 10, P.USERS_READ),
+        ("/admin/agents", "agentsPage.title", "Bot", 15, P.AGENTS_READ),
         ("/admin/permissions", "rbacPage.title", "Shield", 20, P.ROLES_MANAGE),
         ("/admin/menus", "nav.menus", "Menu", 30, P.ROLES_MANAGE),
     ]
@@ -179,7 +223,13 @@ def seed_menus(session: Session) -> None:
     # Normalize root order (avoid stale sort_order from older seeds)
     for path, so in (
         ("/", 0),
-        ("/items", 10),
+        ("/targets", 10),
+        ("/metrics", 12),
+        ("/alerts/active", 14),
+        ("/alerts/rules", 16),
+        ("/alerts/history", 18),
+        (f"{GROUP_PATH_PREFIX}notifications", 19),
+        ("/items", 20),
         (f"{GROUP_PATH_PREFIX}management", 20),
         ("/settings", 90),
     ):

@@ -16,6 +16,15 @@
   },
   "nav": {
     "dashboard": "工作台",
+    "targets": "监控目标",
+    "metrics": "指标查询",
+    "alertsActive": "活跃告警",
+    "alertRules": "告警规则",
+    "alertHistory": "告警历史",
+    "notifications": "通知中心",
+    "notificationChannels": "通知渠道",
+    "notificationPolicies": "通知策略",
+    "notificationLogs": "通知记录",
     "items": "条目",
     "admin": "管理",
     "permissions": "权限",
@@ -38,7 +47,7 @@
     "settingsHint": "界面语言"
   },
   "footer": {
-    "tagline": "全栈 FastAPI 模板 - {{year}}"
+    "tagline": "监控平台 - {{year}}"
   },
   "social": {
     "github": "GitHub",
@@ -89,13 +98,250 @@
   },
   "dashboard": {
     "greeting": "你好，{{name}} 👋",
-    "welcome": "欢迎回来，很高兴再次见到你！"
+    "welcome": "欢迎回来，这是统一监控平台工作台。",
+    "mvpBadge": "MVP",
+    "quickActions": "快捷操作",
+    "quickActionsHint": "管理监控目标并查看平台状态。",
+    "manageTargets": "管理监控目标",
+    "cards": {
+      "total": "监控目标总数",
+      "online": "在线",
+      "alert": "告警中",
+      "firing": "活跃告警",
+      "offline": "离线"
+    },
+    "recentAlerts": "活跃告警",
+    "recentAlertsHint": "需要处理的 firing / 已确认告警",
+    "viewAllAlerts": "查看全部",
+    "noActiveAlerts": "当前没有活跃告警",
+    "manageAlertRules": "管理告警规则",
+    "manageNotifications": "配置钉钉通知"
   },
   "itemsPage": {
     "title": "条目",
     "subtitle": "创建并管理你的条目",
     "emptyTitle": "你还没有任何条目",
     "emptySubtitle": "添加一个新条目开始使用"
+  },
+  "targetsPage": {
+    "title": "监控目标",
+    "subtitle": "管理主机、服务、数据库与业务监控对象",
+    "emptyTitle": "还没有监控目标",
+    "emptySubtitle": "添加第一个监控目标开始使用"
+  },
+  "targets": {
+    "addTarget": "添加目标",
+    "addTitle": "添加监控目标",
+    "addDescription": "填写监控对象的基本信息与采集配置。",
+    "editTitle": "编辑监控目标",
+    "editDescription": "更新监控对象配置。",
+    "editMenu": "编辑",
+    "deleteMenu": "删除",
+    "deleteTitle": "删除监控目标",
+    "deleteDescription": "此操作不可撤销，确定要删除该监控目标吗？",
+    "toastCreated": "监控目标已创建",
+    "toastUpdated": "监控目标已更新",
+    "toastDeleted": "监控目标已删除",
+    "nameLabel": "名称",
+    "namePlaceholder": "例如 prod-api-01",
+    "typeLabel": "类型",
+    "statusLabel": "状态",
+    "envLabel": "环境标签",
+    "configLabel": "采集配置 (JSON)",
+    "noDescription": "无描述",
+    "type": {
+      "host": "主机",
+      "http": "HTTP 服务",
+      "tcp": "TCP 端口",
+      "database": "数据库",
+      "business": "业务指标",
+      "custom": "自定义"
+    },
+    "status": {
+      "online": "在线",
+      "offline": "离线",
+      "unknown": "未知",
+      "alert": "告警"
+    }
+  },
+  "agentsPage": {
+    "title": "Agent 管理",
+    "subtitle": "注册采集 Agent 并获取 API Token"
+  },
+  "agents": {
+    "addAgent": "注册 Agent",
+    "addTitle": "注册 Agent",
+    "addDescription": "创建 Agent 后会显示一次性 Token，请妥善保存。",
+    "tokenTitle": "Agent Token",
+    "tokenDescription": "此 Token 只显示一次，请复制后配置到 UMP Agent。",
+    "copyToken": "复制 Token",
+    "deleteMenu": "删除 Agent",
+    "deleteTitle": "删除 Agent",
+    "deleteDescription": "删除后该 Agent 将无法继续上报数据。",
+    "toastCreated": "Agent 已创建",
+    "toastDeleted": "Agent 已删除",
+    "nameLabel": "名称",
+    "hostIdLabel": "Host ID",
+    "status": {
+      "online": "在线",
+      "offline": "离线"
+    }
+  },
+  "agentsTable": {
+    "name": "名称",
+    "hostId": "Host ID",
+    "status": "状态",
+    "version": "版本",
+    "lastHeartbeat": "最近心跳"
+  },
+  "metricsPage": {
+    "title": "指标查询",
+    "subtitle": "查看 Probe 与 Agent 上报的时序指标",
+    "selectTarget": "选择目标",
+    "allTargets": "全部目标",
+    "metricFilter": "指标名过滤，如 host.cpu.usage_percent"
+  },
+  "metricsTable": {
+    "time": "时间",
+    "metric": "指标",
+    "value": "值",
+    "target": "目标 ID"
+  },
+  "alertsPage": {
+    "activeTitle": "活跃告警",
+    "activeSubtitle": "待处理或已确认的告警",
+    "historyTitle": "告警历史",
+    "historySubtitle": "已恢复的告警记录"
+  },
+  "alerts": {
+    "ack": "确认",
+    "ackTitle": "确认告警",
+    "ackNotePlaceholder": "备注（可选）",
+    "ackConfirm": "确认",
+    "toastAcked": "告警已确认",
+    "status": {
+      "firing": "触发中",
+      "acknowledged": "已确认",
+      "resolved": "已恢复"
+    }
+  },
+  "alertsTable": {
+    "severity": "级别",
+    "target": "目标",
+    "rule": "规则",
+    "message": "消息",
+    "value": "当前值",
+    "firedAt": "触发时间",
+    "status": "状态"
+  },
+  "alertRulesPage": {
+    "title": "告警规则",
+    "subtitle": "配置阈值与无数据告警"
+  },
+  "alertRules": {
+    "addRule": "添加规则",
+    "addTitle": "添加告警规则",
+    "addDescription": "当指标满足条件时触发告警并发送邮件。",
+    "nameLabel": "规则名称",
+    "targetLabel": "监控目标",
+    "selectTarget": "选择目标",
+    "metricLabel": "指标名",
+    "operatorLabel": "运算符",
+    "thresholdLabel": "阈值",
+    "severityLabel": "级别",
+    "enabledYes": "启用",
+    "enabledNo": "禁用",
+    "deleteTitle": "删除规则",
+    "deleteDescription": "删除后相关告警记录也会被移除。",
+    "toastCreated": "告警规则已创建",
+    "toastDeleted": "告警规则已删除"
+  },
+  "alertRulesTable": {
+    "name": "名称",
+    "metric": "指标",
+    "condition": "条件",
+    "severity": "级别",
+    "enabled": "状态"
+  },
+  "notificationChannelsPage": {
+    "title": "通知渠道",
+    "subtitle": "配置邮件与钉钉机器人 Webhook"
+  },
+  "notificationChannels": {
+    "addDingTalk": "添加钉钉渠道",
+    "addDingTalkTitle": "添加钉钉通知",
+    "addDingTalkDescription": "填写钉钉群机器人 Webhook 地址，可选加签密钥。",
+    "nameLabel": "渠道名称",
+    "namePlaceholder": "运维告警群",
+    "webhookLabel": "Webhook 地址",
+    "secretLabel": "加签密钥（可选）",
+    "secretPlaceholder": "SEC...",
+    "test": "测试",
+    "enabledYes": "启用",
+    "enabledNo": "禁用",
+    "deleteTitle": "删除通知渠道",
+    "deleteDescription": "确定删除渠道「{{name}}」？关联策略也会被移除。",
+    "toastCreated": "钉钉渠道已创建",
+    "toastDeleted": "通知渠道已删除",
+    "toastTested": "测试消息已发送",
+    "types": {
+      "email": "邮件",
+      "dingtalk": "钉钉"
+    }
+  },
+  "notificationChannelsTable": {
+    "name": "名称",
+    "type": "类型",
+    "enabled": "状态",
+    "webhook": "Webhook"
+  },
+  "notificationPoliciesPage": {
+    "title": "通知策略",
+    "subtitle": "按告警级别路由到不同渠道（P0→钉钉+邮件，P1→钉钉，P2→邮件）"
+  },
+  "notificationPolicies": {
+    "addPolicy": "添加策略",
+    "addTitle": "添加通知策略",
+    "addDescription": "为指定告警级别选择通知渠道。",
+    "severityLabel": "告警级别",
+    "channelLabel": "通知渠道",
+    "selectChannel": "选择渠道",
+    "deleteTitle": "删除通知策略",
+    "deleteDescription": "删除后该级别将不再通过此渠道发送通知。",
+    "toastCreated": "通知策略已创建",
+    "toastDeleted": "通知策略已删除"
+  },
+  "notificationPoliciesTable": {
+    "severity": "级别",
+    "channel": "渠道",
+    "channelType": "渠道类型",
+    "enabled": "状态"
+  },
+  "notificationLogsPage": {
+    "title": "通知记录",
+    "subtitle": "告警通知发送成功/失败日志"
+  },
+  "notificationLogs": {
+    "status": {
+      "success": "成功",
+      "failed": "失败"
+    }
+  },
+  "notificationLogsTable": {
+    "time": "时间",
+    "channel": "渠道",
+    "type": "类型",
+    "status": "状态",
+    "message": "消息",
+    "error": "错误"
+  },
+  "targetsTable": {
+    "id": "ID",
+    "name": "名称",
+    "type": "类型",
+    "status": "状态",
+    "description": "描述",
+    "copyId": "复制 ID"
   },
   "adminPage": {
     "title": "用户",
@@ -267,7 +513,10 @@
     "fullNameRequired": "请输入姓名",
     "invalidEmail": "邮箱格式不正确",
     "confirmPasswordRequired": "请再次输入密码",
-    "titleRequired": "请输入标题"
+    "titleRequired": "请输入标题",
+    "nameRequired": "请输入名称",
+    "hostIdRequired": "请输入 Host ID",
+    "invalidJson": "JSON 格式无效"
   },
   "errors": {
     "generic": "出了点问题。"
@@ -277,7 +526,16 @@
     "signup": "注册 - FastAPI 模板",
     "recover": "找回密码 - FastAPI 模板",
     "reset": "重置密码 - FastAPI 模板",
-    "dashboard": "工作台 - FastAPI 模板",
+    "dashboard": "工作台 - 监控平台",
+    "targets": "监控目标 - 监控平台",
+    "metrics": "指标查询 - 监控平台",
+    "alertsActive": "活跃告警 - 监控平台",
+    "alertRules": "告警规则 - 监控平台",
+    "alertHistory": "告警历史 - 监控平台",
+    "notificationChannels": "通知渠道 - 监控平台",
+    "notificationPolicies": "通知策略 - 监控平台",
+    "notificationLogs": "通知记录 - 监控平台",
+    "agents": "Agent 管理 - 监控平台",
     "items": "条目 - FastAPI 模板",
     "admin": "管理 - FastAPI 模板",
     "rbac": "权限 - FastAPI 模板",

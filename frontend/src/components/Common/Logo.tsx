@@ -2,10 +2,16 @@ import { Link } from "@tanstack/react-router"
 
 import { useTheme } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
-import icon from "/assets/images/fastapi-icon.svg"
-import iconLight from "/assets/images/fastapi-icon-light.svg"
-import logo from "/assets/images/fastapi-logo.svg"
-import logoLight from "/assets/images/fastapi-logo-light.svg"
+
+const LOGO_DARK = {
+  full: "http://cfmoto-evow.oss-cn-hangzhou.aliyuncs.com/AdminFiles/logo2.png",
+  icon: "http://cfmoto-evow.oss-cn-hangzhou.aliyuncs.com/AdminFiles/logo2W.png",
+}
+
+const LOGO_LIGHT = {
+  full: "http://cfmoto-evow.oss-cn-hangzhou.aliyuncs.com/AdminFiles/cfomtoBB.png",
+  icon: "http://cfmoto-evow.oss-cn-hangzhou.aliyuncs.com/AdminFiles/cfmotoLogo.png",
+}
 
 interface LogoProps {
   variant?: "full" | "icon" | "responsive"
@@ -19,36 +25,38 @@ export function Logo({
   asLink = true,
 }: LogoProps) {
   const { resolvedTheme } = useTheme()
-  const isDark = resolvedTheme === "dark"
-
-  const fullLogo = isDark ? logoLight : logo
-  const iconLogo = isDark ? iconLight : icon
+  const logos = resolvedTheme === "dark" ? LOGO_DARK : LOGO_LIGHT
 
   const content =
     variant === "responsive" ? (
       <>
         <img
-          src={fullLogo}
-          alt="FastAPI"
+          src={logos.full}
+          alt="CFMOTO"
           className={cn(
-            "h-6 w-auto group-data-[collapsible=icon]:hidden",
+            "h-7 w-auto max-w-[140px] object-contain group-data-[collapsible=icon]:hidden",
             className,
           )}
         />
         <img
-          src={iconLogo}
-          alt="FastAPI"
+          src={logos.icon}
+          alt="CFMOTO"
           className={cn(
-            "size-5 hidden group-data-[collapsible=icon]:block",
+            "hidden size-7 object-contain group-data-[collapsible=icon]:block",
             className,
           )}
         />
       </>
     ) : (
       <img
-        src={variant === "full" ? fullLogo : iconLogo}
-        alt="FastAPI"
-        className={cn(variant === "full" ? "h-6 w-auto" : "size-5", className)}
+        src={variant === "full" ? logos.full : logos.icon}
+        alt="CFMOTO"
+        className={cn(
+          variant === "full"
+            ? "h-7 w-auto max-w-[140px] object-contain"
+            : "size-7 object-contain",
+          className,
+        )}
       />
     )
 

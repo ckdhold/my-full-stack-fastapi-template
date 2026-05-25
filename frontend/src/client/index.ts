@@ -6,6 +6,50 @@ export * from './sdk.gen';
 export * from './types.gen';
 export { RbacService } from './rbac.client';
 export { MenusService } from './menus.client';
+export { TargetsService } from './targets.client';
+export { AgentsService } from './agents.client';
+export { MetricsService } from './metrics.client';
+export { AlertsService } from './alerts.client';
+export { NotificationsService, NOTIFICATION_SEVERITIES } from './notifications.client';
+export type {
+  AlertAck,
+  AlertPublic,
+  AlertRuleCreate,
+  AlertRulePublic,
+  AlertRulesPublic,
+  AlertRuleUpdate,
+  AlertSummary,
+  AlertsPublic,
+} from './alerts.client';
+export type {
+  NotificationChannelCreate,
+  NotificationChannelPublic,
+  NotificationChannelsPublic,
+  NotificationChannelUpdate,
+  NotificationLogPublic,
+  NotificationLogsPublic,
+  NotificationPoliciesPublic,
+  NotificationPolicyCreate,
+  NotificationPolicyPublic,
+  NotificationPolicyUpdate,
+} from './notifications.client';
+export type {
+  AgentCreate,
+  AgentCreatedPublic,
+  AgentPublic,
+  AgentsPublic,
+} from './agents.client';
+export type {
+  MetricSamplePublic,
+  MetricSamplesPublic,
+} from './metrics.client';
+export type {
+  TargetCreate,
+  TargetPublic,
+  TargetSummary,
+  TargetUpdate,
+  TargetsPublic,
+} from './targets.client';
 export type {
   MenuCreate,
   MenuPublic,
