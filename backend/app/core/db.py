@@ -37,6 +37,11 @@ def init_db(session: Session) -> None:
 
     seed_oncall(session)
 
+    if settings.ENVIRONMENT == "local":
+        from app.services.mock_data import seed_mock_data
+
+        seed_mock_data(session)
+
     user = session.exec(
         select(User).where(User.email == settings.FIRST_SUPERUSER)
     ).first()
