@@ -1,5 +1,3 @@
-from contextlib import asynccontextmanager
-
 import sentry_sdk
 from fastapi import FastAPI
 from fastapi.routing import APIRoute
@@ -7,14 +5,6 @@ from starlette.middleware.cors import CORSMiddleware
 
 from app.api.main import api_router
 from app.core.config import settings
-from app.services.scheduler import start_scheduler, stop_scheduler
-
-
-@asynccontextmanager
-async def lifespan(_app: FastAPI):
-    start_scheduler()
-    yield
-    stop_scheduler()
 
 
 def custom_generate_unique_id(route: APIRoute) -> str:
@@ -28,7 +18,6 @@ app = FastAPI(
     title=settings.PROJECT_NAME,
     openapi_url=f"{settings.API_V1_STR}/openapi.json",
     generate_unique_id_function=custom_generate_unique_id,
-    lifespan=lifespan,
 )
 
 # Set all CORS enabled origins

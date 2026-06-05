@@ -94,10 +94,6 @@ class Settings(BaseSettings):
     FIRST_SUPERUSER: EmailStr
     FIRST_SUPERUSER_PASSWORD: str
 
-    MONITOR_PROBE_INTERVAL_SEC: int = 60
-    MONITOR_AGENT_TIMEOUT_SEC: int = 120
-    MONITOR_METRICS_RETENTION_DAYS: int = 7
-
     def _check_default_secret(self, var_name: str, value: str | None) -> None:
         if value == "changethis":
             message = (

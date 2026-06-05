@@ -1,0 +1,612 @@
+﻿{
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "email": "Email",
+    "password": "Password",
+    "description": "Description",
+    "title": "Title",
+    "actions": "Actions",
+    "continue": "Continue",
+    "user": "User",
+    "na": "N/A",
+    "required": "Required"
+  },
+  "theme": {
+    "appearance": "Appearance",
+    "toggleTheme": "Toggle theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "language": {
+    "label": "Language",
+    "en": "English",
+    "zh": "涓枃",
+    "loginHint": "Interface language",
+    "settingsHint": "Interface language"
+  },
+  "footer": {
+    "tagline": "Monitoring Platform - {{year}}"
+  },
+  "social": {
+    "github": "GitHub",
+    "x": "X",
+    "linkedin": "LinkedIn"
+  },
+  "userMenu": {
+    "settings": "User Settings",
+    "logOut": "Log Out"
+  },
+  "login": {
+    "title": "Login to your account",
+    "emailPlaceholder": "user@example.com",
+    "passwordPlaceholder": "Password",
+    "forgotPassword": "Forgot your password?",
+    "submit": "Log In",
+    "noAccount": "Don't have an account yet?",
+    "signUp": "Sign up"
+  },
+  "signup": {
+    "title": "Create an account",
+    "fullName": "Full Name",
+    "fullNamePlaceholder": "User",
+    "emailPlaceholder": "user@example.com",
+    "passwordPlaceholder": "Password",
+    "confirmPassword": "Confirm Password",
+    "confirmPasswordPlaceholder": "Confirm Password",
+    "submit": "Sign Up",
+    "hasAccount": "Already have an account?",
+    "logIn": "Log in"
+  },
+  "recoverPassword": {
+    "title": "Password Recovery",
+    "remember": "Remember your password?",
+    "logIn": "Log in",
+    "toastSuccess": "Password recovery email sent successfully"
+  },
+  "resetPassword": {
+    "title": "Reset Password",
+    "newPassword": "New Password",
+    "newPasswordPlaceholder": "New Password",
+    "confirmPassword": "Confirm Password",
+    "confirmPasswordPlaceholder": "Confirm Password",
+    "submit": "Reset Password",
+    "remember": "Remember your password?",
+    "logIn": "Log in",
+    "toastSuccess": "Password updated successfully"
+  },
+  "dashboard": {
+    "greeting": "Hi, {{name}} 馃憢",
+    "welcome": "Welcome back to the unified monitoring platform.",
+    "mvpBadge": "MVP",
+    "quickActions": "Quick actions",
+    "quickActionsHint": "Manage monitoring targets and review platform status.",
+    "manageTargets": "Manage targets",
+    "cards": {
+      "total": "Total targets",
+      "online": "Online",
+      "alert": "In alert",
+      "firing": "Active alerts",
+      "offline": "Offline"
+    },
+    "recentAlerts": "Active alerts",
+    "recentAlertsHint": "Firing and acknowledged alerts needing attention",
+    "viewAllAlerts": "View all",
+    "noActiveAlerts": "No active alerts",
+    "recentEvents": "Recent events",
+    "recentEventsHint": "Alerts, agent status, and target changes",
+    "viewAllEvents": "Event center",
+    "noEvents": "No events yet",
+    "probeTrend": "HTTP availability trend",
+    "probeTrendHint": "probe.http.up over the last 6 hours",
+    "manageAlertRules": "Manage alert rules",
+    "manageNotifications": "Configure DingTalk notifications"
+  },
+  "eventsPage": {
+    "title": "Event center",
+    "subtitle": "Operations timeline for alerts, agents, and targets",
+    "timeline": "Timeline",
+    "timelineHint": "Most recent events first",
+    "empty": "No events recorded"
+  },
+  "dashboardsPage": {
+    "title": "Dashboards",
+    "subtitle": "Preset boards for key metrics by scenario",
+    "empty": "No dashboards"
+  },
+  "targetDetail": {
+    "back": "Back to list",
+    "metrics": "Metric trend",
+    "alerts": "Related alerts",
+    "events": "Related events"
+  },
+  "silencesPage": {
+    "title": "Alert silences",
+    "subtitle": "Suppress alerts during maintenance windows",
+    "add": "Add silence",
+    "target": "Target",
+    "allTargets": "All targets",
+    "reason": "Reason",
+    "durationHours": "Duration (hours)",
+    "created": "Silence created",
+    "deleted": "Silence deleted",
+    "empty": "No silences"
+  },
+  "tokensPage": {
+    "title": "API tokens",
+    "subtitle": "Authentication for the business push gateway",
+    "add": "Create token",
+    "addHint": "The token is shown only once",
+    "copyOnce": "Copy the token now 鈥?it cannot be retrieved later",
+    "name": "Name",
+    "target": "Target",
+    "selectTarget": "Select target",
+    "prefix": "Prefix",
+    "created": "Token created",
+    "deleted": "Token deleted"
+  },
+  "auditPage": {
+    "title": "Audit log",
+    "subtitle": "Record of sensitive management actions"
+  },
+  "auditTable": {
+    "time": "Time",
+    "user": "User",
+    "action": "Action",
+    "resourceType": "Resource type",
+    "resourceId": "Resource ID",
+    "detail": "Detail"
+  },
+  "oncallPage": {
+    "title": "On-call roster",
+    "subtitle": "Current on-call contacts",
+    "empty": "No on-call contacts"
+  },
+  "itemsPage": {
+    "title": "Items",
+    "subtitle": "Create and manage your items",
+    "emptyTitle": "You don't have any items yet",
+    "emptySubtitle": "Add a new item to get started"
+  },
+  "targetsPage": {
+    "title": "Monitoring targets",
+    "subtitle": "Manage hosts, services, databases, and business metrics",
+    "emptyTitle": "No monitoring targets yet",
+    "emptySubtitle": "Add your first target to get started"
+  },
+  "targets": {
+    "addTarget": "Add target",
+    "addTitle": "Add monitoring target",
+    "addDescription": "Fill in the target details and collection config.",
+    "editTitle": "Edit monitoring target",
+    "editDescription": "Update the target configuration.",
+    "editMenu": "Edit",
+    "deleteMenu": "Delete",
+    "deleteTitle": "Delete monitoring target",
+    "deleteDescription": "This action cannot be undone. Are you sure?",
+    "toastCreated": "Target created successfully",
+    "toastUpdated": "Target updated successfully",
+    "toastDeleted": "Target deleted successfully",
+    "nameLabel": "Name",
+    "namePlaceholder": "e.g. prod-api-01",
+    "typeLabel": "Type",
+    "statusLabel": "Status",
+    "envLabel": "Environment label",
+    "configLabel": "Collection config (JSON)",
+    "noDescription": "No description",
+    "type": {
+      "host": "Host",
+      "http": "HTTP service",
+      "tcp": "TCP port",
+      "database": "Database",
+      "business": "Business metric",
+      "custom": "Custom"
+    },
+    "status": {
+      "online": "Online",
+      "offline": "Offline",
+      "unknown": "Unknown",
+      "alert": "Alert"
+    }
+  },
+  "agentsPage": {
+    "title": "Agent management",
+    "subtitle": "Register collection agents and issue API tokens"
+  },
+  "agents": {
+    "addAgent": "Register agent",
+    "addTitle": "Register agent",
+    "addDescription": "After creation, a one-time token is shown. Store it securely.",
+    "tokenTitle": "Agent token",
+    "tokenDescription": "This token is shown only once. Configure it in the UMP Agent.",
+    "copyToken": "Copy token",
+    "deleteMenu": "Delete agent",
+    "deleteTitle": "Delete agent",
+    "deleteDescription": "The agent will no longer be able to push metrics.",
+    "toastCreated": "Agent created successfully",
+    "toastDeleted": "Agent deleted successfully",
+    "nameLabel": "Name",
+    "hostIdLabel": "Host ID",
+    "status": {
+      "online": "Online",
+      "offline": "Offline"
+    }
+  },
+  "agentsTable": {
+    "name": "Name",
+    "hostId": "Host ID",
+    "status": "Status",
+    "version": "Version",
+    "lastHeartbeat": "Last heartbeat"
+  },
+  "metricsPage": {
+    "title": "Metrics explorer",
+    "subtitle": "Inspect time-series metrics from probes and agents",
+    "selectTarget": "Select target",
+    "allTargets": "All targets",
+    "metricFilter": "Filter metric, e.g. host.cpu.usage_pct",
+    "range1h": "Last 1 hour",
+    "range6h": "Last 6 hours",
+    "range24h": "Last 24 hours",
+    "range7d": "Last 7 days",
+    "chartTab": "Chart",
+    "tableTab": "Table"
+  },
+  "metricsTable": {
+    "time": "Time",
+    "metric": "Metric",
+    "value": "Value",
+    "target": "Target ID"
+  },
+  "alertsPage": {
+    "activeTitle": "Active alerts",
+    "activeSubtitle": "Firing and acknowledged alerts",
+    "historyTitle": "Alert history",
+    "historySubtitle": "Resolved alert records"
+  },
+  "alerts": {
+    "ack": "Ack",
+    "ackTitle": "Acknowledge alert",
+    "ackNotePlaceholder": "Note (optional)",
+    "ackConfirm": "Acknowledge",
+    "toastAcked": "Alert acknowledged",
+    "status": {
+      "firing": "Firing",
+      "acknowledged": "Acknowledged",
+      "resolved": "Resolved"
+    }
+  },
+  "alertsTable": {
+    "severity": "Severity",
+    "target": "Target",
+    "rule": "Rule",
+    "message": "Message",
+    "value": "Value",
+    "firedAt": "Fired at",
+    "status": "Status"
+  },
+  "alertRulesPage": {
+    "title": "Alert rules",
+    "subtitle": "Configure threshold and no-data alert conditions"
+  },
+  "alertRules": {
+    "addRule": "Add rule",
+    "addTitle": "Add alert rule",
+    "addDescription": "Alerts fire when the metric matches the condition; email is sent to superusers.",
+    "nameLabel": "Rule name",
+    "targetLabel": "Target",
+    "selectTarget": "Select target",
+    "metricLabel": "Metric",
+    "operatorLabel": "Operator",
+    "thresholdLabel": "Threshold",
+    "severityLabel": "Severity",
+    "enabledYes": "Enabled",
+    "enabledNo": "Disabled",
+    "deleteTitle": "Delete rule",
+    "deleteDescription": "Related alert records will also be removed.",
+    "toastCreated": "Alert rule created",
+    "toastDeleted": "Alert rule deleted"
+  },
+  "alertRulesTable": {
+    "name": "Name",
+    "metric": "Metric",
+    "condition": "Condition",
+    "severity": "Severity",
+    "enabled": "Enabled"
+  },
+  "notificationChannelsPage": {
+    "title": "Notification channels",
+    "subtitle": "Configure email and DingTalk robot webhooks"
+  },
+  "notificationChannels": {
+    "addDingTalk": "Add DingTalk channel",
+    "addDingTalkTitle": "Add DingTalk notification",
+    "addDingTalkDescription": "Enter the DingTalk group robot webhook URL; signing secret is optional.",
+    "nameLabel": "Channel name",
+    "namePlaceholder": "Ops alerts",
+    "webhookLabel": "Webhook URL",
+    "secretLabel": "Signing secret (optional)",
+    "secretPlaceholder": "SEC...",
+    "test": "Test",
+    "enabledYes": "Enabled",
+    "enabledNo": "Disabled",
+    "deleteTitle": "Delete channel",
+    "deleteDescription": "Delete channel \"{{name}}\"? Related policies will also be removed.",
+    "toastCreated": "DingTalk channel created",
+    "toastDeleted": "Channel deleted",
+    "toastTested": "Test message sent",
+    "types": {
+      "email": "Email",
+      "dingtalk": "DingTalk"
+    }
+  },
+  "notificationChannelsTable": {
+    "name": "Name",
+    "type": "Type",
+    "enabled": "Enabled",
+    "webhook": "Webhook"
+  },
+  "notificationPoliciesPage": {
+    "title": "Notification policies",
+    "subtitle": "Route severities to channels (P0鈫扗ingTalk+email, P1鈫扗ingTalk, P2鈫抏mail)"
+  },
+  "notificationPolicies": {
+    "addPolicy": "Add policy",
+    "addTitle": "Add notification policy",
+    "addDescription": "Choose a channel for a given alert severity.",
+    "severityLabel": "Severity",
+    "channelLabel": "Channel",
+    "selectChannel": "Select channel",
+    "deleteTitle": "Delete policy",
+    "deleteDescription": "This severity will no longer use this channel.",
+    "toastCreated": "Policy created",
+    "toastDeleted": "Policy deleted"
+  },
+  "notificationPoliciesTable": {
+    "severity": "Severity",
+    "channel": "Channel",
+    "channelType": "Channel type",
+    "enabled": "Enabled"
+  },
+  "notificationLogsPage": {
+    "title": "Notification logs",
+    "subtitle": "Success and failure records for alert notifications"
+  },
+  "notificationLogs": {
+    "status": {
+      "success": "Success",
+      "failed": "Failed"
+    }
+  },
+  "notificationLogsTable": {
+    "time": "Time",
+    "channel": "Channel",
+    "type": "Type",
+    "status": "Status",
+    "message": "Message",
+    "error": "Error"
+  },
+  "targetsTable": {
+    "id": "ID",
+    "name": "Name",
+    "type": "Type",
+    "status": "Status",
+    "description": "Description",
+    "copyId": "Copy ID"
+  },
+  "adminPage": {
+    "title": "Users",
+    "subtitle": "Manage user accounts and permissions"
+  },
+  "rbacPage": {
+    "title": "Permissions & roles",
+    "subtitle": "Define permissions, roles, and which roles each user has",
+    "backToUsers": "Back to users",
+    "permissionsTitle": "Permissions",
+    "permissionsHint": "Fixed set of capability codes used by the API (extend in backend as needed).",
+    "rolesTitle": "Roles",
+    "rolesHint": "System roles cannot be deleted. You can attach permissions to any role.",
+    "newRolePlaceholder": "New role name",
+    "createRole": "Create role",
+    "editPermissions": "Edit permissions",
+    "noPermissions": "No permissions",
+    "assignTitle": "Assign roles to user",
+    "assignHint": "Pick a user, then select one or more roles and save.",
+    "selectUser": "User",
+    "selectUserPlaceholder": "Choose a user",
+    "selectRoles": "Roles",
+    "columnCode": "Code",
+    "columnName": "Name",
+    "dialogTitle": "Permissions for role: {{name}}",
+    "confirmDeleteRole": "Delete this role? Users will lose this role assignment.",
+    "toastRolePermissionsUpdated": "Role permissions updated",
+    "toastRoleCreated": "Role created",
+    "toastRoleDeleted": "Role deleted",
+    "toastUserRolesUpdated": "User roles updated"
+  },
+  "menusPage": {
+    "createTitle": "Add menu entry",
+    "createHint": "Path must match an existing frontend route. Chinese and English titles are stored in the database and shown in the sidebar by current language.",
+    "editTitle": "Edit menu",
+    "listTitle": "Menus",
+    "listHint": "Visibility in the sidebar is controlled by role assignments below.",
+    "path": "Path",
+    "titleZh": "Chinese title",
+    "titleEn": "English title",
+    "titleZhPlaceholder": "鐩戞帶鐩爣",
+    "titleEnPlaceholder": "Targets",
+    "icon": "Icon (Lucide)",
+    "sort": "Sort",
+    "roles": "Roles",
+    "rolesDialogTitle": "Roles for this menu",
+    "rolesDialogTitleWithName": "Roles for \"{{name}}\"",
+    "confirmDelete": "Delete this menu?",
+    "toastCreated": "Menu created",
+    "toastUpdated": "Menu updated",
+    "toastDeleted": "Menu deleted",
+    "toastRolesUpdated": "Menu roles updated"
+  },
+  "settingsPage": {
+    "title": "User Settings",
+    "subtitle": "Manage your account settings and preferences",
+    "tabProfile": "My profile",
+    "tabPassword": "Password",
+    "tabDanger": "Danger zone"
+  },
+  "items": {
+    "addItem": "Add Item",
+    "addTitle": "Add Item",
+    "addDescription": "Fill in the details to add a new item.",
+    "editTitle": "Edit Item",
+    "editDescription": "Update the item details below.",
+    "editMenu": "Edit Item",
+    "deleteMenu": "Delete Item",
+    "deleteTitle": "Delete Item",
+    "deleteDescription": "This item will be permanently deleted. Are you sure? You will not be able to undo this action.",
+    "toastCreated": "Item created successfully",
+    "toastUpdated": "Item updated successfully",
+    "toastDeleted": "The item was deleted successfully",
+    "titleLabel": "Title",
+    "noDescription": "No description"
+  },
+  "itemsTable": {
+    "id": "ID",
+    "title": "Title",
+    "description": "Description",
+    "copyId": "Copy ID"
+  },
+  "admin": {
+    "addUser": "Add User",
+    "addTitle": "Add User",
+    "addDescription": "Fill in the form below to add a new user to the system.",
+    "editUser": "Edit User",
+    "editTitle": "Edit User",
+    "editDescription": "Update the user details below.",
+    "deleteUser": "Delete User",
+    "deleteTitle": "Delete User",
+    "deleteDescription": "All items associated with this user will also be permanently deleted. Are you sure? You will not be able to undo this action.",
+    "emailLabel": "Email",
+    "emailPlaceholder": "Email",
+    "fullName": "Full Name",
+    "fullNamePlaceholder": "Full name",
+    "setPassword": "Set Password",
+    "confirmPassword": "Confirm Password",
+    "passwordPlaceholder": "Password",
+    "isSuperuser": "Is superuser?",
+    "isActive": "Is active?",
+    "toastCreated": "User created successfully",
+    "toastUpdated": "User updated successfully",
+    "toastDeleted": "The user was deleted successfully",
+    "badgeYou": "You",
+    "roleSuperuser": "Superuser",
+    "roleUser": "User",
+    "statusActive": "Active",
+    "statusInactive": "Inactive",
+    "columnFullName": "Full Name",
+    "columnEmail": "Email",
+    "columnRoles": "RBAC roles",
+    "columnRole": "Superuser",
+    "columnStatus": "Status"
+  },
+  "userInformation": {
+    "sectionTitle": "User Information",
+    "fullName": "Full name",
+    "email": "Email",
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "toastUpdated": "User updated successfully"
+  },
+  "changePassword": {
+    "sectionTitle": "Change Password",
+    "currentPassword": "Current Password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm Password",
+    "dotsPlaceholder": "鈥⑩€⑩€⑩€⑩€⑩€⑩€⑩€?,
+    "submit": "Update Password",
+    "toastSuccess": "Password updated successfully"
+  },
+  "deleteAccount": {
+    "title": "Delete Account",
+    "description": "Permanently delete your account and all associated data.",
+    "button": "Delete Account",
+    "dialogTitle": "Confirmation Required",
+    "dialogDescription": "All your account data will be permanently deleted. If you are sure, please click \"Confirm\" to proceed. This action cannot be undone.",
+    "toastSuccess": "Your account has been successfully deleted"
+  },
+  "dataTable": {
+    "noResults": "No results found.",
+    "showing": "Showing {{from}} to {{to}} of {{total}} entries",
+    "rowsPerPage": "Rows per page",
+    "pageIndicator": "Page {{current}} of {{total}}",
+    "page": "Page",
+    "of": "of",
+    "firstPage": "Go to first page",
+    "prevPage": "Go to previous page",
+    "nextPage": "Go to next page",
+    "lastPage": "Go to last page"
+  },
+  "errorPage": {
+    "title": "Error",
+    "heading": "Oops!",
+    "message": "Something went wrong. Please try again.",
+    "goHome": "Go Home"
+  },
+  "notFound": {
+    "code": "404",
+    "heading": "Oops!",
+    "message": "The page you are looking for was not found.",
+    "goBack": "Go Back"
+  },
+  "toast": {
+    "successTitle": "Success!",
+    "errorTitle": "Something went wrong!"
+  },
+  "validation": {
+    "passwordRequired": "Password is required",
+    "passwordMin": "Password must be at least 8 characters",
+    "passwordConfirmRequired": "Password confirmation is required",
+    "passwordsMismatch": "The passwords don't match",
+    "fullNameRequired": "Full Name is required",
+    "invalidEmail": "Invalid email address",
+    "confirmPasswordRequired": "Please confirm your password",
+    "titleRequired": "Title is required",
+    "nameRequired": "Name is required",
+    "hostIdRequired": "Host ID is required",
+    "invalidJson": "Invalid JSON format"
+  },
+  "errors": {
+    "generic": "Something went wrong."
+  },
+  "meta": {
+    "login": "Log In - FastAPI Template",
+    "signup": "Sign Up - FastAPI Template",
+    "recover": "Recover Password - FastAPI Template",
+    "reset": "Reset Password - FastAPI Template",
+    "dashboard": "Dashboard - Monitoring Platform",
+    "targets": "Targets - Monitoring Platform",
+    "metrics": "Metrics - Monitoring Platform",
+    "events": "Events - Monitoring Platform",
+    "dashboards": "Dashboards - Monitoring Platform",
+    "targetDetail": "Target detail - Monitoring Platform",
+    "alertSilences": "Alert silences - Monitoring Platform",
+    "tokens": "API tokens - Monitoring Platform",
+    "audit": "Audit log - Monitoring Platform",
+    "oncall": "On-call - Monitoring Platform",
+    "alertsActive": "Active alerts - Monitoring Platform",
+    "alertRules": "Alert rules - Monitoring Platform",
+    "alertHistory": "Alert history - Monitoring Platform",
+    "notificationChannels": "Notification channels - Monitoring Platform",
+    "notificationPolicies": "Notification policies - Monitoring Platform",
+    "notificationLogs": "Notification logs - Monitoring Platform",
+    "agents": "Agents - Monitoring Platform",
+    "items": "Items - FastAPI Template",
+    "admin": "Admin - FastAPI Template",
+    "rbac": "Permissions - FastAPI Template",
+    "menus": "Menus - FastAPI Template",
+    "settings": "Settings - FastAPI Template"
+  }
+}

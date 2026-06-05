@@ -131,20 +131,9 @@ def seed_rbac(session: Session) -> None:
             session.add(RolePermissionLink(role_id=admin_role.id, permission_id=pid))
     session.commit()
 
-    # Default user role: demo items + monitoring read/write
     default_user_codes = {
         P.ITEMS_READ,
         P.ITEMS_WRITE,
-        P.DASHBOARD_READ,
-        P.TARGETS_READ,
-        P.TARGETS_WRITE,
-        P.METRICS_READ,
-        P.AGENTS_READ,
-        P.AGENTS_MANAGE,
-        P.ALERTS_READ,
-        P.ALERTS_ACK,
-        P.ALERTS_MANAGE,
-        P.NOTIFICATIONS_READ,
     }
     default_user_perm_ids = list(
         session.exec(

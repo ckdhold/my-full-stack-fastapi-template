@@ -1,7 +1,7 @@
 """Replace menu title_key with title_zh and title_en
 
 Revision ID: a3b4c5d6e7f8
-Revises: f2a3b4c5d6e8
+Revises: f3a91c2b8d44
 Create Date: 2026-05-25
 
 """
@@ -9,7 +9,7 @@ from alembic import op
 import sqlalchemy as sa
 
 revision = "a3b4c5d6e7f8"
-down_revision = "f2a3b4c5d6e8"
+down_revision = "f3a91c2b8d44"
 branch_labels = None
 depends_on = None
 

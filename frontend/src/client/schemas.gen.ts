@@ -196,6 +196,399 @@ export const ItemsPublicSchema = {
     title: 'ItemsPublic'
 } as const;
 
+export const MenuCreateSchema = {
+    properties: {
+        parent_id: {
+            anyOf: [
+                {
+                    type: 'string',
+                    format: 'uuid'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Parent Id'
+        },
+        path: {
+            type: 'string',
+            maxLength: 255,
+            minLength: 1,
+            title: 'Path'
+        },
+        title_zh: {
+            type: 'string',
+            maxLength: 150,
+            minLength: 1,
+            title: 'Title Zh'
+        },
+        title_en: {
+            type: 'string',
+            maxLength: 150,
+            minLength: 1,
+            title: 'Title En'
+        },
+        icon: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 80
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Icon'
+        },
+        sort_order: {
+            type: 'integer',
+            title: 'Sort Order',
+            default: 0
+        },
+        is_active: {
+            type: 'boolean',
+            title: 'Is Active',
+            default: true
+        },
+        required_permission_code: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 100
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Required Permission Code'
+        }
+    },
+    type: 'object',
+    required: ['path', 'title_zh', 'title_en'],
+    title: 'MenuCreate'
+} as const;
+
+export const MenuPublicSchema = {
+    properties: {
+        id: {
+            type: 'string',
+            format: 'uuid',
+            title: 'Id'
+        },
+        parent_id: {
+            anyOf: [
+                {
+                    type: 'string',
+                    format: 'uuid'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Parent Id'
+        },
+        path: {
+            type: 'string',
+            title: 'Path'
+        },
+        title_zh: {
+            type: 'string',
+            title: 'Title Zh'
+        },
+        title_en: {
+            type: 'string',
+            title: 'Title En'
+        },
+        icon: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Icon'
+        },
+        sort_order: {
+            type: 'integer',
+            title: 'Sort Order',
+            default: 0
+        },
+        is_active: {
+            type: 'boolean',
+            title: 'Is Active',
+            default: true
+        },
+        required_permission_code: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Required Permission Code'
+        }
+    },
+    type: 'object',
+    required: ['id', 'path', 'title_zh', 'title_en'],
+    title: 'MenuPublic'
+} as const;
+
+export const MenuRoleIdsSchema = {
+    properties: {
+        role_ids: {
+            items: {
+                type: 'string',
+                format: 'uuid'
+            },
+            type: 'array',
+            title: 'Role Ids'
+        }
+    },
+    type: 'object',
+    title: 'MenuRoleIds'
+} as const;
+
+export const MenuRolesPublicSchema = {
+    properties: {
+        data: {
+            items: {
+                '$ref': '#/components/schemas/RolePublic'
+            },
+            type: 'array',
+            title: 'Data'
+        },
+        count: {
+            type: 'integer',
+            title: 'Count'
+        }
+    },
+    type: 'object',
+    required: ['data', 'count'],
+    title: 'MenuRolesPublic'
+} as const;
+
+export const MenuTreePublicSchema = {
+    properties: {
+        id: {
+            type: 'string',
+            format: 'uuid',
+            title: 'Id'
+        },
+        parent_id: {
+            anyOf: [
+                {
+                    type: 'string',
+                    format: 'uuid'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Parent Id'
+        },
+        path: {
+            type: 'string',
+            title: 'Path'
+        },
+        title_zh: {
+            type: 'string',
+            title: 'Title Zh'
+        },
+        title_en: {
+            type: 'string',
+            title: 'Title En'
+        },
+        icon: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Icon'
+        },
+        sort_order: {
+            type: 'integer',
+            title: 'Sort Order',
+            default: 0
+        },
+        is_active: {
+            type: 'boolean',
+            title: 'Is Active',
+            default: true
+        },
+        required_permission_code: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Required Permission Code'
+        },
+        children: {
+            items: {
+                '$ref': '#/components/schemas/MenuTreePublic'
+            },
+            type: 'array',
+            title: 'Children'
+        }
+    },
+    type: 'object',
+    required: ['id', 'path', 'title_zh', 'title_en'],
+    title: 'MenuTreePublic'
+} as const;
+
+export const MenuUpdateSchema = {
+    properties: {
+        parent_id: {
+            anyOf: [
+                {
+                    type: 'string',
+                    format: 'uuid'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Parent Id'
+        },
+        path: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 255,
+                    minLength: 1
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Path'
+        },
+        title_zh: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 150,
+                    minLength: 1
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Title Zh'
+        },
+        title_en: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 150,
+                    minLength: 1
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Title En'
+        },
+        icon: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 80
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Icon'
+        },
+        sort_order: {
+            anyOf: [
+                {
+                    type: 'integer'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Sort Order'
+        },
+        is_active: {
+            anyOf: [
+                {
+                    type: 'boolean'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Is Active'
+        },
+        required_permission_code: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 100
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Required Permission Code'
+        }
+    },
+    type: 'object',
+    title: 'MenuUpdate'
+} as const;
+
+export const MenusPublicSchema = {
+    properties: {
+        data: {
+            items: {
+                '$ref': '#/components/schemas/MenuPublic'
+            },
+            type: 'array',
+            title: 'Data'
+        },
+        count: {
+            type: 'integer',
+            title: 'Count'
+        }
+    },
+    type: 'object',
+    required: ['data', 'count'],
+    title: 'MenusPublic'
+} as const;
+
+export const MenusTreePublicSchema = {
+    properties: {
+        data: {
+            items: {
+                '$ref': '#/components/schemas/MenuTreePublic'
+            },
+            type: 'array',
+            title: 'Data'
+        },
+        count: {
+            type: 'integer',
+            title: 'Count'
+        }
+    },
+    type: 'object',
+    required: ['data', 'count'],
+    title: 'MenusTreePublic'
+} as const;
+
 export const MessageSchema = {
     properties: {
         message: {
@@ -226,6 +619,46 @@ export const NewPasswordSchema = {
     title: 'NewPassword'
 } as const;
 
+export const PermissionPublicSchema = {
+    properties: {
+        id: {
+            type: 'string',
+            format: 'uuid',
+            title: 'Id'
+        },
+        code: {
+            type: 'string',
+            title: 'Code'
+        },
+        name: {
+            type: 'string',
+            title: 'Name'
+        }
+    },
+    type: 'object',
+    required: ['id', 'code', 'name'],
+    title: 'PermissionPublic'
+} as const;
+
+export const PermissionsPublicSchema = {
+    properties: {
+        data: {
+            items: {
+                '$ref': '#/components/schemas/PermissionPublic'
+            },
+            type: 'array',
+            title: 'Data'
+        },
+        count: {
+            type: 'integer',
+            title: 'Count'
+        }
+    },
+    type: 'object',
+    required: ['data', 'count'],
+    title: 'PermissionsPublic'
+} as const;
+
 export const PrivateUserCreateSchema = {
     properties: {
         email: {
@@ -249,6 +682,171 @@ export const PrivateUserCreateSchema = {
     type: 'object',
     required: ['email', 'password', 'full_name'],
     title: 'PrivateUserCreate'
+} as const;
+
+export const RoleCreateSchema = {
+    properties: {
+        name: {
+            type: 'string',
+            maxLength: 100,
+            minLength: 1,
+            title: 'Name'
+        },
+        description: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 255
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Description'
+        }
+    },
+    type: 'object',
+    required: ['name'],
+    title: 'RoleCreate'
+} as const;
+
+export const RolePermissionIdsSchema = {
+    properties: {
+        permission_ids: {
+            items: {
+                type: 'string',
+                format: 'uuid'
+            },
+            type: 'array',
+            title: 'Permission Ids'
+        }
+    },
+    type: 'object',
+    title: 'RolePermissionIds'
+} as const;
+
+export const RolePublicSchema = {
+    properties: {
+        id: {
+            type: 'string',
+            format: 'uuid',
+            title: 'Id'
+        },
+        name: {
+            type: 'string',
+            title: 'Name'
+        },
+        description: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Description'
+        },
+        is_system: {
+            type: 'boolean',
+            title: 'Is System',
+            default: false
+        }
+    },
+    type: 'object',
+    required: ['id', 'name'],
+    title: 'RolePublic'
+} as const;
+
+export const RoleUpdateSchema = {
+    properties: {
+        name: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 100,
+                    minLength: 1
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Name'
+        },
+        description: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 255
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Description'
+        }
+    },
+    type: 'object',
+    title: 'RoleUpdate'
+} as const;
+
+export const RoleWithPermissionsSchema = {
+    properties: {
+        id: {
+            type: 'string',
+            format: 'uuid',
+            title: 'Id'
+        },
+        name: {
+            type: 'string',
+            title: 'Name'
+        },
+        description: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Description'
+        },
+        is_system: {
+            type: 'boolean',
+            title: 'Is System',
+            default: false
+        },
+        permissions: {
+            items: {
+                '$ref': '#/components/schemas/PermissionPublic'
+            },
+            type: 'array',
+            title: 'Permissions'
+        }
+    },
+    type: 'object',
+    required: ['id', 'name'],
+    title: 'RoleWithPermissions'
+} as const;
+
+export const RolesWithPermissionsPublicSchema = {
+    properties: {
+        data: {
+            items: {
+                '$ref': '#/components/schemas/RoleWithPermissions'
+            },
+            type: 'array',
+            title: 'Data'
+        },
+        count: {
+            type: 'integer',
+            title: 'Count'
+        }
+    },
+    type: 'object',
+    required: ['data', 'count'],
+    title: 'RolesWithPermissionsPublic'
 } as const;
 
 export const TokenSchema = {
@@ -376,6 +974,13 @@ export const UserPublicSchema = {
                 }
             ],
             title: 'Created At'
+        },
+        roles: {
+            items: {
+                type: 'string'
+            },
+            type: 'array',
+            title: 'Roles'
         }
     },
     type: 'object',
@@ -413,6 +1018,40 @@ export const UserRegisterSchema = {
     type: 'object',
     required: ['email', 'password'],
     title: 'UserRegister'
+} as const;
+
+export const UserRoleIdsSchema = {
+    properties: {
+        role_ids: {
+            items: {
+                type: 'string',
+                format: 'uuid'
+            },
+            type: 'array',
+            title: 'Role Ids'
+        }
+    },
+    type: 'object',
+    title: 'UserRoleIds'
+} as const;
+
+export const UserRolesPublicSchema = {
+    properties: {
+        data: {
+            items: {
+                '$ref': '#/components/schemas/RolePublic'
+            },
+            type: 'array',
+            title: 'Data'
+        },
+        count: {
+            type: 'integer',
+            title: 'Count'
+        }
+    },
+    type: 'object',
+    required: ['data', 'count'],
+    title: 'UserRolesPublic'
 } as const;
 
 export const UserUpdateSchema = {

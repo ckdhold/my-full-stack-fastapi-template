@@ -29,28 +29,28 @@
     "settingsHint": "界面语言"
   },
   "footer": {
-    "tagline": "监控平台 - {{year}}"
+    "tagline": "FastAPI 全栈脚手架 - {{year}}"
   },
-  "social": {
-    "github": "GitHub",
-    "x": "X",
-    "linkedin": "领英"
+  "sidebar": {
+    "dashboard": "工作台",
+    "items": "条目",
+    "admin": "管理"
   },
   "userMenu": {
     "settings": "用户设置",
     "logOut": "退出登录"
   },
   "login": {
-    "title": "登录账户",
+    "title": "登录你的账号",
     "emailPlaceholder": "user@example.com",
     "passwordPlaceholder": "密码",
     "forgotPassword": "忘记密码？",
     "submit": "登录",
-    "noAccount": "还没有账户？",
+    "noAccount": "还没有账号？",
     "signUp": "注册"
   },
   "signup": {
-    "title": "创建账户",
+    "title": "创建账号",
     "fullName": "姓名",
     "fullNamePlaceholder": "用户",
     "emailPlaceholder": "user@example.com",
@@ -58,14 +58,14 @@
     "confirmPassword": "确认密码",
     "confirmPasswordPlaceholder": "确认密码",
     "submit": "注册",
-    "hasAccount": "已有账户？",
+    "hasAccount": "已有账号？",
     "logIn": "登录"
   },
   "recoverPassword": {
     "title": "找回密码",
-    "remember": "记起密码了？",
+    "remember": "想起密码了？",
     "logIn": "登录",
-    "toastSuccess": "密码重置邮件已发送"
+    "toastSuccess": "密码找回邮件已发送"
   },
   "resetPassword": {
     "title": "重置密码",
@@ -74,387 +74,19 @@
     "confirmPassword": "确认密码",
     "confirmPasswordPlaceholder": "确认密码",
     "submit": "重置密码",
-    "remember": "记起密码了？",
+    "remember": "想起密码了？",
     "logIn": "登录",
     "toastSuccess": "密码已更新"
   },
   "dashboard": {
     "greeting": "你好，{{name}} 👋",
-    "welcome": "欢迎回来，这是统一监控平台工作台。",
-    "mvpBadge": "MVP",
-    "quickActions": "快捷操作",
-    "quickActionsHint": "管理监控目标并查看平台状态。",
-    "manageTargets": "管理监控目标",
-    "cards": {
-      "total": "监控目标总数",
-      "online": "在线",
-      "alert": "告警中",
-      "firing": "活跃告警",
-      "offline": "离线"
-    },
-    "recentAlerts": "活跃告警",
-    "recentAlertsHint": "需要处理的 firing / 已确认告警",
-    "viewAllAlerts": "查看全部",
-    "noActiveAlerts": "当前没有活跃告警",
-    "recentEvents": "最近事件",
-    "recentEventsHint": "告警、Agent、目标变更等运维事件",
-    "viewAllEvents": "事件中心",
-    "noEvents": "暂无事件",
-    "probeTrend": "HTTP 可用性趋势",
-    "probeTrendHint": "最近 6 小时 probe.http.up 指标",
-    "manageAlertRules": "管理告警规则",
-    "manageNotifications": "配置钉钉通知"
-  },
-  "eventsPage": {
-    "title": "事件中心",
-    "subtitle": "运维事件时间线（告警、Agent、目标变更）",
-    "timeline": "事件流",
-    "timelineHint": "按时间倒序展示最近事件",
-    "empty": "暂无事件记录"
-  },
-  "dashboardsPage": {
-    "title": "仪表盘",
-    "subtitle": "预置监控大盘，按场景查看关键指标",
-    "empty": "暂无仪表盘"
-  },
-  "targetDetail": {
-    "back": "返回列表",
-    "metrics": "指标趋势",
-    "alerts": "相关告警",
-    "events": "相关事件"
-  },
-  "silencesPage": {
-    "title": "告警静默",
-    "subtitle": "维护窗口内暂停告警通知",
-    "add": "新建静默",
-    "target": "目标",
-    "allTargets": "全部目标",
-    "reason": "原因",
-    "durationHours": "静默时长（小时）",
-    "created": "静默已创建",
-    "deleted": "静默已删除",
-    "empty": "暂无静默规则"
-  },
-  "tokensPage": {
-    "title": "API Token",
-    "subtitle": "业务 Push Gateway 鉴权 Token",
-    "add": "创建 Token",
-    "addHint": "Token 仅显示一次，请妥善保存",
-    "copyOnce": "请立即复制 Token，关闭后将无法再次查看",
-    "name": "名称",
-    "target": "关联目标",
-    "selectTarget": "选择目标",
-    "prefix": "前缀",
-    "created": "Token 已创建",
-    "deleted": "Token 已删除"
-  },
-  "auditPage": {
-    "title": "审计日志",
-    "subtitle": "关键管理操作记录"
-  },
-  "auditTable": {
-    "time": "时间",
-    "user": "用户",
-    "action": "操作",
-    "resourceType": "资源类型",
-    "resourceId": "资源 ID",
-    "detail": "详情"
-  },
-  "oncallPage": {
-    "title": "值班表",
-    "subtitle": "当前值班联系人",
-    "empty": "暂无值班联系人"
+    "welcome": "欢迎回来！"
   },
   "itemsPage": {
     "title": "条目",
     "subtitle": "创建并管理你的条目",
     "emptyTitle": "你还没有任何条目",
     "emptySubtitle": "添加一个新条目开始使用"
-  },
-  "targetsPage": {
-    "title": "监控目标",
-    "subtitle": "管理主机、服务、数据库与业务监控对象",
-    "emptyTitle": "还没有监控目标",
-    "emptySubtitle": "添加第一个监控目标开始使用"
-  },
-  "targets": {
-    "addTarget": "添加目标",
-    "addTitle": "添加监控目标",
-    "addDescription": "填写监控对象的基本信息与采集配置。",
-    "editTitle": "编辑监控目标",
-    "editDescription": "更新监控对象配置。",
-    "editMenu": "编辑",
-    "deleteMenu": "删除",
-    "deleteTitle": "删除监控目标",
-    "deleteDescription": "此操作不可撤销，确定要删除该监控目标吗？",
-    "toastCreated": "监控目标已创建",
-    "toastUpdated": "监控目标已更新",
-    "toastDeleted": "监控目标已删除",
-    "nameLabel": "名称",
-    "namePlaceholder": "例如 prod-api-01",
-    "typeLabel": "类型",
-    "statusLabel": "状态",
-    "envLabel": "环境标签",
-    "configLabel": "采集配置 (JSON)",
-    "noDescription": "无描述",
-    "type": {
-      "host": "主机",
-      "http": "HTTP 服务",
-      "tcp": "TCP 端口",
-      "database": "数据库",
-      "business": "业务指标",
-      "custom": "自定义"
-    },
-    "status": {
-      "online": "在线",
-      "offline": "离线",
-      "unknown": "未知",
-      "alert": "告警"
-    }
-  },
-  "agentsPage": {
-    "title": "Agent 管理",
-    "subtitle": "注册采集 Agent 并获取 API Token"
-  },
-  "agents": {
-    "addAgent": "注册 Agent",
-    "addTitle": "注册 Agent",
-    "addDescription": "创建 Agent 后会显示一次性 Token，请妥善保存。",
-    "tokenTitle": "Agent Token",
-    "tokenDescription": "此 Token 只显示一次，请复制后配置到 UMP Agent。",
-    "copyToken": "复制 Token",
-    "deleteMenu": "删除 Agent",
-    "deleteTitle": "删除 Agent",
-    "deleteDescription": "删除后该 Agent 将无法继续上报数据。",
-    "toastCreated": "Agent 已创建",
-    "toastDeleted": "Agent 已删除",
-    "nameLabel": "名称",
-    "hostIdLabel": "Host ID",
-    "status": {
-      "online": "在线",
-      "offline": "离线"
-    }
-  },
-  "agentsTable": {
-    "name": "名称",
-    "hostId": "Host ID",
-    "status": "状态",
-    "version": "版本",
-    "lastHeartbeat": "最近心跳"
-  },
-  "metricsPage": {
-    "title": "指标查询",
-    "subtitle": "查看 Probe 与 Agent 上报的时序指标",
-    "selectTarget": "选择目标",
-    "allTargets": "全部目标",
-    "metricFilter": "指标名过滤，如 host.cpu.usage_pct",
-    "range1h": "最近 1 小时",
-    "range6h": "最近 6 小时",
-    "range24h": "最近 24 小时",
-    "range7d": "最近 7 天",
-    "chartTab": "折线图",
-    "tableTab": "数据表"
-  },
-  "metricsTable": {
-    "time": "时间",
-    "metric": "指标",
-    "value": "值",
-    "target": "目标 ID"
-  },
-  "alertsPage": {
-    "activeTitle": "活跃告警",
-    "activeSubtitle": "待处理或已确认的告警",
-    "historyTitle": "告警历史",
-    "historySubtitle": "已恢复的告警记录"
-  },
-  "alerts": {
-    "ack": "确认",
-    "ackTitle": "确认告警",
-    "ackNotePlaceholder": "备注（可选）",
-    "ackConfirm": "确认",
-    "toastAcked": "告警已确认",
-    "status": {
-      "firing": "触发中",
-      "acknowledged": "已确认",
-      "resolved": "已恢复"
-    }
-  },
-  "alertsTable": {
-    "severity": "级别",
-    "target": "目标",
-    "rule": "规则",
-    "message": "消息",
-    "value": "当前值",
-    "firedAt": "触发时间",
-    "status": "状态"
-  },
-  "alertRulesPage": {
-    "title": "告警规则",
-    "subtitle": "配置阈值与无数据告警"
-  },
-  "alertRules": {
-    "addRule": "添加规则",
-    "addTitle": "添加告警规则",
-    "addDescription": "当指标满足条件时触发告警并发送邮件。",
-    "nameLabel": "规则名称",
-    "targetLabel": "监控目标",
-    "selectTarget": "选择目标",
-    "metricLabel": "指标名",
-    "operatorLabel": "运算符",
-    "thresholdLabel": "阈值",
-    "severityLabel": "级别",
-    "enabledYes": "启用",
-    "enabledNo": "禁用",
-    "deleteTitle": "删除规则",
-    "deleteDescription": "删除后相关告警记录也会被移除。",
-    "toastCreated": "告警规则已创建",
-    "toastDeleted": "告警规则已删除"
-  },
-  "alertRulesTable": {
-    "name": "名称",
-    "metric": "指标",
-    "condition": "条件",
-    "severity": "级别",
-    "enabled": "状态"
-  },
-  "notificationChannelsPage": {
-    "title": "通知渠道",
-    "subtitle": "配置邮件与钉钉机器人 Webhook"
-  },
-  "notificationChannels": {
-    "addDingTalk": "添加钉钉渠道",
-    "addDingTalkTitle": "添加钉钉通知",
-    "addDingTalkDescription": "填写钉钉群机器人 Webhook 地址，可选加签密钥。",
-    "nameLabel": "渠道名称",
-    "namePlaceholder": "运维告警群",
-    "webhookLabel": "Webhook 地址",
-    "secretLabel": "加签密钥（可选）",
-    "secretPlaceholder": "SEC...",
-    "test": "测试",
-    "enabledYes": "启用",
-    "enabledNo": "禁用",
-    "deleteTitle": "删除通知渠道",
-    "deleteDescription": "确定删除渠道「{{name}}」？关联策略也会被移除。",
-    "toastCreated": "钉钉渠道已创建",
-    "toastDeleted": "通知渠道已删除",
-    "toastTested": "测试消息已发送",
-    "types": {
-      "email": "邮件",
-      "dingtalk": "钉钉"
-    }
-  },
-  "notificationChannelsTable": {
-    "name": "名称",
-    "type": "类型",
-    "enabled": "状态",
-    "webhook": "Webhook"
-  },
-  "notificationPoliciesPage": {
-    "title": "通知策略",
-    "subtitle": "按告警级别路由到不同渠道（P0→钉钉+邮件，P1→钉钉，P2→邮件）"
-  },
-  "notificationPolicies": {
-    "addPolicy": "添加策略",
-    "addTitle": "添加通知策略",
-    "addDescription": "为指定告警级别选择通知渠道。",
-    "severityLabel": "告警级别",
-    "channelLabel": "通知渠道",
-    "selectChannel": "选择渠道",
-    "deleteTitle": "删除通知策略",
-    "deleteDescription": "删除后该级别将不再通过此渠道发送通知。",
-    "toastCreated": "通知策略已创建",
-    "toastDeleted": "通知策略已删除"
-  },
-  "notificationPoliciesTable": {
-    "severity": "级别",
-    "channel": "渠道",
-    "channelType": "渠道类型",
-    "enabled": "状态"
-  },
-  "notificationLogsPage": {
-    "title": "通知记录",
-    "subtitle": "告警通知发送成功/失败日志"
-  },
-  "notificationLogs": {
-    "status": {
-      "success": "成功",
-      "failed": "失败"
-    }
-  },
-  "notificationLogsTable": {
-    "time": "时间",
-    "channel": "渠道",
-    "type": "类型",
-    "status": "状态",
-    "message": "消息",
-    "error": "错误"
-  },
-  "targetsTable": {
-    "id": "ID",
-    "name": "名称",
-    "type": "类型",
-    "status": "状态",
-    "description": "描述",
-    "copyId": "复制 ID"
-  },
-  "adminPage": {
-    "title": "用户",
-    "subtitle": "管理用户账户与权限"
-  },
-  "rbacPage": {
-    "title": "权限与角色",
-    "subtitle": "维护权限点、角色，以及用户拥有的角色",
-    "backToUsers": "返回用户列表",
-    "permissionsTitle": "权限点",
-    "permissionsHint": "与后端 API 对齐的能力编码（可在后端扩展）。",
-    "rolesTitle": "角色",
-    "rolesHint": "系统内置角色不可删除；可为任意角色勾选权限。",
-    "newRolePlaceholder": "新角色名称",
-    "createRole": "创建角色",
-    "editPermissions": "编辑权限",
-    "noPermissions": "无权限",
-    "assignTitle": "为用户分配角色",
-    "assignHint": "选择用户后勾选角色并保存。",
-    "selectUser": "用户",
-    "selectUserPlaceholder": "选择用户",
-    "selectRoles": "角色",
-    "columnCode": "编码",
-    "columnName": "名称",
-    "dialogTitle": "角色「{{name}}」的权限",
-    "confirmDeleteRole": "确定删除该角色？已分配该角色的用户将失去此角色。",
-    "toastRolePermissionsUpdated": "角色权限已更新",
-    "toastRoleCreated": "角色已创建",
-    "toastRoleDeleted": "角色已删除",
-    "toastUserRolesUpdated": "用户角色已更新"
-  },
-  "menusPage": {
-    "createTitle": "新增菜单",
-    "createHint": "路径需与前端已有路由一致（如 /items）。中文/英文标题将写入数据库并在侧栏按当前语言显示。",
-    "editTitle": "编辑菜单",
-    "listTitle": "菜单列表",
-    "listHint": "侧栏是否显示由下方「角色」分配控制。",
-    "path": "路径",
-    "titleZh": "中文标题",
-    "titleEn": "英文标题",
-    "titleZhPlaceholder": "监控目标",
-    "titleEnPlaceholder": "Targets",
-    "icon": "图标（Lucide）",
-    "sort": "排序",
-    "roles": "角色",
-    "rolesDialogTitle": "该菜单的角色",
-    "rolesDialogTitleWithName": "「{{name}}」的角色",
-    "confirmDelete": "确定删除该菜单？",
-    "toastCreated": "菜单已创建",
-    "toastUpdated": "菜单已更新",
-    "toastDeleted": "菜单已删除",
-    "toastRolesUpdated": "菜单角色已更新"
-  },
-  "settingsPage": {
-    "title": "用户设置",
-    "subtitle": "管理账户设置与偏好",
-    "tabProfile": "我的资料",
-    "tabPassword": "密码",
-    "tabDanger": "危险区域"
   },
   "items": {
     "addItem": "添加条目",
@@ -478,41 +110,86 @@
     "description": "描述",
     "copyId": "复制 ID"
   },
+  "adminPage": {
+    "title": "用户",
+    "subtitle": "管理用户账号与权限"
+  },
+  "rbacPage": {
+    "title": "权限与角色",
+    "subtitle": "定义权限、角色，以及用户所属角色",
+    "backToUsers": "返回用户列表",
+    "permissionsTitle": "权限",
+    "permissionsHint": "API 使用的固定权限码集合。",
+    "rolesTitle": "角色",
+    "rolesHint": "系统内置角色不可删除；可为任意角色勾选权限。",
+    "newRolePlaceholder": "新角色名称",
+    "createRole": "创建角色",
+    "editPermissions": "编辑权限",
+    "noPermissions": "无权限",
+    "assignTitle": "为用户分配角色",
+    "assignHint": "选择用户，勾选角色后保存。",
+    "selectUser": "用户",
+    "selectUserPlaceholder": "选择用户",
+    "selectRoles": "角色",
+    "columnCode": "权限码",
+    "columnName": "名称",
+    "dialogTitle": "角色权限：{{name}}",
+    "confirmDeleteRole": "确定删除该角色？已分配该角色的用户将失去对应权限。",
+    "toastRolePermissionsUpdated": "角色权限已更新",
+    "toastRoleCreated": "角色已创建",
+    "toastRoleDeleted": "角色已删除",
+    "toastUserRolesUpdated": "用户角色已更新"
+  },
+  "menusPage": {
+    "createTitle": "新增菜单",
+    "createHint": "路径需与前端路由一致。",
+    "editTitle": "编辑菜单",
+    "listTitle": "菜单列表",
+    "listHint": "侧栏可见性由下方角色分配控制。",
+    "path": "路径",
+    "titleZh": "中文标题",
+    "titleEn": "英文标题",
+    "titleZhPlaceholder": "条目",
+    "titleEnPlaceholder": "Items",
+    "icon": "图标（Lucide）",
+    "sort": "排序",
+    "roles": "角色",
+    "rolesDialogTitle": "该菜单的角色",
+    "rolesDialogTitleWithName": "「{{name}}」的角色",
+    "confirmDelete": "确定删除该菜单？",
+    "toastCreated": "菜单已创建",
+    "toastUpdated": "菜单已更新",
+    "toastDeleted": "菜单已删除",
+    "toastRolesUpdated": "菜单角色已更新"
+  },
   "admin": {
-    "addUser": "添加用户",
-    "addTitle": "添加用户",
-    "addDescription": "填写表单以向系统添加新用户。",
+    "addUser": "新增用户",
     "editUser": "编辑用户",
-    "editTitle": "编辑用户",
-    "editDescription": "在下方更新用户信息。",
     "deleteUser": "删除用户",
-    "deleteTitle": "删除用户",
-    "deleteDescription": "与该用户关联的所有条目也将被永久删除。确定吗？此操作无法撤销。",
-    "emailLabel": "邮箱",
-    "emailPlaceholder": "邮箱",
-    "fullName": "姓名",
-    "fullNamePlaceholder": "姓名",
-    "setPassword": "设置密码",
-    "confirmPassword": "确认密码",
-    "passwordPlaceholder": "密码",
-    "isSuperuser": "是否为超级用户？",
-    "isActive": "是否启用？",
-    "toastCreated": "用户已创建",
-    "toastUpdated": "用户已更新",
-    "toastDeleted": "用户已删除",
-    "badgeYou": "我",
-    "roleSuperuser": "超级用户",
-    "roleUser": "普通用户",
-    "statusActive": "启用",
-    "statusInactive": "停用",
+    "deleteConfirm": "该用户将被永久删除，确定继续吗？",
     "columnFullName": "姓名",
     "columnEmail": "邮箱",
     "columnRoles": "RBAC 角色",
     "columnRole": "角色",
-    "columnStatus": "状态"
+    "columnStatus": "状态",
+    "badgeYou": "当前用户",
+    "roleSuperuser": "超级管理员",
+    "roleUser": "普通用户",
+    "statusActive": "启用",
+    "statusInactive": "停用",
+    "toastCreated": "用户创建成功",
+    "toastUpdated": "用户更新成功",
+    "toastDeleted": "用户已删除"
+  },
+  "settingsPage": {
+    "title": "用户设置",
+    "subtitle": "管理你的账号设置与偏好",
+    "tabProfile": "我的资料",
+    "tabPassword": "密码",
+    "tabDanger": "危险操作"
   },
   "userInformation": {
-    "sectionTitle": "用户信息",
+    "sectionTitle": "个人信息",
     "fullName": "姓名",
     "email": "邮箱",
     "save": "保存",
@@ -530,83 +207,56 @@
     "toastSuccess": "密码已更新"
   },
   "deleteAccount": {
-    "title": "删除账户",
-    "description": "永久删除你的账户及所有相关数据。",
-    "button": "删除账户",
+    "title": "删除账号",
+    "description": "永久删除你的账号及所有关联数据。",
+    "button": "删除账号",
     "dialogTitle": "需要确认",
-    "dialogDescription": "你的所有账户数据将被永久删除。若确定，请点击「删除」继续。此操作无法撤销。",
-    "toastSuccess": "账户已成功删除"
+    "dialogDescription": "你的所有账号数据将被永久删除。若确定继续，请点击「确认」。此操作不可恢复。",
+    "toastSuccess": "账号已成功删除"
   },
   "dataTable": {
-    "noResults": "没有结果。",
-    "showing": "显示第 {{from}} 至 {{to}} 条，共 {{total}} 条",
-    "rowsPerPage": "每页行数",
-    "pageIndicator": "第 {{current}} 页，共 {{total}} 页",
-    "page": "第",
-    "of": "页，共",
-    "firstPage": "第一页",
-    "prevPage": "上一页",
-    "nextPage": "下一页",
-    "lastPage": "最后一页"
+    "noResults": "无数据"
   },
   "errorPage": {
-    "title": "错误",
-    "heading": "糟糕！",
-    "message": "出了点问题，请重试。",
-    "goHome": "返回首页"
+    "title": "出错了",
+    "description": "发生了意外错误，请重试。",
+    "retry": "重试"
   },
   "notFound": {
     "code": "404",
-    "heading": "糟糕！",
-    "message": "未找到你要访问的页面。",
-    "goBack": "返回"
+    "heading": "页面不存在",
+    "message": "你访问的页面未找到。",
+    "goBack": "返回",
+    "title": "页面不存在",
+    "description": "你访问的页面未找到。",
+    "back": "返回"
   },
   "toast": {
-    "successTitle": "成功！",
-    "errorTitle": "出错了！"
+    "error": "操作失败"
   },
   "validation": {
+    "invalidEmail": "邮箱格式不正确",
+    "emailInvalid": "邮箱格式不正确",
     "passwordRequired": "请输入密码",
     "passwordMin": "密码至少 8 位",
     "passwordConfirmRequired": "请确认密码",
     "passwordsMismatch": "两次密码不一致",
-    "fullNameRequired": "请输入姓名",
-    "invalidEmail": "邮箱格式不正确",
-    "confirmPasswordRequired": "请再次输入密码",
-    "titleRequired": "请输入标题",
-    "nameRequired": "请输入名称",
-    "hostIdRequired": "请输入 Host ID",
-    "invalidJson": "JSON 格式无效"
+    "passwordMismatch": "两次密码不一致",
+    "titleRequired": "标题不能为空"
   },
   "errors": {
-    "generic": "出了点问题。"
+    "generic": "出错了，请稍后重试"
   },
   "meta": {
-    "login": "登录 - FastAPI 模板",
-    "signup": "注册 - FastAPI 模板",
-    "recover": "找回密码 - FastAPI 模板",
-    "reset": "重置密码 - FastAPI 模板",
-    "dashboard": "工作台 - 监控平台",
-    "targets": "监控目标 - 监控平台",
-    "metrics": "指标查询 - 监控平台",
-    "events": "事件中心 - 监控平台",
-    "dashboards": "仪表盘 - 监控平台",
-    "targetDetail": "目标详情 - 监控平台",
-    "alertSilences": "告警静默 - 监控平台",
-    "tokens": "API Token - 监控平台",
-    "audit": "审计日志 - 监控平台",
-    "oncall": "值班表 - 监控平台",
-    "alertsActive": "活跃告警 - 监控平台",
-    "alertRules": "告警规则 - 监控平台",
-    "alertHistory": "告警历史 - 监控平台",
-    "notificationChannels": "通知渠道 - 监控平台",
-    "notificationPolicies": "通知策略 - 监控平台",
-    "notificationLogs": "通知记录 - 监控平台",
-    "agents": "Agent 管理 - 监控平台",
-    "items": "条目 - FastAPI 模板",
-    "admin": "管理 - FastAPI 模板",
-    "rbac": "权限 - FastAPI 模板",
-    "menus": "菜单 - FastAPI 模板",
-    "settings": "设置 - FastAPI 模板"
+    "login": "登录",
+    "signup": "注册",
+    "recover": "找回密码",
+    "reset": "重置密码",
+    "dashboard": "工作台",
+    "items": "条目",
+    "admin": "管理",
+    "rbac": "权限与角色",
+    "menus": "菜单管理",
+    "settings": "设置"
   }
 }

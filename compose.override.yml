@@ -58,7 +58,7 @@ services:
   backend:
     restart: "no"
     ports:
-      - "6279:8000"
+      - "8000:8000"
     build:
       context: .
       dockerfile: backend/Dockerfile
@@ -96,12 +96,12 @@ services:
   frontend:
     restart: "no"
     ports:
-      - "5279:80"
+      - "5173:80"
     build:
       context: .
       dockerfile: frontend/Dockerfile
       args:
-        - VITE_API_URL=http://localhost:6279
+        - VITE_API_URL=http://localhost:8000
         - NODE_ENV=development
 
   playwright:

@@ -3,6 +3,7 @@ from sqlmodel import Session, create_engine, select
 from app import crud
 from app.core.config import settings
 from app.models import User, UserCreate
+from app.services.menu import seed_menus
 from app.services.rbac import ensure_superuser_has_admin_role, seed_rbac
 
 engine = create_engine(str(settings.SQLALCHEMY_DATABASE_URI))
@@ -23,24 +24,7 @@ def init_db(session: Session) -> None:
     # SQLModel.metadata.create_all(engine)
 
     seed_rbac(session)
-    from app.services.menu import seed_menus
-
     seed_menus(session)
-    from app.services.notifications import seed_notifications
-
-    seed_notifications(session)
-
-    from app.services.dashboards import seed_dashboards
-
-    seed_dashboards(session)
-    from app.services.oncall import seed_oncall
-
-    seed_oncall(session)
-
-    if settings.ENVIRONMENT == "local":
-        from app.services.mock_data import seed_mock_data
-
-        seed_mock_data(session)
 
     user = session.exec(
         select(User).where(User.email == settings.FIRST_SUPERUSER)

@@ -1,6 +1,6 @@
 export type MenuTreeNode = {
   path: string
-  children: MenuTreeNode[]
+  children?: MenuTreeNode[]
 }
 
 export function flattenMenuPaths(nodes: MenuTreeNode[]): string[] {
@@ -9,7 +9,7 @@ export function flattenMenuPaths(nodes: MenuTreeNode[]): string[] {
     if (!n.path.startsWith("__")) {
       out.push(n.path)
     }
-    for (const c of n.children) walk(c)
+    for (const c of n.children ?? []) walk(c)
   }
   for (const n of nodes) walk(n)
   return out

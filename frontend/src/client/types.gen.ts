@@ -36,6 +36,72 @@ export type ItemUpdate = {
     description?: (string | null);
 };
 
+export type MenuCreate = {
+    parent_id?: (string | null);
+    path: string;
+    title_zh: string;
+    title_en: string;
+    icon?: (string | null);
+    sort_order?: number;
+    is_active?: boolean;
+    required_permission_code?: (string | null);
+};
+
+export type MenuPublic = {
+    id: string;
+    parent_id?: (string | null);
+    path: string;
+    title_zh: string;
+    title_en: string;
+    icon?: (string | null);
+    sort_order?: number;
+    is_active?: boolean;
+    required_permission_code?: (string | null);
+};
+
+export type MenuRoleIds = {
+    role_ids?: Array<(string)>;
+};
+
+export type MenuRolesPublic = {
+    data: Array<RolePublic>;
+    count: number;
+};
+
+export type MenusPublic = {
+    data: Array<MenuPublic>;
+    count: number;
+};
+
+export type MenusTreePublic = {
+    data: Array<MenuTreePublic>;
+    count: number;
+};
+
+export type MenuTreePublic = {
+    id: string;
+    parent_id?: (string | null);
+    path: string;
+    title_zh: string;
+    title_en: string;
+    icon?: (string | null);
+    sort_order?: number;
+    is_active?: boolean;
+    required_permission_code?: (string | null);
+    children?: Array<MenuTreePublic>;
+};
+
+export type MenuUpdate = {
+    parent_id?: (string | null);
+    path?: (string | null);
+    title_zh?: (string | null);
+    title_en?: (string | null);
+    icon?: (string | null);
+    sort_order?: (number | null);
+    is_active?: (boolean | null);
+    required_permission_code?: (string | null);
+};
+
 export type Message = {
     message: string;
 };
@@ -45,11 +111,56 @@ export type NewPassword = {
     new_password: string;
 };
 
+export type PermissionPublic = {
+    id: string;
+    code: string;
+    name: string;
+};
+
+export type PermissionsPublic = {
+    data: Array<PermissionPublic>;
+    count: number;
+};
+
 export type PrivateUserCreate = {
     email: string;
     password: string;
     full_name: string;
     is_verified?: boolean;
+};
+
+export type RoleCreate = {
+    name: string;
+    description?: (string | null);
+};
+
+export type RolePermissionIds = {
+    permission_ids?: Array<(string)>;
+};
+
+export type RolePublic = {
+    id: string;
+    name: string;
+    description?: (string | null);
+    is_system?: boolean;
+};
+
+export type RolesWithPermissionsPublic = {
+    data: Array<RoleWithPermissions>;
+    count: number;
+};
+
+export type RoleUpdate = {
+    name?: (string | null);
+    description?: (string | null);
+};
+
+export type RoleWithPermissions = {
+    id: string;
+    name: string;
+    description?: (string | null);
+    is_system?: boolean;
+    permissions?: Array<PermissionPublic>;
 };
 
 export type Token = {
@@ -77,13 +188,22 @@ export type UserPublic = {
     full_name?: (string | null);
     id: string;
     created_at?: (string | null);
-    roles?: Array<string>;
+    roles?: Array<(string)>;
 };
 
 export type UserRegister = {
     email: string;
     password: string;
     full_name?: (string | null);
+};
+
+export type UserRoleIds = {
+    role_ids?: Array<(string)>;
+};
+
+export type UserRolesPublic = {
+    data: Array<RolePublic>;
+    count: number;
 };
 
 export type UsersPublic = {
@@ -172,11 +292,90 @@ export type LoginRecoverPasswordHtmlContentData = {
 
 export type LoginRecoverPasswordHtmlContentResponse = (string);
 
+export type MenusReadMenusMeResponse = (MenusTreePublic);
+
+export type MenusReadMenusAdminResponse = (MenusPublic);
+
+export type MenusCreateMenuData = {
+    requestBody: MenuCreate;
+};
+
+export type MenusCreateMenuResponse = (MenuPublic);
+
+export type MenusReadMenuRolesData = {
+    menuId: string;
+};
+
+export type MenusReadMenuRolesResponse = (MenuRolesPublic);
+
+export type MenusUpdateMenuRolesData = {
+    menuId: string;
+    requestBody: MenuRoleIds;
+};
+
+export type MenusUpdateMenuRolesResponse = (Message);
+
+export type MenusUpdateMenuData = {
+    menuId: string;
+    requestBody: MenuUpdate;
+};
+
+export type MenusUpdateMenuResponse = (MenuPublic);
+
+export type MenusDeleteMenuData = {
+    menuId: string;
+};
+
+export type MenusDeleteMenuResponse = (Message);
+
 export type PrivateCreateUserData = {
     requestBody: PrivateUserCreate;
 };
 
 export type PrivateCreateUserResponse = (UserPublic);
+
+export type RbacReadPermissionsResponse = (PermissionsPublic);
+
+export type RbacReadRolesResponse = (RolesWithPermissionsPublic);
+
+export type RbacCreateRoleData = {
+    requestBody: RoleCreate;
+};
+
+export type RbacCreateRoleResponse = (RoleWithPermissions);
+
+export type RbacUpdateRoleData = {
+    requestBody: RoleUpdate;
+    roleId: string;
+};
+
+export type RbacUpdateRoleResponse = (RoleWithPermissions);
+
+export type RbacDeleteRoleData = {
+    roleId: string;
+};
+
+export type RbacDeleteRoleResponse = (Message);
+
+export type RbacUpdateRolePermissionsData = {
+    requestBody: RolePermissionIds;
+    roleId: string;
+};
+
+export type RbacUpdateRolePermissionsResponse = (RoleWithPermissions);
+
+export type RbacReadUserRolesData = {
+    userId: string;
+};
+
+export type RbacReadUserRolesResponse = (UserRolesPublic);
+
+export type RbacUpdateUserRolesData = {
+    requestBody: UserRoleIds;
+    userId: string;
+};
+
+export type RbacUpdateUserRolesResponse = (UserRolesPublic);
 
 export type UsersReadUsersData = {
     limit?: number;
@@ -239,54 +438,3 @@ export type UtilsTestEmailData = {
 export type UtilsTestEmailResponse = (Message);
 
 export type UtilsHealthCheckResponse = (boolean);
-
-/** RBAC (manually kept in sync with backend; regenerate with openapi-ts after backend export) */
-export type PermissionPublic = {
-    id: string;
-    code: string;
-    name: string;
-};
-
-export type PermissionsPublic = {
-    data: Array<PermissionPublic>;
-    count: number;
-};
-
-export type RolePublic = {
-    id: string;
-    name: string;
-    description?: (string | null);
-    is_system?: boolean;
-};
-
-export type RoleWithPermissions = RolePublic & {
-    permissions: Array<PermissionPublic>;
-};
-
-export type RolesWithPermissionsPublic = {
-    data: Array<RoleWithPermissions>;
-    count: number;
-};
-
-export type RoleCreate = {
-    name: string;
-    description?: (string | null);
-};
-
-export type RoleUpdate = {
-    name?: (string | null);
-    description?: (string | null);
-};
-
-export type RolePermissionIds = {
-    permission_ids: Array<string>;
-};
-
-export type UserRoleIds = {
-    role_ids: Array<string>;
-};
-
-export type UserRolesPublic = {
-    data: Array<RolePublic>;
-    count: number;
-};

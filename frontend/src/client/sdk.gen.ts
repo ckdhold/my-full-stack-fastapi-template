@@ -3,7 +3,7 @@
 import type { CancelablePromise } from './core/CancelablePromise';
 import { OpenAPI } from './core/OpenAPI';
 import { request as __request } from './core/request';
-import type { ItemsReadItemsData, ItemsReadItemsResponse, ItemsCreateItemData, ItemsCreateItemResponse, ItemsReadItemData, ItemsReadItemResponse, ItemsUpdateItemData, ItemsUpdateItemResponse, ItemsDeleteItemData, ItemsDeleteItemResponse, LoginLoginAccessTokenData, LoginLoginAccessTokenResponse, LoginTestTokenResponse, LoginRecoverPasswordData, LoginRecoverPasswordResponse, LoginResetPasswordData, LoginResetPasswordResponse, LoginRecoverPasswordHtmlContentData, LoginRecoverPasswordHtmlContentResponse, PrivateCreateUserData, PrivateCreateUserResponse, UsersReadUsersData, UsersReadUsersResponse, UsersCreateUserData, UsersCreateUserResponse, UsersReadUserMeResponse, UsersDeleteUserMeResponse, UsersUpdateUserMeData, UsersUpdateUserMeResponse, UsersUpdatePasswordMeData, UsersUpdatePasswordMeResponse, UsersRegisterUserData, UsersRegisterUserResponse, UsersReadUserByIdData, UsersReadUserByIdResponse, UsersUpdateUserData, UsersUpdateUserResponse, UsersDeleteUserData, UsersDeleteUserResponse, UtilsTestEmailData, UtilsTestEmailResponse, UtilsHealthCheckResponse } from './types.gen';
+import type { ItemsReadItemsData, ItemsReadItemsResponse, ItemsCreateItemData, ItemsCreateItemResponse, ItemsReadItemData, ItemsReadItemResponse, ItemsUpdateItemData, ItemsUpdateItemResponse, ItemsDeleteItemData, ItemsDeleteItemResponse, LoginLoginAccessTokenData, LoginLoginAccessTokenResponse, LoginTestTokenResponse, LoginRecoverPasswordData, LoginRecoverPasswordResponse, LoginResetPasswordData, LoginResetPasswordResponse, LoginRecoverPasswordHtmlContentData, LoginRecoverPasswordHtmlContentResponse, MenusReadMenusMeResponse, MenusReadMenusAdminResponse, MenusCreateMenuData, MenusCreateMenuResponse, MenusReadMenuRolesData, MenusReadMenuRolesResponse, MenusUpdateMenuRolesData, MenusUpdateMenuRolesResponse, MenusUpdateMenuData, MenusUpdateMenuResponse, MenusDeleteMenuData, MenusDeleteMenuResponse, PrivateCreateUserData, PrivateCreateUserResponse, RbacReadPermissionsResponse, RbacReadRolesResponse, RbacCreateRoleData, RbacCreateRoleResponse, RbacUpdateRoleData, RbacUpdateRoleResponse, RbacDeleteRoleData, RbacDeleteRoleResponse, RbacUpdateRolePermissionsData, RbacUpdateRolePermissionsResponse, RbacReadUserRolesData, RbacReadUserRolesResponse, RbacUpdateUserRolesData, RbacUpdateUserRolesResponse, UsersReadUsersData, UsersReadUsersResponse, UsersCreateUserData, UsersCreateUserResponse, UsersReadUserMeResponse, UsersDeleteUserMeResponse, UsersUpdateUserMeData, UsersUpdateUserMeResponse, UsersUpdatePasswordMeData, UsersUpdatePasswordMeResponse, UsersRegisterUserData, UsersRegisterUserResponse, UsersReadUserByIdData, UsersReadUserByIdResponse, UsersUpdateUserData, UsersUpdateUserResponse, UsersDeleteUserData, UsersDeleteUserResponse, UtilsTestEmailData, UtilsTestEmailResponse, UtilsHealthCheckResponse } from './types.gen';
 
 export class ItemsService {
     /**
@@ -213,6 +213,137 @@ export class LoginService {
     }
 }
 
+export class MenusService {
+    /**
+     * Read Menus Me
+     * @returns MenusTreePublic Successful Response
+     * @throws ApiError
+     */
+    public static readMenusMe(): CancelablePromise<MenusReadMenusMeResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/menus/me'
+        });
+    }
+    
+    /**
+     * Read Menus Admin
+     * @returns MenusPublic Successful Response
+     * @throws ApiError
+     */
+    public static readMenusAdmin(): CancelablePromise<MenusReadMenusAdminResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/menus/'
+        });
+    }
+    
+    /**
+     * Create Menu
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns MenuPublic Successful Response
+     * @throws ApiError
+     */
+    public static createMenu(data: MenusCreateMenuData): CancelablePromise<MenusCreateMenuResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/menus/',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Read Menu Roles
+     * @param data The data for the request.
+     * @param data.menuId
+     * @returns MenuRolesPublic Successful Response
+     * @throws ApiError
+     */
+    public static readMenuRoles(data: MenusReadMenuRolesData): CancelablePromise<MenusReadMenuRolesResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/menus/{menu_id}/roles',
+            path: {
+                menu_id: data.menuId
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Update Menu Roles
+     * @param data The data for the request.
+     * @param data.menuId
+     * @param data.requestBody
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static updateMenuRoles(data: MenusUpdateMenuRolesData): CancelablePromise<MenusUpdateMenuRolesResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/v1/menus/{menu_id}/roles',
+            path: {
+                menu_id: data.menuId
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Update Menu
+     * @param data The data for the request.
+     * @param data.menuId
+     * @param data.requestBody
+     * @returns MenuPublic Successful Response
+     * @throws ApiError
+     */
+    public static updateMenu(data: MenusUpdateMenuData): CancelablePromise<MenusUpdateMenuResponse> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/v1/menus/{menu_id}',
+            path: {
+                menu_id: data.menuId
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Delete Menu
+     * @param data The data for the request.
+     * @param data.menuId
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static deleteMenu(data: MenusDeleteMenuData): CancelablePromise<MenusDeleteMenuResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/menus/{menu_id}',
+            path: {
+                menu_id: data.menuId
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+}
+
 export class PrivateService {
     /**
      * Create User
@@ -226,6 +357,160 @@ export class PrivateService {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/private/users/',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+}
+
+export class RbacService {
+    /**
+     * Read Permissions
+     * @returns PermissionsPublic Successful Response
+     * @throws ApiError
+     */
+    public static readPermissions(): CancelablePromise<RbacReadPermissionsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/rbac/permissions'
+        });
+    }
+    
+    /**
+     * Read Roles
+     * @returns RolesWithPermissionsPublic Successful Response
+     * @throws ApiError
+     */
+    public static readRoles(): CancelablePromise<RbacReadRolesResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/rbac/roles'
+        });
+    }
+    
+    /**
+     * Create Role
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns RoleWithPermissions Successful Response
+     * @throws ApiError
+     */
+    public static createRole(data: RbacCreateRoleData): CancelablePromise<RbacCreateRoleResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/rbac/roles',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Update Role
+     * @param data The data for the request.
+     * @param data.roleId
+     * @param data.requestBody
+     * @returns RoleWithPermissions Successful Response
+     * @throws ApiError
+     */
+    public static updateRole(data: RbacUpdateRoleData): CancelablePromise<RbacUpdateRoleResponse> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/v1/rbac/roles/{role_id}',
+            path: {
+                role_id: data.roleId
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Delete Role
+     * @param data The data for the request.
+     * @param data.roleId
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static deleteRole(data: RbacDeleteRoleData): CancelablePromise<RbacDeleteRoleResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/rbac/roles/{role_id}',
+            path: {
+                role_id: data.roleId
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Update Role Permissions
+     * @param data The data for the request.
+     * @param data.roleId
+     * @param data.requestBody
+     * @returns RoleWithPermissions Successful Response
+     * @throws ApiError
+     */
+    public static updateRolePermissions(data: RbacUpdateRolePermissionsData): CancelablePromise<RbacUpdateRolePermissionsResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/v1/rbac/roles/{role_id}/permissions',
+            path: {
+                role_id: data.roleId
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Read User Roles
+     * @param data The data for the request.
+     * @param data.userId
+     * @returns UserRolesPublic Successful Response
+     * @throws ApiError
+     */
+    public static readUserRoles(data: RbacReadUserRolesData): CancelablePromise<RbacReadUserRolesResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/rbac/users/{user_id}/roles',
+            path: {
+                user_id: data.userId
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Update User Roles
+     * @param data The data for the request.
+     * @param data.userId
+     * @param data.requestBody
+     * @returns UserRolesPublic Successful Response
+     * @throws ApiError
+     */
+    public static updateUserRoles(data: RbacUpdateUserRolesData): CancelablePromise<RbacUpdateUserRolesResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/v1/rbac/users/{user_id}/roles',
+            path: {
+                user_id: data.userId
+            },
             body: data.requestBody,
             mediaType: 'application/json',
             errors: {

@@ -71,7 +71,7 @@ export function PermissionsManagement() {
       setSelectedPermIds(new Set())
       return
     }
-    setSelectedPermIds(new Set(permDialogRole.permissions.map((p) => p.id)))
+    setSelectedPermIds(new Set((permDialogRole.permissions ?? []).map((p) => p.id)))
   }, [permDialogRole])
 
   const updateRolePerms = useMutation({
@@ -250,7 +250,7 @@ export function PermissionsManagement() {
                       </div>
                     )}
                     <div className="text-muted-foreground mt-1 text-xs">
-                      {role.permissions.map((p) => p.code).join(", ") ||
+                      {(role.permissions ?? []).map((p) => p.code).join(", ") ||
                         t("rbacPage.noPermissions")}
                     </div>
                   </div>

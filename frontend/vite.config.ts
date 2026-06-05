@@ -7,11 +7,12 @@ import { defineConfig } from "vite"
 // https://vitejs.dev/config/
 export default defineConfig({
   server: {
-    port: 5279,
+    port: 5173,
     // Same-origin /api in dev → no CORS; production builds still use VITE_API_URL.
     proxy: {
       "/api": {
-        target: "http://127.0.0.1:6279",
+        // Use localhost, not 127.0.0.1: on Windows, CLodop often binds 127.0.0.1:8000.
+        target: "http://localhost:8000",
         changeOrigin: true,
       },
     },
